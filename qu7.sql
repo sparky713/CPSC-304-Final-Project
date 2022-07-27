@@ -19,19 +19,19 @@ INTO    Player ('player5', 'plants', 'cactus223@gmail.com', 'Cactusplayer')
 /* Tuples in OwnsWeapon table */
 INSERT
 INTO    OwnsWeapon  (username, wname, amount)
-VALUES  ('player2', 'sword', 2)
+VALUES  ('player2', 'Dull Blade', 2)
 
 INSERT
-INTO  OwnsWeapon    ('player2', 'sword', 6)
+INTO  OwnsWeapon    ('player2', 'Alley Hunter', 6)
 
 INSERT
-INTO  OwnsWeapon    ('player3', 'sword', 3)
+INTO  OwnsWeapon    ('player3', 'Alley Hunter', 3)
 
 INSERT
-INTO  OwnsWeapon    ('player4', 'bow', 10)
+INTO  OwnsWeapon    ('player4', 'Jade Cutter' , 1)
 
 INSERT
-INTO  OwnsWeapon    ('player5', 'bow', 1)
+INTO  OwnsWeapon    ('player5', 'Stringless', 2)
 
 
 /* Tuples in Plays table */
@@ -206,38 +206,38 @@ INTO    CharacterATK    (17, 22, 31)
 /* Tuples in FightsWith table */
 INSERT
 INTO    FightsWith    (cname, wname)
-VALUES  ('Klee', 'sword')
+VALUES  ('Klee', 'Jade Cutter')
 
 INSERT
-INTO    FightsWith    ('Qiqi', 'sword')
+INTO    FightsWith    ('Qiqi', 'Dull Blade')
 
 INSERT
-INTO    FightsWith    ('Xinyan', 'bow')
+INTO    FightsWith    ('Xinyan', 'Dull Blade')
 
 INSERT
-INTO    FightsWith    ('Xiao', 'bow')
+INTO    FightsWith    ('Xiao', 'Stringless')
 
 INSERT
-INTO    FightsWith    ('Mona', 'bow')
+INTO    FightsWith    ('Mona', 'Alley Hunter')
 
 
 
 /* Tuples in Wears table */
 INSERT
 INTO    Wears    (cname, aname)
-VALUES  ('Klee', 'sword')
+VALUES  ('Klee', 'Silver Crown')
 
 INSERT
-INTO    Wears    ('Qiqi', 'sword')
+INTO    Wears    ('Qiqi', 'Heart Pin')
 
 INSERT
-INTO    Wears    ('Xinyan', 'bow')
+INTO    Wears    ('Xinyan', 'Turtle Talisman')
 
 INSERT
-INTO    Wears    ('Xiao', 'bow')
+INTO    Wears    ('Xiao', 'Pearl Necklace')
 
 INSERT
-INTO    Wears    ('Mona', 'bow')
+INTO    Wears    ('Mona', 'Heart Pin')
 
 
 
@@ -247,16 +247,16 @@ INTO    AbilityCast    (aname, cname, level, cd, dmg)
 VALUES  ('Circlet', 'Klee', 10, 38.0, 89)
 
 INSERT
-INTO    AbilityCast    ('Brooch', 'Qiqi', 12, 25.5, 105)
+INTO    AbilityCast    ('Preserver of Fortune', 'Qiqi', 12, 25.5, 105)
 
 INSERT
-INTO    AbilityCast    ('Circlet', 'Xinyan', 3, 47.0, 54)
+INTO    AbilityCast    ('Riff Revolution', 'Xinyan', 3, 47.0, 54)
 
 INSERT
-INTO    AbilityCast    ('Circlet', 'Xiao', 22, 20.0, 201)
+INTO    AbilityCast    ('Bane of All Evil', 'Xiao', 22, 20.0, 201)
 
 INSERT
-INTO    AbilityCast    ('Brooch', 'Mona' 17, 12.0, 133)
+INTO    AbilityCast    ('Fate', 'Mona' 17, 12.0, 133)
 
 
 
@@ -303,57 +303,72 @@ INSERT
 INTO    Element    ('Dendro')
 
 
-
-///////////////FIX///////////////
-is there more than one type of weapon??
 /* Tuples in Weapon table */
 INSERT
 INTO    Weapon    (name, baseATK)
-VALUES  ('sword', 48)
+VALUES  ('Jade Cutter', 48)
 
 INSERT
-INTO    Weapon    ('bow', 46)
+INTO    Weapon    ('Iron Sting', 35)
+
+INSERT  
+INTO    Weapon    ('Dull Blade',  20)
+
+INSERT
+INTO    Weapon    ('Alley Hunter', 46)
+
+INSERT 
+INTO    Weapon    ('Stringless', 30)
 
 
-///////////////FIX///////////////
-??? are there diff types of swords?????
 /* Tuples in Sword table */
 INSERT
 INTO    Sword    (wname, hitSpeed)
-VALUES  ('sword', 90)
+VALUES  ('Jade Cutter', 5)
+
+INSERT 
+INTO    Sword    ('Dull Blade', 20)
+
+INSERT
+INTO    Sword    ('Iron Sting', 25)
 
 
-///////////////FIX///////////////
-are there diff types of bows?????
 /* Tuples in Bow table */
 INSERT
 INTO    Bow    (wname, chargeTime)
-VALUES  ('bow', 20)
+VALUES         ('Alley Hunter', 20)
+
+INSERT 
+INTO    Bow    ('Stringless', 15)
 
 
-///////////////FIX///////////////
- are there other types of artifacts?
 /* Tuples in Artifact table */
 INSERT
 INTO    Artifact    (name)
-VALUES  ('Brooch')
+VALUES  ("Adventurer's Flower")
 
 INSERT
-INTO    Artifact    ('Circlet')
+INTO    Artifact    ('Pearl Necklace')
+
+INSERT
+INTO    Artifact    ('Turtle Talisman')
+
+INSERT
+INTO    Artifact    ('Silver Crown')
+
+INSERT 
+INTO    Artifact    ('Heart Pin')
 
 
 
 /* Tuples in Brooch table */
 INSERT
 INTO    Brooch    (aname, bonusHP)
-VALUES  ('Brooch', 100)
+VALUES  ('Heart Pin', 100)
 
 
 
 /* Tuples in Circlet table */
 INSERT
 INTO    Circlet    (aname, bonusATK)
-VALUES  ('Brooch', 5)
-
-
-
+VALUES  ('Silver Crown', 5)
