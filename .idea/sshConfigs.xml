@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="remote.students.cs.ubc.ca" id="cba12daa-58be-4368-b68c-84cc1f74d0e1" keyPath="$USER_HOME$/.ssh/id_ed25519" localPort="1522" port="22" nameFormat="DESCRIPTIVE" username="spark73" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
