@@ -2,7 +2,10 @@ package account;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,13 +25,16 @@ public class GUICreateAccountPage extends JPanel {
     public static final int LBL_H = 32;
     public static final int BORDER_X = 53;
     public static final int BORDER_Y = 55;
+    public static final int TEXT_FIELD_NAME_W = 280 / 2 - 5;
     public static final int TEXT_FIELD_X = 112;
     public static final int TEXT_FIELD_W = 280;
     public static final int TEXT_FIELD_H = 40;
 
     public static final int TEXT_FIELD_MARGIN_TOP = 50;
-    public static final int TEXT_FIELD_FULL_NAME_Y = 210;
-    public static final int TEXT_FIELD_EMAIL_Y = TEXT_FIELD_FULL_NAME_Y + TEXT_FIELD_MARGIN_TOP;
+    public static final int TEXT_FIELD_MARGIN_LEFT = 10;
+    public static final int TEXT_FIELD_FIRST_NAME_Y = 210;
+    public static final int TEXT_FIELD_LAST_NAME_Y = TEXT_FIELD_FIRST_NAME_Y;
+    public static final int TEXT_FIELD_EMAIL_Y = TEXT_FIELD_FIRST_NAME_Y + TEXT_FIELD_MARGIN_TOP;
     public static final int TEXT_FIELD_PASSWORD_Y = TEXT_FIELD_EMAIL_Y + TEXT_FIELD_MARGIN_TOP;
     public static final int TEXT_FIELD_DISPLAY_NAME_Y = TEXT_FIELD_PASSWORD_Y + TEXT_FIELD_MARGIN_TOP;
 
@@ -37,10 +43,17 @@ public class GUICreateAccountPage extends JPanel {
     public static final int BUTTON_W = 254;
     public static final int BUTTON_H = 40;
 
+    public static final String DEAFULT_TEXT_FIRST_NAME = " First Name";
+    public static final String DEAFULT_TEXT_LAST_NAME = " Last Name";
+    public static final String DEAFULT_TEXT_EMAIL = " Email Address";
+    public static final String DEAFULT_TEXT_PWD = " Password";
+    public static final String DEAFULT_TEXT_DISPLAY_NAME = " Display Name";
+
     public BufferedImage signUpbtnImage;
     public BufferedImage borderImage;
     public JLabel lblCreateAccount;
-    public JTextField tfName;
+    public JTextField tfFirstName;
+    public JTextField tfLastName;
     public JTextField tfEmail;
     public JTextField tfPassword;
     public JTextField tfDisplayName;
@@ -76,20 +89,93 @@ public class GUICreateAccountPage extends JPanel {
         lblCreateAccount.setFont(new Font("Arial", BOLD, 28));
         this.add(lblCreateAccount);
 
-        tfName = new JTextField("Full Name");
-        tfName.setBounds(TEXT_FIELD_X, TEXT_FIELD_FULL_NAME_Y, TEXT_FIELD_W, TEXT_FIELD_H);
-        this.add(tfName);
+        tfFirstName = new JTextField(DEAFULT_TEXT_FIRST_NAME);
+        tfFirstName.setEnabled(false);
+        tfFirstName.setDisabledTextColor(Color.gray);
+        tfFirstName.setBounds(TEXT_FIELD_X, TEXT_FIELD_FIRST_NAME_Y, TEXT_FIELD_NAME_W, TEXT_FIELD_H);
+        tfFirstName.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+        tfFirstName.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                tfFirstName.requestFocus();
+                tfFirstName.setEnabled(true);
+                if (tfFirstName.getText().equals(DEAFULT_TEXT_FIRST_NAME)) {
+                    tfFirstName.setText("");
+                }
+            }
+        });
 
-        tfEmail = new JTextField("Email Address");
+        this.add(tfFirstName);
+
+        tfLastName = new JTextField(DEAFULT_TEXT_LAST_NAME);
+        tfLastName.setEnabled(false);
+        tfLastName.setDisabledTextColor(Color.gray);
+        tfLastName.setBounds(tfFirstName.getX() + tfFirstName.getWidth() + TEXT_FIELD_MARGIN_LEFT,
+                            TEXT_FIELD_LAST_NAME_Y, TEXT_FIELD_NAME_W, TEXT_FIELD_H);
+        tfLastName.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+        tfLastName.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                tfLastName.requestFocus();
+                tfLastName.setEnabled(true);
+//                System.out.println("text: " + tfLastName.getText() + " default: " + DEAFULT_TEXT_LAST_NAME
+//                + " match? " + tfLastName.getText().equals(DEAFULT_TEXT_LAST_NAME));
+                if (tfLastName.getText().equals(DEAFULT_TEXT_LAST_NAME)) {
+                    tfLastName.setText("");
+                }
+            }
+        });
+        this.add(tfLastName);
+
+        tfEmail = new JTextField(DEAFULT_TEXT_EMAIL);
+        tfEmail.setEnabled(false);
+        tfEmail.setDisabledTextColor(Color.gray);
         tfEmail.setBounds(TEXT_FIELD_X, TEXT_FIELD_EMAIL_Y, TEXT_FIELD_W, TEXT_FIELD_H);
+        tfEmail.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+        tfEmail.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                tfEmail.requestFocus();
+                tfEmail.setEnabled(true);
+                if (tfEmail.getText().equals(DEAFULT_TEXT_EMAIL)) {
+                    tfEmail.setText("");
+                }
+            }
+        });
         this.add(tfEmail);
 
-        tfPassword = new JTextField("Password");
+        tfPassword = new JTextField(DEAFULT_TEXT_PWD);
+        tfPassword.setEnabled(false);
+        tfPassword.setDisabledTextColor(Color.gray);
         tfPassword.setBounds(TEXT_FIELD_X, TEXT_FIELD_PASSWORD_Y, TEXT_FIELD_W, TEXT_FIELD_H);
+        tfPassword.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+        tfPassword.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                tfPassword.requestFocus();
+                tfPassword.setEnabled(true);
+                if (tfPassword.getText().equals(DEAFULT_TEXT_PWD)) {
+                    tfPassword.setText("");
+                }
+            }
+        });
         this.add(tfPassword);
 
-        tfDisplayName = new JTextField("Display Name");
+        tfDisplayName = new JTextField(DEAFULT_TEXT_DISPLAY_NAME);
+        tfDisplayName.setEnabled(false);
+        tfDisplayName.setDisabledTextColor(Color.gray);
         tfDisplayName.setBounds(TEXT_FIELD_X, TEXT_FIELD_DISPLAY_NAME_Y, TEXT_FIELD_W, TEXT_FIELD_H);
+        tfDisplayName.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+        tfDisplayName.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                tfDisplayName.requestFocus();
+                tfDisplayName.setEnabled(true);
+                if (tfDisplayName.getText().equals(DEAFULT_TEXT_DISPLAY_NAME)) {
+                    tfDisplayName.setText("");
+                }
+            }
+        });
         this.add(tfDisplayName);
 
         btnSignUp = new JButton(new ImageIcon(signUpbtnImage));
@@ -100,8 +186,9 @@ public class GUICreateAccountPage extends JPanel {
     }
 
     public void paint(Graphics g) {
-        System.out.println("oop");
+//        System.out.println("oop");
         g.drawImage(borderImage, BORDER_X, BORDER_Y, null);
         paintComponents(g);
     }
+    //TODO keylistener for enter key
 }

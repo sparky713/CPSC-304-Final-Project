@@ -17,7 +17,7 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         guiCreateAccountPage = new GUICreateAccountPage();
-        frame.add(guiCreateAccountPage, new Integer(0), 0);
+        frame.add(guiCreateAccountPage, 0);
         guiCreateAccountPage.setVisible(true);
 
         frame.setVisible(true);
