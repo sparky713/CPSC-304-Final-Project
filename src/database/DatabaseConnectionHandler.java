@@ -1,6 +1,6 @@
 package database;
 
-import model.PlayerModel;
+import model.Player;
 
 import java.sql.*;
 
@@ -40,7 +40,7 @@ public class DatabaseConnectionHandler {
     }
 
     // inserting the user input for a new account
-    public void insertPlayer(PlayerModel player) {
+    public void insertPlayer(Player player) {
 //        try {
 //            String query = "INSERT INTO player VALUES (?,?,?,?,?)";
 //            Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,

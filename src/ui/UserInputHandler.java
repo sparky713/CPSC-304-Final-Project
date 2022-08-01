@@ -18,7 +18,6 @@ public class UserInputHandler {
 
     public UserInputHandler() {
     }
-}
 
     /**
      * Sets up the database to have a branch table with two tuples so we can insert/update/delete from it.
@@ -109,13 +108,9 @@ public class UserInputHandler {
 //        }
 //    }
 //
-//    private void insertPlayer() {
-//        int id = INVALID_INPUT;
-//        while (id == INVALID_INPUT) {
-//            System.out.print("Please enter the branch ID you wish to insert: ");
-//            id = readInteger(false);
-//        }
-//
+    private void insertPlayer(String firstName, String lastName, String email, String password, String displayName) {
+
+        // called from action listener of sign-up button, inserts values from the text field
 //
 //        String city = null;
 //        while (city == null || city.length() <= 0) {
@@ -135,7 +130,7 @@ public class UserInputHandler {
 //                name,
 //                phoneNumber);
 //        delegate.insertBranch(model);
-//    }
+    }
 //
 //    private void handleQuitOption() {
 //        System.out.println("Good Bye!");
@@ -194,4 +189,4 @@ public class UserInputHandler {
 //        }
 //        return result;
 //    }
-//}
+}
