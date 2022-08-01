@@ -39,6 +39,26 @@ public class DatabaseConnectionHandler {
         }
     }
 
+    public void deletePlayerFood(int foodname) {
+//        try {
+//            String query = "DELETE FROM branch WHERE branch_id = ?";
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+//            ps.setInt(1, foodname);
+//
+//            int rowCount = ps.executeUpdate();
+//            if (rowCount == 0) {
+//                System.out.println(WARNING_TAG + " Branch " + foodname + " does not exist!");
+//            }
+//
+//            connection.commit();
+//
+//            ps.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//            rollbackConnection();
+//        }
+//    }
+
     // inserting the user input for a new account
     public void insertPlayer(Player player) {
 //        try {
