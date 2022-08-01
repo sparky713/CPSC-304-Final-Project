@@ -1,17 +1,26 @@
-package account;
+package ui;
+
+import controller.Main;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.Vector;
 
 import static java.awt.Font.BOLD;
 
+/**
+ * The ui for the sign-up window
+ */
 public class GUICreateAccountPage extends JPanel {
     Graphics g = null;
     public static final String SIGN_UP_BTN_IMAGE_FILENAME = "images/sign_up_btn.png";
@@ -59,10 +68,14 @@ public class GUICreateAccountPage extends JPanel {
     public JTextField tfDisplayName;
     public JButton btnSignUp;
 
+    public Vector<JTextField> tfs;
+//    public boolean tfEdited;
+
     public GUICreateAccountPage() {
         setLayout(null);
-        this.setBackground(new Color(0,255,255));
+        this.setBackground(new Color(255,255,255));
         this.setBounds(0, 0, 500, 700);
+//        tfEdited = false;
 
         //---------------------------------------------------------------------
         // read images
@@ -84,6 +97,8 @@ public class GUICreateAccountPage extends JPanel {
         //---------------------------------------------------------------------
         // init JComponents
         //---------------------------------------------------------------------
+
+        tfs = new Vector<JTextField>();
         lblCreateAccount = new JLabel("CREATE ACCOUNT");
         lblCreateAccount.setBounds(LBL_X, LBL_Y, LBL_W, LBL_H);
         lblCreateAccount.setFont(new Font("Arial", BOLD, 28));
@@ -178,17 +193,57 @@ public class GUICreateAccountPage extends JPanel {
         });
         this.add(tfDisplayName);
 
+        tfs.add(tfFirstName);
+        tfs.add(tfLastName);
+        tfs.add(tfEmail);
+        tfs.add(tfPassword);
+        tfs.add(tfDisplayName);
+
         btnSignUp = new JButton(new ImageIcon(signUpbtnImage));
         btnSignUp.setBounds(BUTTON_X, BUTTON_Y, BUTTON_W, BUTTON_H);
-        this.add(btnSignUp);
+        btnSignUp.setEnabled(false);
 
-        repaint();
+        btnSignUp.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO: insert account info tuple into Player table
+                System.out.println("yay");
+                }
+            });
+        this.add(btnSignUp);
+        Main.frame.getRootPane().setDefaultButton(btnSignUp);
+
+        //---------------------------------------------------------------------
+        // timer(thread) - to call update() and paint()
+        //---------------------------------------------------------------------
+        java.util.Timer t = new Timer(true);
+        t.schedule(new TimerTask() {
+            public void run() {
+                update();
+                repaint();
+            }
+        },0, 10);
     }
 
+    public void update() {
+        updateSignUpButton();
+    }
+
+    private void updateSignUpButton() {
+//        if (tfEdited) {
+        //iterates through tfs and checks that user input is present in all text fields to enable sign-up button
+            for (int i = 0; i < tfs.size(); i++) {
+                if (tfs.elementAt(i).getText().equals("") || !tfs.elementAt(i).isEnabled()) {
+                    btnSignUp.setEnabled(false);
+                    return;
+                }
+            }
+            btnSignUp.setEnabled(true);
+//        }
+    }
     public void paint(Graphics g) {
-//        System.out.println("oop");
         g.drawImage(borderImage, BORDER_X, BORDER_Y, null);
         paintComponents(g);
     }
-    //TODO keylistener for enter key
+    //TODO key listener for enter key
 }

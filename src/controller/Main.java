@@ -1,7 +1,12 @@
-import account.GUICreateAccountPage;
+package controller;
+
+import ui.GUICreateAccountPage;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.*;
 
 public class Main {
     public static JFrame frame;
@@ -11,8 +16,6 @@ public class Main {
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
-        ImageIcon img = new ImageIcon("frameIcon.GIF");
-        frame.setIconImage(img.getImage());
         frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
