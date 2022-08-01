@@ -1,10 +1,8 @@
 package database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import model.PlayerModel;
+
+import java.sql.*;
 
 /**
  * This class handles all database related transactions
@@ -41,6 +39,32 @@ public class DatabaseConnectionHandler {
         }
     }
 
+    // inserting the user input for a new account
+    public void insertPlayer(PlayerModel player) {
+//        try {
+//            String query = "INSERT INTO player VALUES (?,?,?,?,?)";
+//            Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+//                    ResultSet.CONCUR_READ_ONLY);
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+//            ps.setInt(1, model.getId());
+//            ps.setString(2, model.getName());
+//            ps.setString(3, model.getAddress());
+//            ps.setString(4, model.getCity());
+//            if (model.getPhoneNumber() == 0) {
+//                ps.setNull(5, java.sql.Types.INTEGER);
+//            } else {
+//                ps.setInt(5, model.getPhoneNumber());
+//            }
+//
+//            ps.executeUpdate();
+//            connection.commit();
+//
+//            ps.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//            rollbackConnection();
+//        }
+    }
 
 //    public boolean login(String username, String password) {
 //        try {
