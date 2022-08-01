@@ -97,17 +97,17 @@ public class UserInputHandler {
 //        }
 //    }
 //
-//    private void handleDeleteOption() {
-//        int branchId = INVALID_INPUT;
-//        while (branchId == INVALID_INPUT) {
-//            System.out.print("Please enter the branch ID you wish to delete: ");
-//            branchId = readInteger(false);
-//            if (branchId != INVALID_INPUT) {
-//                delegate.deleteBranch(branchId);
+    private void deletePlayerFood() {
+//        int foodName  = INVALID_INPUT;
+//        while (foodName  == INVALID_INPUT) {
+//            System.out.print("Please enter the food of your player you wish to delete: ");
+//            foodName  = readInteger(false);
+//            if (foodName  != INVALID_INPUT) {
+//                delegate.deleteBranch(foodName );
 //            }
 //        }
 //    }
-//
+
     private void insertPlayer(String firstName, String lastName, String email, String password, String displayName) {
 
         // called from action listener of sign-up button, inserts values from the text field
