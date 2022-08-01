@@ -1,12 +1,11 @@
 package ui;
 
-import controller.Main;
+import controller.Game;
+import database.DatabaseConnectionHandler;
+import model.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -22,6 +21,7 @@ import static java.awt.Font.BOLD;
  * The ui for the sign-up window
  */
 public class GUICreateAccountPage extends JPanel {
+    private DatabaseConnectionHandler dbHandler = null;
     Graphics g = null;
     public static final String SIGN_UP_BTN_IMAGE_FILENAME = "images/sign_up_btn.png";
     public static final String BORDER_IMAGE_FILENAME = "images/sign_up_border.png";
@@ -207,11 +207,14 @@ public class GUICreateAccountPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO: insert account info tuple into Player table
-                System.out.println("yay");
+                Player newPlayer = new Player(tfFirstName.getText(), tfLastName.getText(), tfEmail.getText(),
+                            tfPassword.getText(), tfDisplayName.getText());
+                // insert newPlayer (handled in DatabaseConnectionHandler.java)
+                Game.dbHandler.insertPlayer(newPlayer);
                 }
             });
         this.add(btnSignUp);
-        Main.frame.getRootPane().setDefaultButton(btnSignUp);
+        Game.frame.getRootPane().setDefaultButton(btnSignUp);
 
         //---------------------------------------------------------------------
         // timer(thread) - to call update() and paint()
@@ -231,19 +234,18 @@ public class GUICreateAccountPage extends JPanel {
 
     private void updateSignUpButton() {
 //        if (tfEdited) {
-        //iterates through tfs and checks that user input is present in all text fields to enable sign-up button
-            for (int i = 0; i < tfs.size(); i++) {
-                if (tfs.elementAt(i).getText().equals("") || !tfs.elementAt(i).isEnabled()) {
-                    btnSignUp.setEnabled(false);
-                    return;
-                }
+    //iterates through tfs and checks that user input is present in all text fields to enable sign-up button
+        for (int i = 0; i < tfs.size(); i++) {
+            if (tfs.elementAt(i).getText().equals("") || !tfs.elementAt(i).isEnabled()) {
+                btnSignUp.setEnabled(false);
+                return;
             }
-            btnSignUp.setEnabled(true);
+        }
+        btnSignUp.setEnabled(true);
 //        }
     }
     public void paint(Graphics g) {
         g.drawImage(borderImage, BORDER_X, BORDER_Y, null);
         paintComponents(g);
     }
-    //TODO key listener for enter key
 }
