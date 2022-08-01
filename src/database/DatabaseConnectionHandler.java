@@ -86,6 +86,35 @@ public class DatabaseConnectionHandler {
 //        }
     }
 
+    //need to change attributes of bank to attributes of actual character
+        // I think instead of player being able to view a character's weapons, they should be able to view a character
+        //and their corresponding attributes such as name, level, currATK, currHP, baseHP, baseATK
+        public BranchModel[] getCharacterInfo() {
+            ArrayList<BranchModel> result = new ArrayList<BranchModel>();
+
+            try {
+                String query = "SELECT * FROM branch";
+                PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+                ResultSet rs = ps.executeQuery();
+
+                while(rs.next()) {
+                    BranchModel model = new BranchModel(rs.getString("branch_addr"),
+                            rs.getString("branch_city"),
+                            rs.getInt("branch_id"),
+                            rs.getString("branch_name"),
+                            rs.getInt("branch_phone"));
+                    result.add(model);
+                }
+
+                rs.close();
+                ps.close();
+            } catch (SQLException e) {
+                System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            }
+
+            return result.toArray(new BranchModel[result.size()]);
+        }
+
 //    public boolean login(String username, String password) {
 //        try {
 //            if (connection != null) {
