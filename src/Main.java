@@ -1,4 +1,4 @@
-import account.GUICreateAccountPage;
+import ui.GUICreateAccountPage;
 
 import javax.swing.*;
 import java.awt.*;
