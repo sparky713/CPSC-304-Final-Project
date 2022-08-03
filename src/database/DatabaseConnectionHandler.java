@@ -112,8 +112,8 @@ public class DatabaseConnectionHandler {
 //                }
 //            }
 
-//            rs.close();
-//            ps.close();
+            rs.close();
+            ps.close();
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
@@ -196,17 +196,11 @@ public class DatabaseConnectionHandler {
 
     // inserts a character
     // TODO: insert into CharHP only if key does not already exist
-    // TODO: update Character model to calculate currHP using baseHP and level
-    public void insertCharacter(Character character) {
+      public void insertCharacter(Character character) {
         try {
-            String charHPQuery = "INSERT INTO CharacterHP(character_level, baseHP, currHP) VALUES (?, ?, ?)";
+            insertCharHP(character.getLevel(), character.getBaseHP());
             String characterQuery = "INSERT INTO Character(name, character_level, baseHP, baseATK, ename) VALUES (?, ?, ?, ?, ?)";
-            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
             PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(characterQuery), characterQuery, false);
-
-            psHP.setInt(1, character.getLevel());
-            psHP.setInt(2, character.getBaseHP());
-            psHP.setInt(3, character.getBaseHP());
 
             psChar.setString(1, character.getName());
             psChar.setInt(2, character.getLevel());
@@ -214,27 +208,50 @@ public class DatabaseConnectionHandler {
             psChar.setInt(4, character.getBaseATK());
             psChar.setString(5, character.getElement().getName());
 
-            psHP.executeUpdate();
             psChar.executeUpdate();
             connection.commit();
 
             psChar.close();
-            psHP.close();
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
             rollbackConnection();
         }
     }
 
+    private void insertCharHP(int level, int baseHP) {
+        try {
+            String charHPQuery = "INSERT INTO CharacterHP(character_level, baseHP, currHP) VALUES (?, ?, ?)";
+            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
+
+            psHP.setInt(1, level);
+            psHP.setInt(2, baseHP);
+            psHP.setInt(3, baseHP + 50 * level);
+            psHP.executeUpdate();
+            psHP.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+
+    }
 
     //levels up a character by given amount
     public void levelCharacter(String cName, int amount) {
         try {
-            //TODO: make this level by adding amount to current level in database
-            String query = "UPDATE Character SET CHARACTER_LEVEL = ? WHERE NAME = ?";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ps.setInt(1, amount);
-            ps.setString(2, cName.toLowerCase());
+            String sel_level = "SELECT CHARACTER_LEVEL, BASEHP FROM CHARACTER WHERE name = 'Qiqi'";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(sel_level), sel_level, false);
+//            ps.setString(1, cName);
+            ResultSet lv_hp = ps.executeQuery();
+
+            lv_hp.next();
+            int oldBaseHP = lv_hp.getInt("basehp");
+            int newLevel = lv_hp.getInt("character_level") + amount;
+
+            insertCharHP(newLevel, oldBaseHP);
+
+            ps.execute("UPDATE Character SET CHARACTER_LEVEL = ? WHERE NAME = ?");
+            ps.setInt(1, newLevel);
+            ps.setString(2, cName);
 
             int rowCount = ps.executeUpdate();
             if (rowCount == 0) {
@@ -242,6 +259,8 @@ public class DatabaseConnectionHandler {
             }
 
             connection.commit();
+            lv_hp.close();
+            ps.close();
 
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());

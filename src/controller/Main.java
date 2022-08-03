@@ -15,7 +15,7 @@ public class Main {
     public static void main(String[] args) {
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_SCW2018", "a13454772");
+        dbHandler.login("ORA", "a");
 
         ElementModel cryo = new ElementModel("Cryo");
         Character qiqi = new Character("Qiqi", cryo);
@@ -26,7 +26,7 @@ public class Main {
         dbHandler.databaseSetup();
         dbHandler.insertElement(cryo);
         dbHandler.insertCharacter(qiqi);
-//
+
         dbHandler.levelCharacter("Qiqi", 5);
 
     }
