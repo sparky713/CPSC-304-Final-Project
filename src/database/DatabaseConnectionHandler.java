@@ -1,5 +1,16 @@
 package database;
 
+import model.Character;
+import model.ElementModel;
+import oracle.sql.converter.CharacterSetMetaData;
+import util.PrintablePreparedStatement;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import model.PlayerModel;
 
 import java.sql.*;
@@ -29,6 +40,27 @@ public class DatabaseConnectionHandler {
         }
     }
 
+    public boolean login(String username, String password) {
+        try {
+            if (connection != null) {
+                connection.close();
+            }
+
+            connection = DriverManager.getConnection(ORACLE_URL, username, password);
+            connection.setAutoCommit(false);
+
+            if (connection == null) {
+                System.out.println("\nConnection failed!");
+            } else {
+                System.out.println("\nConnected to Oracle!");
+            }
+            return true;
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            return false;
+        }
+    }
+
     public void close() {
         try {
             if (connection != null) {
@@ -39,94 +71,225 @@ public class DatabaseConnectionHandler {
         }
     }
 
-    // inserting the user input for a new account
-    public void insertPlayer(PlayerModel player) {
-//        try {
-//            String query = "INSERT INTO player VALUES (?,?,?,?,?)";
-//            Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-//                    ResultSet.CONCUR_READ_ONLY);
-//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-//            ps.setInt(1, model.getId());
-//            ps.setString(2, model.getName());
-//            ps.setString(3, model.getAddress());
-//            ps.setString(4, model.getCity());
-//            if (model.getPhoneNumber() == 0) {
-//                ps.setNull(5, java.sql.Types.INTEGER);
-//            } else {
-//                ps.setInt(5, model.getPhoneNumber());
-//            }
-//
-//            ps.executeUpdate();
-//            connection.commit();
-//
-//            ps.close();
-//        } catch (SQLException e) {
-//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-//            rollbackConnection();
-//        }
-    }
-
-//    public boolean login(String username, String password) {
-//        try {
-//            if (connection != null) {
-//                connection.close();
-//            }
-//
-//            connection = DriverManager.getConnection(ORACLE_URL, username, password);
-//            connection.setAutoCommit(false);
-//
-//            System.out.println("\nConnected to Oracle!");
-//            return true;
-//        } catch (SQLException e) {
-//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-//            return false;
-//        }
-//    }
-
     private void rollbackConnection() {
-        try  {
+        try {
             connection.rollback();
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
     }
+
+    // sets up all the tables in the database
+    public void databaseSetup() {
+        setupElement();
+        setupCharacter();
+
+    }
+
+    // creates the Element table
+    // TODO: drop table if exists
+    private void setupElement() {
+        try {
+            String query = "CREATE TABLE Element\n" +
+                    "(\n" +
+                    "    name char(80) PRIMARY KEY\n" +
+                    ")";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+
+        }
+    }
+
+    // inserts elements
+    public void insertElement(ElementModel elementModel) {
+        try {
+            String q = "INSERT INTO Element VALUES (?)";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
+            ps.setString(1, elementModel.getName());
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+        } catch (SQLException e) {
+            rollbackConnection();
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
+    }
+
+    // set up the character table
+    // TODO: drop CharHP if exists
+    private void setupCharacter() {
+        dropCharacterIfExists();
+        try {
+            String charHPQuery = "CREATE TABLE CharacterHP\n" +
+                    "(\n" +
+                    "    character_level int,\n" +
+                    "    baseHP  int,\n" +
+                    "    currHP  int,\n" +
+                    "    CONSTRAINT pk_charHP PRIMARY KEY (character_level, baseHP)\n" +
+                    ")";
+
+            String charQuery = "CREATE TABLE Character\n" +
+                    "(\n" +
+                    "    name    char(80) PRIMARY KEY,\n" +
+                    "    character_level int,\n" +
+                    "    baseHP  int,\n" +
+                    "    baseATK int,\n" +
+                    "    ename   char(80) NOT NULL,\n" +
+                    "    FOREIGN KEY (ename) REFERENCES Element,\n" +
+                    "    FOREIGN KEY (character_level, baseHP) REFERENCES CharacterHP\n" +
+                    ")";
+            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
+            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charHPQuery, false);
+            psHP.executeUpdate();
+            psChar.executeUpdate();
+            psHP.close();
+            psChar.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
+    }
+
+    private void dropCharacterIfExists() {
+        try {
+            String query = "select table_name from user_tables";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                if (rs.getString(1).toLowerCase().equals("character")) {
+                    ps.execute("DROP TABLE CHARACTER");
+                    break;
+                }
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+    }
+
+    // inserts a character
+    // TODO: insert into CharHP only if key does not already exist
+    // TODO: update Character model to calculate currHP using baseHP and level
+    public void insertCharacter(Character character) {
+        try {
+            String charHPQuery = "INSERT INTO CharacterHP(character_level, baseHP, currHP) VALUES (?, ?, ?)";
+            String characterQuery = "INSERT INTO Character(name, character_level, baseHP, baseATK, ename) VALUES (?, ?, ?, ?, ?)";
+            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
+            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(characterQuery), characterQuery, false);
+
+            psHP.setInt(1, character.getLevel());
+            psHP.setInt(2, character.getBaseHP());
+            psHP.setInt(3, character.getBaseHP());
+
+            psChar.setString(1, character.getName());
+            psChar.setInt(2, character.getLevel());
+            psChar.setInt(3, character.getBaseHP());
+            psChar.setInt(4, character.getBaseATK());
+            psChar.setString(5, character.getElement().getName());
+
+            psHP.executeUpdate();
+            psChar.executeUpdate();
+            connection.commit();
+
+            psChar.close();
+            psHP.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+
+    //levels up a character by given amount
+    public void levelCharacter(String cName, int amount) {
+        try {
+            //TODO: make this level by adding amount to current level in database
+            String query = "UPDATE Character SET character_level = ? WHERE name = ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setInt(1, amount);
+            ps.setString(2, cName);
+
+            int rowCount = ps.executeUpdate();
+            if (rowCount == 0) {
+                System.out.println(WARNING_TAG + "Character " + cName + " does not exist!");
+            }
+
+            connection.commit();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+
+    }
+
+//    // inserting the user input for a new account
+//    public void insertPlayer(PlayerModel player) {
+////        try {
+////            String query = "INSERT INTO player VALUES (?,?,?,?,?)";
+////            Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+////                    ResultSet.CONCUR_READ_ONLY);
+////            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+////            ps.setInt(1, model.getId());
+////            ps.setString(2, model.getName());
+////            ps.setString(3, model.getAddress());
+////            ps.setString(4, model.getCity());
+////            if (model.getPhoneNumber() == 0) {
+////                ps.setNull(5, java.sql.Types.INTEGER);
+////            } else {
+////                ps.setInt(5, model.getPhoneNumber());
+////            }
+////
+////            ps.executeUpdate();
+////            connection.commit();
+////
+////            ps.close();
+////        } catch (SQLException e) {
+////            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+////            rollbackConnection();
+////        }
+//    }
 //
-//    public void databaseSetup() {
-//        dropBranchTableIfExists();
+//
+//    private void playerDatabaseSetup() {
+//        dropPlayerTableIfExists();
 //
 //        try {
-//            String query = "CREATE TABLE branch (branch_id integer PRIMARY KEY, branch_name varchar2(20) not null, branch_addr varchar2(50), branch_city varchar2(20) not null, branch_phone integer)";
+//            String query = "CREATE TABLE Player (username char(60) PRIMARY KEY, password char(80) NOT NULL, email char(80) NOT NULL, displayName char(80) NOT NULL, UNIQUE(email))";
 //            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 //            ps.executeUpdate();
 //            ps.close();
 //        } catch (SQLException e) {
 //            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
 //        }
-//
-//        BranchModel branch1 = new BranchModel("123 Charming Ave", "Vancouver", 1, "First Branch", 1234567);
-//        insertBranch(branch1);
-//
-//        BranchModel branch2 = new BranchModel("123 Coco Ave", "Vancouver", 2, "Second Branch", 1234568);
-//        insertBranch(branch2);
 //    }
 //
-//    private void dropBranchTableIfExists() {
-//        try {
-//            String query = "select table_name from user_tables";
-//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-//            ResultSet rs = ps.executeQuery();
-//
-//            while(rs.next()) {
-//                if(rs.getString(1).toLowerCase().equals("branch")) {
-//                    ps.execute("DROP TABLE branch");
-//                    break;
-//                }
-//            }
-//
-//            rs.close();
-//            ps.close();
-//        } catch (SQLException e) {
-//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-//        }
+//    private void dropPlayerTableIfExists() {
+////        try {
+////            String query = "select table_name from user_tables";
+////            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+////            ResultSet rs = ps.executeQuery();
+////
+////            while(rs.next()) {
+////                if(rs.getString(1).toLowerCase().equals("branch")) {
+////                    ps.execute("DROP TABLE branch");
+////                    break;
+////                }
+////            }
+////
+////            rs.close();
+////            ps.close();
+////        } catch (SQLException e) {
+////            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+////        }
 //    }
+
 }

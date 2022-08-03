@@ -1,6 +1,8 @@
 package controller;
 
-import ui.GUICreateAccountPage;
+import database.DatabaseConnectionHandler;
+import model.Character;
+import model.ElementModel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,20 +11,23 @@ import java.util.TimerTask;
 import java.util.*;
 
 public class Main {
-    public static JFrame frame;
-    public static GUICreateAccountPage guiCreateAccountPage;
 
     public static void main(String[] args) {
-        frame = new JFrame("CPSC 304 Group 44 Project");
-        frame.setLayout(null);
-        frame.setBackground(Color.white);
-        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        guiCreateAccountPage = new GUICreateAccountPage();
-        frame.add(guiCreateAccountPage, 0);
-        guiCreateAccountPage.setVisible(true);
+        DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
+        dbHandler.login("ORA_<CWL>", "a<student_number>");
 
-        frame.setVisible(true);
+        ElementModel cryo = new ElementModel("Cryo");
+        Character qiqi = new Character("Qiqi", cryo);
+        qiqi.setBaseATK(42);
+        qiqi.setBaseHP(100);
+        qiqi.setLevel(0);
+
+        dbHandler.databaseSetup();
+        dbHandler.insertElement(cryo);
+        dbHandler.insertCharacter(qiqi);
+
+        dbHandler.levelCharacter("Qiqi", 5);
+
     }
 }
