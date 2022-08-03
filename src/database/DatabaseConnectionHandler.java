@@ -2,18 +2,14 @@ package database;
 
 import model.Character;
 import model.ElementModel;
-import oracle.sql.converter.CharacterSetMetaData;
 import util.PrintablePreparedStatement;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import model.PlayerModel;
-
-import java.sql.*;
+//import model.PlayerModel;
 
 /**
  * This class handles all database related transactions
@@ -81,13 +77,49 @@ public class DatabaseConnectionHandler {
 
     // sets up all the tables in the database
     public void databaseSetup() {
+        dropTablesIfExists();
         setupElement();
         setupCharacter();
 
     }
 
+    // clears the database of tables with the same name
+    private void dropTablesIfExists() {
+        try {
+            String query = "select table_name from user_tables";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ResultSet rs = ps.executeQuery();
+
+            ps.execute("DROP TABLE Character");
+            ps.execute("DROP TABLE Element");
+            ps.execute("DROP TABLE CharacterHP");
+
+//            while (rs.next()) {
+//                String tableName = rs.getString(1).toLowerCase();
+//                System.out.println(tableName);
+//
+
+
+//                if (tableName.equals("character")) {
+//                    ps.execute("DROP TABLE Character");
+//                    System.out.println("Character table dropped!");
+//                } else if (tableName.equals("element")) {
+//                    ps.execute("DROP TABLE Element");
+//                    System.out.println("Element table dropped!");
+//                } else if (tableName.equals("characterhp")) {
+//                    System.out.println("CharacterHP table dropped!");
+//                    ps.execute("DROP TABLE CharacterHP");
+//                }
+//            }
+
+//            rs.close();
+//            ps.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+    }
+
     // creates the Element table
-    // TODO: drop table if exists
     private void setupElement() {
         try {
             String query = "CREATE TABLE Element\n" +
@@ -120,18 +152,9 @@ public class DatabaseConnectionHandler {
     }
 
     // set up the character table
-    // TODO: drop CharHP if exists
     private void setupCharacter() {
-        dropCharacterIfExists();
         try {
-            String charHPQuery = "CREATE TABLE CharacterHP\n" +
-                    "(\n" +
-                    "    character_level int,\n" +
-                    "    baseHP  int,\n" +
-                    "    currHP  int,\n" +
-                    "    CONSTRAINT pk_charHP PRIMARY KEY (character_level, baseHP)\n" +
-                    ")";
-
+            setupCharHP();
             String charQuery = "CREATE TABLE Character\n" +
                     "(\n" +
                     "    name    char(80) PRIMARY KEY,\n" +
@@ -142,11 +165,8 @@ public class DatabaseConnectionHandler {
                     "    FOREIGN KEY (ename) REFERENCES Element,\n" +
                     "    FOREIGN KEY (character_level, baseHP) REFERENCES CharacterHP\n" +
                     ")";
-            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
-            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charHPQuery, false);
-            psHP.executeUpdate();
+            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charQuery, false);
             psChar.executeUpdate();
-            psHP.close();
             psChar.close();
 
         } catch (SQLException e) {
@@ -155,25 +175,24 @@ public class DatabaseConnectionHandler {
 
     }
 
-    private void dropCharacterIfExists() {
+    //setup charHP table
+    private void setupCharHP() {
+        String charHPQuery = "CREATE TABLE CharacterHP\n" +
+                "(\n" +
+                "    character_level int,\n" +
+                "    baseHP  int,\n" +
+                "    currHP  int,\n" +
+                "    CONSTRAINT pk_charHP PRIMARY KEY (character_level, baseHP)\n" +
+                ")";
         try {
-            String query = "select table_name from user_tables";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                if (rs.getString(1).toLowerCase().equals("character")) {
-                    ps.execute("DROP TABLE CHARACTER");
-                    break;
-                }
-            }
-
-            rs.close();
-            ps.close();
+            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
+            psHP.executeUpdate();
+            psHP.close();
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
     }
+
 
     // inserts a character
     // TODO: insert into CharHP only if key does not already exist
@@ -212,10 +231,10 @@ public class DatabaseConnectionHandler {
     public void levelCharacter(String cName, int amount) {
         try {
             //TODO: make this level by adding amount to current level in database
-            String query = "UPDATE Character SET character_level = ? WHERE name = ?";
+            String query = "UPDATE Character SET CHARACTER_LEVEL = ? WHERE NAME = ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ps.setInt(1, amount);
-            ps.setString(2, cName);
+            ps.setString(2, cName.toLowerCase());
 
             int rowCount = ps.executeUpdate();
             if (rowCount == 0) {
