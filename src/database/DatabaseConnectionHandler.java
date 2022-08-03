@@ -1,6 +1,7 @@
 package database;
 
 import model.Character;
+import model.Food;
 import model.ElementModel;
 import util.PrintablePreparedStatement;
 
@@ -80,6 +81,7 @@ public class DatabaseConnectionHandler {
         dropTablesIfExists();
         setupElement();
         setupCharacter();
+        setupFood();
 
     }
 
@@ -117,6 +119,44 @@ public class DatabaseConnectionHandler {
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
+    }
+
+
+    // set up the food table
+    private void setupFood() {
+        try {
+            String charQuery = "CREATE TABLE Food\n" +
+                    "(\n" +
+                    "    name    char(80) PRIMARY KEY,\n" +
+                    "    healAmount int DEFAULT 0,\n" +
+                    ")";
+            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charQuery, false);
+            psChar.executeUpdate();
+            psChar.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
+    }
+
+
+    // inserts food
+    public void insertFood(Food food) {
+        try {
+            String q = "INSERT INTO Food VALUES (?, ?)";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
+            ps.setString(1, food.getFoodName());
+            ps.setInt(2, food.getFoodHealAmount());
+
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+        } catch (SQLException e) {
+            rollbackConnection();
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
     }
 
     // creates the Element table
