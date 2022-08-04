@@ -184,6 +184,7 @@ public class DatabaseConnectionHandler {
     //
     public void deleteConsumes(String playerUsername, String foodName) {
         try {
+            // DO I ADD THE "and foodName = ?" PART TOO?? vvvvvvvv
             String query = "DELETE FROM Consumes WHERE playerUsername = ? and foodName = ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ps.setString(1, playerUsername);
