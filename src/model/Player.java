@@ -29,4 +29,7 @@ public class Player {
     public String getDisplayName() {
         return displayName;
     }
+
+    public void consumes(Food food, int amount) {
+    }
 }

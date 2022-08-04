@@ -25,7 +25,7 @@ public class Main {
     public static void main(String[] args) {
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA", "???");
+        dbHandler.login("ORA_spark73", "a41475948");
 
         //creating test player
         Player player1 = new Player("player1", "password123", "player1@gmail.com", "Tiger123");
@@ -33,6 +33,27 @@ public class Main {
         //adding food
         Food mushroomPizza = new Food("Mushroom Pizza", 450);
 
+        frame = new JFrame("CPSC 304 Group 44 Project");
+        frame.setLayout(null);
+        frame.setBackground(Color.white);
+        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        guiMainPage = new GUIMainPage();
+        guiCreateAccountPage = new GUICreateAccountPage();
+        guiCharactersPage = new GUICharactersPage();
+        guiPartiesPage = new GUIPartiesPage();
+        guiWeaponsPage = new GUIWeaponsPage();
+        guiAbilitiesPage = new GUIAbilitiesPage();
+
+        guiMainPage.setVisible(false);
+        guiCreateAccountPage.setVisible(true);
+//        guiCharactersPage.setVisible(false);
+//        guiPartiesPage.setVisible(false);
+        guiWeaponsPage.setVisible(false);
+        guiAbilitiesPage.setVisible(false);
+
+        frame.setVisible(true);
 
         ElementModel cryo = new ElementModel("Cryo");
         Character qiqi = new Character("Qiqi", cryo);

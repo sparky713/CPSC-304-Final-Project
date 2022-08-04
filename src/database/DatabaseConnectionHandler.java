@@ -171,6 +171,7 @@ public class DatabaseConnectionHandler {
                     "    fname    char(80) PRIMARY KEY,\n" +
                     "    amount int,\n" +
                     ")";
+
             PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charQuery, false);
             psChar.executeUpdate();
             psChar.close();
@@ -181,7 +182,6 @@ public class DatabaseConnectionHandler {
 
     }
 
-    //
     public void deleteConsumes(String playerUsername, String foodName) {
         try {
             // DO I ADD THE "and foodName = ?" PART TOO?? vvvvvvvv
@@ -210,7 +210,7 @@ public class DatabaseConnectionHandler {
         try {
             String q = "INSERT INTO Consumes VALUES (?, ?, ?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
-            ps.setString(1, player.getUsername());
+            ps.setString(1, player.getUserName());
             ps.setString(2, food.getFoodName());
             ps.setInt(3, amount);
 
