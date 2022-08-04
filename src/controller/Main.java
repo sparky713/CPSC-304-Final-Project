@@ -49,8 +49,14 @@ public class Main {
         dbHandler.insertFood(mushroomPizza);
         dbHandler.insertConsumes(player1, mushroomPizza, 2);
 
+        // uncomment this to test deleteConsumes method AFTER testing
+        // insertFood method first VVVVVVV
+
+        // dbHandler.deleteConsumes("player1", "Mushroom Pizza");
+
+
         dbHandler.levelCharacter("Qiqi", 5);
-//
+
     }
 
     public static void changeScreen(int screenNum) {
