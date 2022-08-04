@@ -186,7 +186,7 @@ public class DatabaseConnectionHandler {
         try {
             String q = "INSERT INTO Consumes VALUES (?, ?, ?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
-            ps.setString(1, player.getUsername());
+            ps.setString(1, player.getUserName());
             ps.setString(2, food.getFoodName());
             ps.setInt(3, amount);
 
@@ -352,7 +352,6 @@ public class DatabaseConnectionHandler {
 
     }
 
-//    // inserting the user input for a new account
 //    public void insertPlayer(PlayerModel player) {
 ////        try {
 ////            String query = "INSERT INTO player VALUES (?,?,?,?,?)";
