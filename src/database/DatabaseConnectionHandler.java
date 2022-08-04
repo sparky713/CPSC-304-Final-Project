@@ -1,5 +1,6 @@
 package database;
 
+import model.Player;
 import model.Character;
 import model.Food;
 import model.ElementModel;
@@ -82,6 +83,7 @@ public class DatabaseConnectionHandler {
         setupElement();
         setupCharacter();
         setupFood();
+        setupConsumes();
 
     }
 
@@ -158,6 +160,47 @@ public class DatabaseConnectionHandler {
         }
 
     }
+
+
+    // set up the consumes table
+    private void setupConsumes() {
+        try {
+            String charQuery = "CREATE TABLE Consumes\n" +
+                    "(\n" +
+                    "    username    char(80) PRIMARY KEY,\n" +
+                    "    fname    char(80) PRIMARY KEY,\n" +
+                    "    amount int,\n" +
+                    ")";
+            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charQuery, false);
+            psChar.executeUpdate();
+            psChar.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
+    }
+
+    // inserts consumes
+    public void insertConsumes(Player player, Food food, int amount) {
+        try {
+            String q = "INSERT INTO Consumes VALUES (?, ?, ?)";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
+            ps.setString(1, player.getUsername());
+            ps.setString(2, food.getFoodName());
+            ps.setInt(3, amount);
+
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+        } catch (SQLException e) {
+            rollbackConnection();
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
+    }
+
+
 
     // creates the Element table
     private void setupElement() {
