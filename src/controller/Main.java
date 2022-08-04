@@ -14,7 +14,7 @@ import java.util.TimerTask;
 import java.util.*;
 
 public class Main {
-    //    public static DatabaseConnectionHandler dbHandler = null;
+    public static DatabaseConnectionHandler dbHandler = null;
     public static JFrame frame;
     public static GUIMainPage guiMainPage;
     public static GUICreateAccountPage guiCreateAccountPage;
@@ -24,15 +24,12 @@ public class Main {
     public static GUIAbilitiesPage guiAbilitiesPage;
     public static void main(String[] args) {
 
-        DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
+        dbHandler = new DatabaseConnectionHandler();
         dbHandler.login("ORA_spark73", "a41475948");
 
-        //creating test player
-        Player player1 = new Player("player1", "password123", "player1@gmail.com", "Tiger123");
-
-        //adding food
-        Food mushroomPizza = new Food("Mushroom Pizza", 450);
-
+        //---------------------------------------------------------------------
+        // GUI Setup
+        //---------------------------------------------------------------------
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
@@ -55,15 +52,23 @@ public class Main {
 
         frame.setVisible(true);
 
+        //---------------------------------------------------------------------
+
+        //creating test player
+        Player player1 = new Player("player1", "password123", "player1@gmail.com", "Tiger123");
+
+        //adding food
+        Food mushroomPizza = new Food("Mushroom Pizza", 450);
+        player1.consumes(mushroomPizza, 2);
+
         ElementModel cryo = new ElementModel("Cryo");
         Character qiqi = new Character("Qiqi", cryo);
         qiqi.setBaseATK(42);
         qiqi.setBaseHP(100);
         qiqi.setLevel(0);
 
-        player1.consumes(mushroomPizza, 2);
-
         dbHandler.databaseSetup();
+        dbHandler.insertPlayer(player1);
         dbHandler.insertElement(cryo);
         dbHandler.insertCharacter(qiqi);
 

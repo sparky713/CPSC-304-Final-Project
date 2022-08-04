@@ -1,9 +1,7 @@
 package database;
 
-import model.Player;
+import model.*;
 import model.Character;
-import model.Food;
-import model.ElementModel;
 import util.PrintablePreparedStatement;
 
 import java.sql.Connection;
@@ -18,7 +16,6 @@ import java.sql.SQLException;
  * Based off of CPSC304_sample_project given in tutorial 6
  */
 public class DatabaseConnectionHandler {
-
     // Use this version of the ORACLE_URL if you are running the code off of the server
 //	private static final String ORACLE_URL = "jdbc:oracle:thin:@dbhost.students.cs.ubc.ca:1522:stu";
     // Use this version of the ORACLE_URL if you are tunneling into the undergrad servers
@@ -84,6 +81,7 @@ public class DatabaseConnectionHandler {
         setupCharacter();
         setupFood();
         setupConsumes();
+        setupPlayer();
 
     }
 
@@ -123,6 +121,129 @@ public class DatabaseConnectionHandler {
         }
     }
 
+    // set up the player table
+    private void setupPlayer() {
+        try {
+            String playerQuery = "CREATE TABLE Player\n" +
+                "(\n" +
+                "    username char(60) PRIMARY KEY,\n" +
+                "    password char(80) NOT NULL,\n" +
+                "    email       char(80) NOT NULL,\n" +
+                "    displayName char(80) NOT NULL,\n" +
+                "    UNIQUE (email)\n" +
+                ")";
+            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(playerQuery), playerQuery, false);
+            psChar.executeUpdate();
+            psChar.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+    }
+
+        public void insertPlayer(Player player) {
+        try {
+            String playerQuery = "INSERT INTO Player (username, password, email, displayName) VALUES (?,?,?,?)";
+            PrintablePreparedStatement psPlayer = new PrintablePreparedStatement(connection.prepareStatement(playerQuery), playerQuery, false);
+
+            psPlayer.setString(1, player.getUserName());
+            psPlayer.setString(2, player.getPassword());
+            psPlayer.setString(3, player.getEmail());
+            psPlayer.setString(4, player.getDisplayName());
+
+            psPlayer.executeUpdate();
+            connection.commit();
+            psPlayer.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+
+    // set up the abilities table
+    private void setupAbility() {
+        String abilitiesQuery = "CREATE TABLE Ability\n" +
+                "(\n" +
+                "    aname char(80) PRIMARY KEY,\n" +
+                "    cname char(80) NOT NULL,\n" +
+                "    level       int ,\n" +
+                "    cd float,\n" +
+                "    dmg int,\n" +
+                "    FOREIGN KEY (cname) REFERENCES Character ON DELETE CASCADE\n" +
+                "    ON UPDATE CASCADE\n" +
+                ")";
+        try {
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesQuery), abilitiesQuery, false);
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+        setupAbilityDMG();
+    }
+
+    public void insertAbility(Abilities abilities) {
+        try {
+            insertAbilityDMG(abilities.getLevel(), abilities.getDmg());
+            String abilitiesQuery = "INSERT INTO Ability (aname, cname, level, cd, dmg) VALUES (?,?,?,?,?)";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesQuery), abilitiesQuery, false);
+
+            ps.setString(1, abilities.getAname());
+            ps.setString(2, abilities.getCname());
+            ps.setInt(3, abilities.getLevel());
+            ps.setFloat(4, abilities.getCd());
+            ps.setInt(5, abilities.getDmg());
+
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+
+    private void setupAbilityDMG() {
+        String abilitiesDMGQuery = "CREATE TABLE AbilityDMG\n" +
+                "(\n" +
+                "    level       int ,\n" +
+                "    dmg int,\n" +
+                "    FOREIGN KEY (level) REFERENCES Ability ON DELETE CASCADE\n" +
+                "    ON UPDATE CASCADE\n" +
+                ")";
+        try {
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesDMGQuery), abilitiesDMGQuery, false);
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+    }
+
+    public void insertAbilityDMG(int level, int dmg) {
+        try {
+            String abilitiesDMGQuery = "INSERT INTO AbilityCast (level, dmg) VALUES (?,?)";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesDMGQuery), abilitiesDMGQuery, false);
+
+            ps.setInt(1, level);
+            ps.setInt(2, dmg);
+
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
 
     // set up the food table
     private void setupFood() {
@@ -139,7 +260,6 @@ public class DatabaseConnectionHandler {
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
-
     }
 
 
@@ -376,45 +496,7 @@ public class DatabaseConnectionHandler {
 
     }
 
-//    public void insertPlayer(PlayerModel player) {
-////        try {
-////            String query = "INSERT INTO player VALUES (?,?,?,?,?)";
-////            Statement st = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
-////                    ResultSet.CONCUR_READ_ONLY);
-////            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-////            ps.setInt(1, model.getId());
-////            ps.setString(2, model.getName());
-////            ps.setString(3, model.getAddress());
-////            ps.setString(4, model.getCity());
-////            if (model.getPhoneNumber() == 0) {
-////                ps.setNull(5, java.sql.Types.INTEGER);
-////            } else {
-////                ps.setInt(5, model.getPhoneNumber());
-////            }
-////
-////            ps.executeUpdate();
-////            connection.commit();
-////
-////            ps.close();
-////        } catch (SQLException e) {
-////            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-////            rollbackConnection();
-////        }
-//    }
-//
-//
-//    private void playerDatabaseSetup() {
-//        dropPlayerTableIfExists();
-//
-//        try {
-//            String query = "CREATE TABLE Player (username char(60) PRIMARY KEY, password char(80) NOT NULL, email char(80) NOT NULL, displayName char(80) NOT NULL, UNIQUE(email))";
-//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-//            ps.executeUpdate();
-//            ps.close();
-//        } catch (SQLException e) {
-//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-//        }
-//    }
+
 //
 //    private void dropPlayerTableIfExists() {
 ////        try {
