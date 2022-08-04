@@ -1,10 +1,10 @@
 package model;
 
 public class Player {
-    private final String userName;
-    private final String email;
-    private final String password;
-    private final String displayName;
+    private String userName;
+    private String email;
+    private String password;
+    private String displayName;
 
     public Player(String userName, String email, String password, String displayName) {
         this.userName = userName;
@@ -28,6 +28,23 @@ public class Player {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    // setters
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String email) {
+        this.password = password;
+    }
+
+    public void setDisplayName(String email) {
+        this.displayName = displayName;
     }
 
     public void consumes(Food food, int amount) {
