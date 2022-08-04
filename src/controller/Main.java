@@ -36,7 +36,7 @@ public class Main {
         dbHandler.insertCharacter(qiqi);
 
         dbHandler.levelCharacter("Qiqi", 5);
-
+//
     }
 
     public static void changeScreen(int screenNum) {
