@@ -181,12 +181,35 @@ public class DatabaseConnectionHandler {
 
     }
 
+    //
+    public void deleteConsumes(String playerUsername, String foodName) {
+        try {
+            String query = "DELETE FROM Consumes WHERE playerUsername = ? and foodName = ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(1, playerUsername);
+            ps.setString(1, foodName);
+
+            int rowCount = ps.executeUpdate();
+            if (rowCount == 0) {
+                System.out.println(WARNING_TAG + " Food " + foodName + " does not exist!");
+            }
+
+            connection.commit();
+
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+
     // inserts consumes
     public void insertConsumes(Player player, Food food, int amount) {
         try {
             String q = "INSERT INTO Consumes VALUES (?, ?, ?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
-            ps.setString(1, player.getUserName());
+            ps.setString(1, player.getUsername());
             ps.setString(2, food.getFoodName());
             ps.setInt(3, amount);
 
