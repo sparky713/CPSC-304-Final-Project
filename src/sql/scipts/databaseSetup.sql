@@ -2,17 +2,17 @@
 
 CREATE TABLE Player
 (
-    username    char(60) PRIMARY KEY,
-    password    char(80) NOT NULL,
-    email       char(80) NOT NULL,
-    displayName char(80) NOT NULL,
+    username    varchar2(80) PRIMARY KEY,
+    password    varchar2(80) NOT NULL,
+    email       varchar2(80) NOT NULL,
+    displayName varchar2(80) NOT NULL,
     UNIQUE (email)
 );
 
 CREATE TABLE PartyCreation
 (
-    username  char(80),
-    pname     char(80),
+    username  varchar2(80),
+    pname     varchar2(80),
     partySize int,
     PRIMARY KEY (username, pname),
     FOREIGN KEY (username) REFERENCES Player
@@ -21,7 +21,7 @@ CREATE TABLE PartyCreation
 
 CREATE TABLE Element
 (
-    name char(80) PRIMARY KEY
+    name varchar2(80) PRIMARY KEY
 );
 
 CREATE TABLE CharacterATK
@@ -42,11 +42,11 @@ CREATE TABLE CharacterHP
 
 CREATE TABLE Character
 (
-    name            char(80) PRIMARY KEY,
+    name            varchar2(80) PRIMARY KEY,
     character_level int,
     baseHP          int,
     baseATK         int,
-    ename           char(80) NOT NULL,
+    ename           varchar2(80) NOT NULL,
     FOREIGN KEY (ename) REFERENCES Element,
     FOREIGN KEY (character_level, baseHP) REFERENCES CharacterHP,
     FOREIGN KEY (character_level, baseATK) REFERENCES CharacterATK
@@ -60,8 +60,8 @@ CREATE TABLE AbilityDMG
 
 CREATE TABLE AbilityCast
 (
-    aname         char(80) PRIMARY KEY,
-    cname         char(80) NOT NULL,
+    aname         varchar2(80) PRIMARY KEY,
+    cname         varchar2(80) NOT NULL,
     ability_level int,
     cd            float,
     dmg           int,
@@ -72,19 +72,19 @@ CREATE TABLE AbilityCast
 
 CREATE TABLE Food
 (
-    name       char(80) PRIMARY KEY,
+    name       varchar2(80) PRIMARY KEY,
     healAmount int DEFAULT 0
 );
 
 CREATE TABLE Weapon
 (
-    name    char(80) PRIMARY KEY,
+    name    varchar2(80) PRIMARY KEY,
     baseATK int
 );
 
 CREATE TABLE Sword
 (
-    wname    char(80) PRIMARY KEY,
+    wname    varchar2(80) PRIMARY KEY,
     hitSpeed int,
     FOREIGN KEY (wname) REFERENCES Weapon
         ON DELETE CASCADE
@@ -92,7 +92,7 @@ CREATE TABLE Sword
 
 CREATE TABLE Bow
 (
-    wname      char(80) PRIMARY KEY,
+    wname      varchar2(80) PRIMARY KEY,
     chargeTime int,
     FOREIGN KEY (wname) REFERENCES Weapon
         ON DELETE CASCADE
@@ -100,12 +100,12 @@ CREATE TABLE Bow
 
 CREATE TABLE Artifact
 (
-    name char(80) PRIMARY KEY
+    name varchar2(80) PRIMARY KEY
 );
 
 CREATE TABLE Brooch
 (
-    aname   char(80) PRIMARY KEY,
+    aname   varchar2(80) PRIMARY KEY,
     bonusHP int,
     FOREIGN KEY (aname) REFERENCES Artifact
         ON DELETE CASCADE
@@ -113,7 +113,7 @@ CREATE TABLE Brooch
 
 CREATE TABLE Circlet
 (
-    aname    char(80) PRIMARY KEY,
+    aname    varchar2(80) PRIMARY KEY,
     bonusATK int,
     FOREIGN KEY (aname) REFERENCES Artifact
         ON DELETE CASCADE
@@ -121,8 +121,8 @@ CREATE TABLE Circlet
 
 CREATE TABLE OwnsWeapon
 (
-    username char(80),
-    wname    char(80),
+    username varchar2(80),
+    wname    varchar2(80),
     amount   int,
     PRIMARY KEY (username, wname),
     FOREIGN KEY (username) REFERENCES Player
@@ -133,8 +133,8 @@ CREATE TABLE OwnsWeapon
 
 CREATE TABLE Plays
 (
-    username char(80),
-    cname    char(80),
+    username varchar2(80),
+    cname    varchar2(80),
     PRIMARY KEY (username, cname),
     FOREIGN KEY (username) REFERENCES Player
         ON DELETE CASCADE,
@@ -144,8 +144,8 @@ CREATE TABLE Plays
 
 CREATE TABLE Consumes
 (
-    username char(80),
-    fname    char(80),
+    username varchar2(80),
+    fname    varchar2(80),
     amount   int,
     PRIMARY KEY (username, fname),
     FOREIGN KEY (username) REFERENCES Player
@@ -156,9 +156,9 @@ CREATE TABLE Consumes
 
 CREATE TABLE ComprisedOf
 (
-    username char(80),
-    pname    char(80),
-    cname    char(80),
+    username varchar2(80),
+    pname    varchar2(80),
+    cname    varchar2(80),
     PRIMARY KEY (username, pname, cname),
     FOREIGN KEY (username) REFERENCES Player
         ON DELETE CASCADE,
@@ -170,8 +170,8 @@ CREATE TABLE ComprisedOf
 
 CREATE TABLE FightsWith
 (
-    cname char(80),
-    wname char(80),
+    cname varchar2(80),
+    wname varchar2(80),
     PRIMARY KEY (cname, wname),
     FOREIGN KEY (cname) REFERENCES Character
         ON DELETE CASCADE,
@@ -181,8 +181,8 @@ CREATE TABLE FightsWith
 
 CREATE TABLE Wears
 (
-    cname char(80),
-    aname char(80),
+    cname varchar2(80),
+    aname varchar2(80),
     PRIMARY KEY (cname, aname),
     FOREIGN KEY (cname) REFERENCES Character
         ON DELETE CASCADE,
