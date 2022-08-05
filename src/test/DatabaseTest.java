@@ -12,14 +12,14 @@ import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// test suite for the database class
+// test suite for the DatabaseConnectionHandler class
 public class DatabaseTest {
     static DatabaseConnectionHandler dbHandler = null;
 
     @BeforeAll
     static void runBefore() {
         dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_<CWL>", "a<SNUM>");
+        dbHandler.login("ORA_scw2018", "a13454772");
     }
 
     @AfterAll
@@ -48,20 +48,30 @@ public class DatabaseTest {
 
     }
 
+//    @Test
+//    void testInsertCharacter() {
+//
+//        ElementModel cryo = new ElementModel("Cryo");
+//        Character kaeya = new Character("Kaeya", cryo);
+//        kaeya.setBaseATK(205);
+//        kaeya.setBaseHP(109);
+//        kaeya.setLevel(0);
+//
+//
+//        dbHandler.insertElement(cryo);
+//        dbHandler.insertCharacter(kaeya);
+//
+//
+//    }
+
     @Test
-    void testInsertCharacter() {
-
-        ElementModel cryo = new ElementModel("Cryo");
-        Character kaeya = new Character("Kaeya", cryo);
-        kaeya.setBaseATK(205);
-        kaeya.setBaseHP(109);
-        kaeya.setLevel(0);
-
-
-        dbHandler.insertElement(cryo);
-        dbHandler.insertCharacter(kaeya);
-
-
+    void testPlayer() {
+        Player player = new Player("player6", "email@email.com", "123456", "Apple");
+        dbHandler.insertPlayer(player);
+        player.setDisplayName("Orange");
+        player.setPassword("22222");
+        dbHandler.updatePlayer(player);
+        dbHandler.deletePlayer("player6");
     }
 
 }

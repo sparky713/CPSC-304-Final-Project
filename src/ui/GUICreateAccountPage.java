@@ -34,7 +34,7 @@ public class GUICreateAccountPage extends JPanel {
     public static final int LBL_H = 32;
     public static final int BORDER_X = 53;
     public static final int BORDER_Y = 55;
-//    public static final int TEXT_FIELD_NAME_W = 280 / 2 - 5;
+    //    public static final int TEXT_FIELD_NAME_W = 280 / 2 - 5;
     public static final int TEXT_FIELD_X = 112;
     public static final int TEXT_FIELD_W = 280;
     public static final int TEXT_FIELD_H = 40;
@@ -65,7 +65,7 @@ public class GUICreateAccountPage extends JPanel {
     public BufferedImage borderImage;
     public JLabel lblCreateAccount;
     public JTextField tfUsername;
-//    public JTextField tfLastName;
+    //    public JTextField tfLastName;
     public JTextField tfEmail;
     public JTextField tfPassword;
     public JTextField tfDisplayName;
@@ -77,7 +77,7 @@ public class GUICreateAccountPage extends JPanel {
 
     public GUICreateAccountPage() {
         setLayout(null);
-        this.setBackground(new Color(255,255,255));
+        this.setBackground(new Color(255, 255, 255));
         this.setBounds(0, 0, W, H);
         Main.frame.add(this, 0);
 
@@ -195,8 +195,7 @@ public class GUICreateAccountPage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player newPlayer = new Player(tfUsername.getText(), tfEmail.getText(),
                         tfPassword.getText(), tfDisplayName.getText());
-                // insert newPlayer (handled in DatabaseConnectionHandler.java)
-//                Main.dbHandler.insertPlayer(newPlayer);
+                dbHandler.insertPlayer(newPlayer);
                 // open main page
                 Main.guiMainPage.lblDisplayName.setText(tfDisplayName.getText());
                 Main.changeScreen(2);
@@ -216,7 +215,7 @@ public class GUICreateAccountPage extends JPanel {
                 update();
                 repaint();
             }
-        },0, 10);
+        }, 0, 10);
     }
 
     public void update() {
@@ -235,8 +234,13 @@ public class GUICreateAccountPage extends JPanel {
         btnSignUp.setEnabled(true);
 //        }
     }
+
     public void paint(Graphics g) {
         g.drawImage(borderImage, BORDER_X, BORDER_Y, null);
         paintComponents(g);
+    }
+
+    public void setDbHandler(DatabaseConnectionHandler dbHandler) {
+        this.dbHandler = dbHandler;
     }
 }

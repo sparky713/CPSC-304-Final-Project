@@ -118,10 +118,24 @@ public class DatabaseConnectionHandler {
 
     }
 
+    public void deletePlayer(String username) {
+        try {
+            String q = "DELETE FROM PLAYER WHERE USERNAME = ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
+            ps.setString(1, username);
+
+            ps.executeUpdate();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
     public void insertAbility(Abilities abilities) {
         try {
             insertAbilityDMG(abilities.getLevel(), abilities.getDmg());
-            String abilitiesQuery = "INSERT INTO Ability(aname, cname, ABILITY_LEVEL, cd, dmg) VALUES (?,?,?,?,?)";
+            String abilitiesQuery = "INSERT INTO ABILITYCAST(aname, cname, ABILITY_LEVEL, cd, dmg) VALUES (?,?,?,?,?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesQuery), abilitiesQuery, false);
 
             ps.setString(1, abilities.getAname());
@@ -180,7 +194,7 @@ public class DatabaseConnectionHandler {
         String selectedColumns = String.join(",", projection);
 
         try {
-            String query = "SELECT " + selectedColumns + " FROM Ability";
+            String query = "SELECT " + selectedColumns + " FROM ABILITYCAST";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 
             ps.getResultSet().getString(2);
