@@ -189,30 +189,3 @@ CREATE TABLE Wears
     FOREIGN KEY (aname) REFERENCES Artifact
         ON DELETE CASCADE
 );
-
--- /* Tuples in Player table */
--- INSERT
--- INTO Player (username, password, email, displayName)
--- VALUES ('player1', 'password123', 'player1@gmail.com', 'Tiger123');
---
---
---
--- INSERT INTO CharacterHP(character_level, baseHP, currHP)
--- VALUES (0, 525, 525)
---     INSERT
--- INTO Element(name)
--- VALUES ('Cryo')
---
--- INSERT INTO Character (name, character_level, baseHP, baseATK, ename)
--- VALUES ('Qiqi', 0, 525, 40, 'Cryo')
---
--- SELECT *
--- FROM CHARACTER
--- WHERE name = 'Qiqi'
---     INSERT
--- INTO Food(name, healAmount)
--- VALUES ('Mushroom Pizza', 450)
---
--- INSERT
--- INTO Consumes(username, fname, amount)
--- VALUES ('player1', 'Mushroom Pizza', 2)
