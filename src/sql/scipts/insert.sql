@@ -154,23 +154,23 @@ VALUES (17, 133);
 
 /* Tuples in Ability table */
 INSERT
-INTO AbilityCast (aname, cname, ABILITY_LEVEL, cd, dmg)
+INTO Ability (aname, cname, ABILITY_LEVEL, cd, dmg)
 VALUES ('Sparks and Splash', 'Klee', 10, 38.0, 89);
 
 INSERT
-INTO AbilityCast (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
+INTO Ability (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
 VALUES ('Preserver of Fortune', 'Qiqi', 12, 25.5, 105);
 
 INSERT
-INTO AbilityCast (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
+INTO Ability (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
 VALUES ('Riff Revolution', 'Xinyan', 3, 47.0, 54);
 
 INSERT
-INTO AbilityCast (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
+INTO Ability (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
 VALUES ('Bane of All Evil', 'Xiao', 22, 20.0, 201);
 
 INSERT
-INTO AbilityCast (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
+INTO Ability (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
 VALUES ('Fate', 'Mona', 17, 12.0, 133);
 
 

@@ -129,26 +129,6 @@ public class GUICreateAccountPage extends JPanel {
 
         this.add(tfUsername);
 
-//        tfLastName = new JTextField(DEAFULT_TEXT_LAST_NAME);
-//        tfLastName.setEnabled(false);
-//        tfLastName.setDisabledTextColor(Color.gray);
-//        tfLastName.setBounds(tfFirstName.getX() + tfFirstName.getWidth() + TEXT_FIELD_MARGIN_LEFT,
-//                TEXT_FIELD_LAST_NAME_Y, TEXT_FIELD_NAME_W, TEXT_FIELD_H);
-//        tfLastName.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-//        tfLastName.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                tfLastName.requestFocus();
-//                tfLastName.setEnabled(true);
-////                System.out.println("text: " + tfLastName.getText() + " default: " + DEAFULT_TEXT_LAST_NAME
-////                + " match? " + tfLastName.getText().equals(DEAFULT_TEXT_LAST_NAME));
-//                if (tfLastName.getText().equals(DEAFULT_TEXT_LAST_NAME)) {
-//                    tfLastName.setText("");
-//                }
-//            }
-//        });
-//        this.add(tfLastName);
-
         tfEmail = new JTextField(DEAFULT_TEXT_EMAIL);
         tfEmail.setEnabled(false);
         tfEmail.setDisabledTextColor(Color.gray);
