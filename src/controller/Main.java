@@ -59,7 +59,7 @@ public class Main {
 //        guiCharactersPage.setVisible(false);
 //        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
-        guiAbilitiesPage.setVisible(false);
+        guiAbilitiesPage.setVisible(true);
 //        guiAbilitiesPage.setVisible(true);
 
         frame.setVisible(true);
