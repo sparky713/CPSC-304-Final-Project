@@ -126,7 +126,7 @@ public class GUIMainPage extends JPanel {
             System.exit(1);
         }
 
-        try { // weapons button image
+        try { // abilities button image
             weaponsBtnImage = ImageIO.read(new File(WEAPONS_BTN_IMAGE_FILENAME));
         } catch (IOException e) {
             System.out.println("GUIMainPage::GUIMainPage(): error: file not found: " + WEAPONS_BTN_IMAGE_FILENAME);
@@ -144,7 +144,7 @@ public class GUIMainPage extends JPanel {
         // init JComponents
         //---------------------------------------------------------------------
 
-        lblDisplayName = new JLabel("DISPLAY NAME");
+        lblDisplayName = new JLabel("DISPLAY NAME", SwingConstants.CENTER);
         lblDisplayName.setBounds(LBL_DISPLAY_NAME_X, LBL_DISPLAY_NAME_Y, LBL_DISPLAY_NAME_W, LBL_DISPLAY_NAME_H);
         lblDisplayName.setFont(new Font("Arial", BOLD, 28));
         lblDisplayName.setForeground(Color.white);
@@ -204,7 +204,7 @@ public class GUIMainPage extends JPanel {
         btnWeapons.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // go to weapons page
+                // go to abilities page
                 Main.changeScreen(5);
             }
         });
@@ -222,11 +222,11 @@ public class GUIMainPage extends JPanel {
         });
         this.add(btnAbilities);
 
-        weaponTypes = new String[]{"All", "Swords", "Bows"};
-
-        weaponDropDown = new JComboBox<>(weaponTypes);
-        weaponDropDown.setBounds(0, 0, DROP_DOWN_MENU_W, DROP_DOWN_MENU_H);
-        this.add(weaponDropDown);
+//        weaponTypes = new String[]{"All", "Swords", "Bows"};
+//
+//        weaponDropDown = new JComboBox<>(weaponTypes);
+//        weaponDropDown.setBounds(0, 0, DROP_DOWN_MENU_W, DROP_DOWN_MENU_H);
+//        this.add(weaponDropDown);
         repaint();
 
 //        //---------------------------------------------------------------------

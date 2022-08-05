@@ -241,22 +241,22 @@ INTO    Wears    ('Mona', 'Heart Pin')
 
 
 
-/* Tuples in AbilityCast table */
+/* Tuples in Ability table */
 INSERT
-INTO    AbilityCast    (aname, cname, level, cd, dmg)
+INTO    Ability    (aname, cname, level, cd, dmg)
 VALUES  ('Circlet', 'Klee', 10, 38.0, 89)
 
 INSERT
-INTO    AbilityCast    ('Preserver of Fortune', 'Qiqi', 12, 25.5, 105)
+INTO    Ability    ('Preserver of Fortune', 'Qiqi', 12, 25.5, 105)
 
 INSERT
-INTO    AbilityCast    ('Riff Revolution', 'Xinyan', 3, 47.0, 54)
+INTO    Ability    ('Riff Revolution', 'Xinyan', 3, 47.0, 54)
 
 INSERT
-INTO    AbilityCast    ('Bane of All Evil', 'Xiao', 22, 20.0, 201)
+INTO    Ability    ('Bane of All Evil', 'Xiao', 22, 20.0, 201)
 
 INSERT
-INTO    AbilityCast    ('Fate', 'Mona' 17, 12.0, 133)
+INTO    Ability    ('Fate', 'Mona' 17, 12.0, 133)
 
 
 
