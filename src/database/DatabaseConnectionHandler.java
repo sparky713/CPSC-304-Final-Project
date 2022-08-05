@@ -86,7 +86,7 @@ public class DatabaseConnectionHandler {
             String playerQuery = "INSERT INTO PLAYER (username, password, email, displayName) VALUES (?,?,?,?)";
             PrintablePreparedStatement psPlayer = new PrintablePreparedStatement(connection.prepareStatement(playerQuery), playerQuery, false);
 
-            psPlayer.setString(1, player.getUserName());
+            psPlayer.setString(1, player.getUsername());
             psPlayer.setString(2, player.getPassword());
             psPlayer.setString(3, player.getEmail());
             psPlayer.setString(4, player.getDisplayName());
@@ -106,7 +106,7 @@ public class DatabaseConnectionHandler {
         try {
             String query = "UPDATE PLAYER SET PASSWORD = ?, EMAIL = ?, DISPLAYNAME = ? WHERE USERNAME = ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ps.setString(4, player.getUserName());
+            ps.setString(4, player.getUsername());
             ps.setString(1, player.getPassword());
             ps.setString(2, player.getEmail());
             ps.setString(3, player.getDisplayName());
@@ -275,7 +275,7 @@ public class DatabaseConnectionHandler {
         try {
             String q = "INSERT INTO Consumes VALUES (?, ?, ?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
-            ps.setString(1, player.getUserName());
+            ps.setString(1, player.getUsername());
             ps.setString(2, food.getFoodName());
             ps.setInt(3, amount);
 
@@ -289,32 +289,32 @@ public class DatabaseConnectionHandler {
 
     }
 
-    public Map<String,Integer> getPlayerFoodInfo() {
-        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
-
-
-        try {
-            String query = "SELECT * FROM CONSUMES"
-            //String query = "SELECT * FROM consumes";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ResultSet rs = ps.executeQuery();
-
-            while(rs.next()) {
-                Map<String,Integer> oneFood = new HashMap<String,Integer>();
-                Food foodModel =  new Food(rs.getString("name"),
-                        rs.getInt("healAmount"));
-                int foodModelQuantity =
-                //result.add(model);
-            }
-
-            rs.close();
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-
-        return result.toArray(new BranchModel[result.size()]);
-    }
+//    public Map<String,Integer> getPlayerFoodInfo() {
+//        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
+//
+//
+//        try {
+//            String query = "SELECT * FROM consumes";
+//            //String query = "SELECT * FROM consumes";
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+//            ResultSet rs = ps.executeQuery();
+//
+//            while(rs.next()) {
+//                Map<String,Integer> oneFood = new HashMap<String,Integer>();
+//                Food foodModel =  new Food(rs.getString("name"),
+//                        rs.getInt("healAmount"));
+//                //int foodModelQuantity =
+//                //result.add(model);
+//            }
+//
+//            rs.close();
+//            ps.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//        }
+//
+//        return result.toArray(new Food[result.size()]);
+//    }
 
 
 
