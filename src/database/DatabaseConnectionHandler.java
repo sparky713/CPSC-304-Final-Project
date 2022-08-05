@@ -10,6 +10,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 //import model.PlayerModel;
 
@@ -223,6 +226,35 @@ public class DatabaseConnectionHandler {
         }
 
     }
+
+    public Map<String,Integer> getPlayerFoodInfo() {
+        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
+
+
+        try {
+            String query = "SELECT * FROM CONSUMES"
+            //String query = "SELECT * FROM consumes";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                Map<String,Integer> oneFood = new HashMap<String,Integer>();
+                Food foodModel =  new Food(rs.getString("name"),
+                        rs.getInt("healAmount"));
+                int foodModelQuantity =
+                //result.add(model);
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
+        return result.toArray(new BranchModel[result.size()]);
+    }
+
+
 
 
 
