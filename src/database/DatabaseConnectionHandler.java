@@ -121,7 +121,7 @@ public class DatabaseConnectionHandler {
     public void insertAbility(Abilities abilities) {
         try {
             insertAbilityDMG(abilities.getLevel(), abilities.getDmg());
-            String abilitiesQuery = "INSERT INTO ABILITYCAST(aname, cname, ABILITY_LEVEL, cd, dmg) VALUES (?,?,?,?,?)";
+            String abilitiesQuery = "INSERT INTO Ability(aname, cname, ABILITY_LEVEL, cd, dmg) VALUES (?,?,?,?,?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesQuery), abilitiesQuery, false);
 
             ps.setString(1, abilities.getAname());

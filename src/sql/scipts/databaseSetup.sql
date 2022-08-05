@@ -65,9 +65,9 @@ CREATE TABLE Ability
     ability_level int,
     cd            float,
     dmg           int,
-    FOREIGN KEY (cname) REFERENCES Character (name)
+    FOREIGN KEY (cname) REFERENCES Character
         ON DELETE CASCADE,
-    FOREIGN KEY (ability_level) REFERENCES AbilityDMG (ability_level)
+    FOREIGN KEY (ability_level) REFERENCES AbilityDMG
 );
 
 CREATE TABLE Food
