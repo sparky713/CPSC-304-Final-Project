@@ -103,6 +103,8 @@ public class GUICreateAccountPage extends JPanel {
         //---------------------------------------------------------------------
 
         loginSuccessMessageWindow = new JOptionPane();
+        loginSuccessMessageWindow.setBounds(POPUP_MENU_X, POPUP_MENU_Y, POPUP_MENU_W, POPUP_MENU_H);
+
         tfs = new Vector<JTextField>();
         lblCreateAccount = new JLabel("CREATE ACCOUNT");
         lblCreateAccount.setBounds(LBL_X, LBL_Y, LBL_W, LBL_H);
@@ -214,14 +216,13 @@ public class GUICreateAccountPage extends JPanel {
                 Player newPlayer = new Player(tfUsername.getText(), tfEmail.getText(),
                         tfPassword.getText(), tfDisplayName.getText());
                 // insert newPlayer (handled in DatabaseConnectionHandler.java)
-                Main.dbHandler.insertPlayer(newPlayer);
+//                Main.dbHandler.insertPlayer(newPlayer);
                 // open main page
+                Main.guiMainPage.lblDisplayName.setText(tfDisplayName.getText());
                 Main.changeScreen(2);
                 // show message indicating successful login
                 loginSuccessMessageWindow.showMessageDialog(null, "Welcome " +
                         tfDisplayName.getText() + "!", "Account Created Successfully", JOptionPane.INFORMATION_MESSAGE);
-                loginSuccessMessageWindow.setBounds(POPUP_MENU_X, POPUP_MENU_Y, POPUP_MENU_W, POPUP_MENU_H);
-
             }
         });
         this.add(btnSignUp);

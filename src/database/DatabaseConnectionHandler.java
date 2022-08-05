@@ -171,8 +171,9 @@ public class DatabaseConnectionHandler {
                 "    level       int ,\n" +
                 "    cd float,\n" +
                 "    dmg int,\n" +
-                "    FOREIGN KEY (cname) REFERENCES Character ON DELETE CASCADE\n" +
-                "    ON UPDATE CASCADE\n" +
+                "    FOREIGN KEY (cname) REFERENCES Character\n" +
+//                "ON DELETE CASCADE\n" +
+//                "    ON UPDATE CASCADE\n" +
                 ")";
         try {
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesQuery), abilitiesQuery, false);
@@ -213,8 +214,9 @@ public class DatabaseConnectionHandler {
                 "(\n" +
                 "    level       int ,\n" +
                 "    dmg int,\n" +
-                "    FOREIGN KEY (level) REFERENCES Ability ON DELETE CASCADE\n" +
-                "    ON UPDATE CASCADE\n" +
+                "    FOREIGN KEY (level) REFERENCES Ability\n" +
+//                "ON DELETE CASCADE\n" +
+//                "    ON UPDATE CASCADE\n" +
                 ")";
         try {
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesDMGQuery), abilitiesDMGQuery, false);
@@ -228,11 +230,65 @@ public class DatabaseConnectionHandler {
 
     public void insertAbilityDMG(int level, int dmg) {
         try {
-            String abilitiesDMGQuery = "INSERT INTO AbilityCast (level, dmg) VALUES (?,?)";
+            String abilitiesDMGQuery = "INSERT INTO AbilityDMG (level, dmg) VALUES (?,?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesDMGQuery), abilitiesDMGQuery, false);
 
             ps.setInt(1, level);
             ps.setInt(2, dmg);
+
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+    public void showAbilityProperties(boolean showOwner, boolean showLevel, boolean showCd, boolean showDmg) {
+        try {
+            String query = "SELECT " + "___________ " + "FROM Ability";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+
+            ps.getResultSet().getString(2);
+            ps.getResultSet().getInt(3);
+            ps.getResultSet().getFloat(4);
+            ps.getResultSet().getInt(5);
+
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+    private void setupWeapon() {
+        String query = "CREATE TABLE Weapon\n" +
+                "(\n" +
+                "    name       char(80) PRIMARY KEY ,\n" +
+                "    baseATK int,\n" +
+                ")";
+        try {
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+    }
+
+    public void insertWeapon(Weapon weapon) {
+        try {
+            String query = "INSERT INTO Weapon (name, baseATK) VALUES (?,?)";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+
+            ps.setString(1, weapon.getName());
+            ps.setInt(2, weapon.getBaseATK());
 
             ps.executeUpdate();
             connection.commit();

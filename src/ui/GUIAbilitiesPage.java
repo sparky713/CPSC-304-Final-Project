@@ -33,41 +33,25 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int DROP_DOWN_LEVEL_MENU_W = 115;
     public static final int DROP_DOWN_LEVEL_MENU_H = DROP_DOWN_CHARACTER_MENU_H;
 
-    public static final int LBL_MARGIN_TOP = 15;
+    public static final int LBL_MARGIN_BOTTOM = 15;
     public static final int LBL_TITLE_X = 83;
     public static final int LBL_TITLE_Y = 65;
     public static final int LBL_TITLE_W = 300;
     public static final int LBL_TITLE_H = 37;
     public static final int LBL_TITLE_FONT_SIZE = 32;
 
-    public static final int LBL_FONT_SIZE = 16;
+    public static final int LBL_SHOW_X = DROP_DOWN_CHARACTER_MENU_X;
+    public static final int LBL_SHOW_Y = DROP_DOWN_CHARACTER_MENU_Y - LBL_MARGIN_BOTTOM;
+    public static final int LBL_SHOW_W = DROP_DOWN_CHARACTER_MENU_W;
+    public static final int LBL_SHOW_H = DROP_DOWN_CHARACTER_MENU_H;
+    public static final int LBL_SHOW_FONT_SIZE = 16;
 
-    public static final int LBL_CHARACTERS_X = DROP_DOWN_CHARACTER_MENU_X;
-    public static final int LBL_CHARACTERS_Y = DROP_DOWN_CHARACTER_MENU_Y - 30;
-    public static final int LBL_CHARACTERS_W = 100;
-    public static final int LBL_CHARACTERS_H = 37;
-
-    public static final int LBL_LEVEL_X = DROP_DOWN_LEVEL_MENU_X;
-    public static final int LBL_LEVEL_Y = DROP_DOWN_LEVEL_MENU_Y - 30;
-    public static final int LBL_LEVEL_W = LBL_CHARACTERS_W;
-    public static final int LBL_LEVEL_H = LBL_CHARACTERS_H;
-
-    public static final int LBL_MIN_CD_X = DROP_DOWN_LEVEL_MENU_X + DROP_DOWN_LEVEL_MENU_W + 15;
-    public static final int LBL_MIN_CD_Y = DROP_DOWN_CHARACTER_MENU_Y - 20;
-    public static final int LBL_MIN_CD_W = 63;
-    public static final int LBL_MIN_CD_H = 20;
-
-    public static final int TF_MIN_CD_X = LBL_MIN_CD_X;
+    public static final int TF_MIN_CD_X = DROP_DOWN_LEVEL_MENU_X + DROP_DOWN_LEVEL_MENU_W + 15;
     public static final int TF_MIN_CD_Y = DROP_DOWN_CHARACTER_MENU_Y + 5;
     public static final int TF_MIN_CD_W = 80;
-    public static final int TF_MIN_CD_H = LBL_MIN_CD_H;
+    public static final int TF_MIN_CD_H = 20;
 
-    public static final int LBL_MIN_DMG_X = LBL_MIN_CD_X + LBL_MIN_CD_W + 35;
-    public static final int LBL_MIN_DMG_Y = LBL_MIN_CD_Y;
-    public static final int LBL_MIN_DMG_W = 80;
-    public static final int LBL_MIN_DMG_H = LBL_MIN_CD_H;
-
-    public static final int TF_MIN_DMG_X = LBL_MIN_DMG_X;
+    public static final int TF_MIN_DMG_X = TF_MIN_CD_X + 63 + 35;
     public static final int TF_MIN_DMG_Y = TF_MIN_CD_Y;
     public static final int TF_MIN_DMG_W = TF_MIN_CD_W;
     public static final int TF_MIN_DMG_H = TF_MIN_CD_H;
@@ -83,20 +67,20 @@ public class GUIAbilitiesPage extends JPanel {
     public BufferedImage bgImage;
     public BufferedImage abilitiesPanelImage;
     public BufferedImage applyBtnImage;
-    public JComboBox<String> characterDropDown;
-    public JComboBox<Integer> levelDropDown;
-    public String[] characterNames;
-    public Integer[] levels;
     public JLabel lblTitle;
-    public JLabel lblCharacterName;
-    public JLabel lblLevel;
-    public JLabel lblCD;
-    public JLabel lblDMG;
-    public JTextField tfCD;
-    public JTextField tfDMG;
+    public JLabel show;
+//    public JLabel lblOwner;
+//    public JLabel lblLevel;
+//    public JLabel lblCD;
+//    public JLabel lblDMG;
+    public JCheckBox cbOwner;
+    public JCheckBox cbLevel;
+    public JCheckBox cbCD;
+    public JCheckBox cbDMG;
+
     public JButton btnApply;
 
-    public Vector<Abilities> weapons;
+    public Vector<Abilities> abilities;
 
     public GUIAbilitiesPage() {
         setLayout(null);
@@ -104,7 +88,7 @@ public class GUIAbilitiesPage extends JPanel {
         this.setBounds(0, 0, W, H);
         Main.frame.add(this, 0);
 
-        weapons = null;
+        abilities = null;
 
         //---------------------------------------------------------------------
         // read images
@@ -123,7 +107,7 @@ public class GUIAbilitiesPage extends JPanel {
             System.exit(1);
         }
 
-        try { // abilities button image
+        try { // apply button image
             applyBtnImage = ImageIO.read(new File(APPLY_BTN_IMAGE_FILENAME));
         } catch (IOException e) {
             System.out.println("GUIAbilitiesPage::GUIAbilitiesPage(): error: file not found: " + APPLY_BTN_IMAGE_FILENAME);
@@ -140,77 +124,32 @@ public class GUIAbilitiesPage extends JPanel {
         lblTitle.setForeground(Color.white);
         this.add(lblTitle);
 
+        show = new JLabel("Show:");
+        show.setBounds(LBL_SHOW_X, LBL_SHOW_Y, LBL_SHOW_W, LBL_SHOW_H);
+        show.setFont(new Font("Helvetica", BOLD, LBL_SHOW_FONT_SIZE));
+        show.setForeground(Color.white);
+        this.add(show);
+
         // String array containing the options for the drop-down menu
-        characterNames = new String[]{"All", "Swords", "Bows"};
-        levels = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8};
+//        characterNames = new String[]{"All", "Swords", "Bows"};
+//        levels = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8};
 
-        lblCharacterName = new JLabel("character:");
-        lblCharacterName.setBounds(LBL_CHARACTERS_X, LBL_CHARACTERS_Y, LBL_CHARACTERS_W, LBL_CHARACTERS_H);
-        lblCharacterName.setFont(new Font("Helvetica", Font.PLAIN, LBL_FONT_SIZE));
-        lblCharacterName.setForeground(Color.white);
-        this.add(lblCharacterName);
+        cbOwner = new JCheckBox("owner");
+        cbOwner.setBounds(DROP_DOWN_CHARACTER_MENU_X, DROP_DOWN_CHARACTER_MENU_Y, DROP_DOWN_CHARACTER_MENU_W, DROP_DOWN_CHARACTER_MENU_H);
+        this.add(cbOwner);
 
-        characterDropDown = new JComboBox<>(characterNames);
-        characterDropDown.setBounds(DROP_DOWN_CHARACTER_MENU_X, DROP_DOWN_CHARACTER_MENU_Y, DROP_DOWN_CHARACTER_MENU_W,
-                                    DROP_DOWN_CHARACTER_MENU_H);
-        this.add(characterDropDown);
+        cbLevel = new JCheckBox("level");
+        cbLevel.setBounds(DROP_DOWN_LEVEL_MENU_X, DROP_DOWN_LEVEL_MENU_Y, DROP_DOWN_LEVEL_MENU_W, DROP_DOWN_LEVEL_MENU_H);
+        this.add(cbLevel);
 
+        cbCD = new JCheckBox("CD");
+        cbCD.setBounds(TF_MIN_CD_X, TF_MIN_CD_Y, TF_MIN_CD_W, TF_MIN_CD_H);
+        this.add(cbCD);
 
-        lblLevel = new JLabel("level:");
-        lblLevel.setBounds(LBL_LEVEL_X, LBL_LEVEL_Y, LBL_LEVEL_W, LBL_LEVEL_H);
-        lblLevel.setFont(new Font("Helvetica", Font.PLAIN, LBL_FONT_SIZE));
-        lblLevel.setForeground(Color.white);
-        this.add(lblLevel);
+        cbDMG = new JCheckBox("DMG");
+        cbDMG.setBounds(TF_MIN_DMG_X, TF_MIN_DMG_Y, TF_MIN_DMG_W, TF_MIN_DMG_H);
+        this.add(cbDMG);
 
-        levelDropDown = new JComboBox<>(levels);
-        levelDropDown.setBounds(DROP_DOWN_LEVEL_MENU_X, DROP_DOWN_LEVEL_MENU_Y, DROP_DOWN_LEVEL_MENU_W, DROP_DOWN_LEVEL_MENU_H);
-        this.add(levelDropDown);
-
-
-        lblCD = new JLabel("min cd:");
-        lblCD.setBounds(LBL_MIN_CD_X, LBL_MIN_CD_Y, LBL_MIN_CD_W, LBL_MIN_CD_H);
-        lblCD.setFont(new Font("Helvetica", Font.PLAIN, LBL_FONT_SIZE));
-        lblCD.setForeground(Color.white);
-        this.add(lblCD);
-
-        tfCD = new JTextField();
-        tfCD.setBounds(TF_MIN_CD_X, TF_MIN_CD_Y, TF_MIN_CD_W, TF_MIN_CD_H);
-//        tfCD.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                }
-//            }
-//        });
-        this.add(tfCD, new Integer(0), 0);
-
-        tfCD = new JTextField();
-        tfCD.setBounds(TF_MIN_CD_X, TF_MIN_CD_Y, TF_MIN_CD_W, TF_MIN_CD_H);
-//        tfCD.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                }
-//            }
-//        });
-        this.add(tfCD, new Integer(0), 0);
-
-        lblDMG = new JLabel("min dmg:");
-        lblDMG.setBounds(LBL_MIN_DMG_X, LBL_MIN_DMG_Y, LBL_MIN_DMG_W, LBL_MIN_DMG_H);
-        lblDMG.setFont(new Font("Helvetica", Font.PLAIN, LBL_FONT_SIZE));
-        lblDMG.setForeground(Color.white);
-        this.add(lblDMG);
-
-        tfDMG = new JTextField();
-        tfDMG.setBounds(TF_MIN_DMG_X, TF_MIN_DMG_Y, TF_MIN_DMG_W, TF_MIN_DMG_H);
-//        tfDMG.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                }
-//            }
-//        });
-        this.add(tfDMG, new Integer(0), 0);
 
         btnApply = new JButton(new ImageIcon(applyBtnImage));
         btnApply.setBounds(BTN_APPLY_X, BTN_APPLY_Y, BTN_APPLY_W, BTN_APPLY_H);
@@ -220,6 +159,7 @@ public class GUIAbilitiesPage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // TODO: filter abilities according to properties specified
 //                tfCD.getText(), tfDMG.getText();
+                // check which JCheckBoxes are checked off
 
                 // insert newPlayer (handled in DatabaseConnectionHandler.java)
 //                try {
@@ -227,8 +167,6 @@ public class GUIAbilitiesPage extends JPanel {
 //                } catch (Exception ex) {
 //                    throw new RuntimeException(ex);
 //                }
-
-                // TODO: show message indicating successful login
             }
         });
         this.add(btnApply);
