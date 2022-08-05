@@ -80,7 +80,7 @@ public class DatabaseConnectionHandler {
 
     public void insertPlayer(Player player) {
         try {
-            String playerQuery = "INSERT INTO Player (username, password, email, displayName) VALUES (?,?,?,?)";
+            String playerQuery = "INSERT INTO PLAYER (username, password, email, displayName) VALUES (?,?,?,?)";
             PrintablePreparedStatement psPlayer = new PrintablePreparedStatement(connection.prepareStatement(playerQuery), playerQuery, false);
 
             psPlayer.setString(1, player.getUserName());
@@ -193,8 +193,9 @@ public class DatabaseConnectionHandler {
         }
 
         String selectedColumns = String.join(",", projection);
-
+        System.out.println("DCH::showAbilitiesProperties: " + selectedColumns);
         try {
+
             String query = "SELECT " + selectedColumns + " FROM ABILITY";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 

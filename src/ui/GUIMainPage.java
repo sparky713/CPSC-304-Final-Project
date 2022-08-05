@@ -21,6 +21,8 @@ public class GUIMainPage extends JPanel {
     public static final String PARTIES_BTN_IMAGE_FILENAME = "images/parties_btn.png";
     public static final String WEAPONS_BTN_IMAGE_FILENAME = "images/weapons_btn.png";
     public static final String ABILITIES_BTN_IMAGE_FILENAME = "images/abilities_btn.png";
+    public static final String EDIT_PROFILE_BTN_IMAGE_FILENAME = "images/edit_profile_btn.png";
+
     public static final int W = 850;
     public static final int H = 550;
 
@@ -45,6 +47,11 @@ public class GUIMainPage extends JPanel {
     public static final int BTN_ABILITIES_Y = BTN_CHARACTERS_Y + 190;
     public static final int BTN_ABILITIES_W = BTN_CHARACTERS_W;
     public static final int BTN_ABILITIES_H = BTN_CHARACTERS_H;
+
+    public static final int BTN_EDIT_PROFILE_X = 71;
+    public static final int BTN_EDIT_PROFILE_Y = 375;
+    public static final int BTN_EDIT_PROFILE_W = 104;
+    public static final int BTN_EDIT_PROFILE_H = 40;
 
     public static final int LBL_W = 272;
     public static final int LBL_H = 32;
@@ -71,6 +78,7 @@ public class GUIMainPage extends JPanel {
     public BufferedImage partiesBtnImage;
     public BufferedImage weaponsBtnImage;
     public BufferedImage abilitiesBtnImage;
+    public BufferedImage editProfileBtnImage;
     public JLabel lblDisplayName;
     public JLabel lblCharacters;
     public JLabel lblParties;
@@ -80,7 +88,7 @@ public class GUIMainPage extends JPanel {
     public JButton btnParties;
     public JButton btnWeapons;
     public JButton btnAbilities;
-    public JButton btnUpdateAccountInfo;
+    public JButton btnEditProfile;
 
     public static final int DROP_DOWN_MENU_X = 615;
     public static final int DROP_DOWN_MENU_Y = 135;
@@ -138,6 +146,13 @@ public class GUIMainPage extends JPanel {
             abilitiesBtnImage = ImageIO.read(new File(ABILITIES_BTN_IMAGE_FILENAME));
         } catch (IOException e) {
             System.out.println("GUIMainPage::GUIMainPage(): error: file not found: " + ABILITIES_BTN_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
+        try { // edit profile button image
+            editProfileBtnImage = ImageIO.read(new File(EDIT_PROFILE_BTN_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIMainPage::GUIMainPage(): error: file not found: " + EDIT_PROFILE_BTN_IMAGE_FILENAME);
             System.exit(1);
         }
 
@@ -222,6 +237,18 @@ public class GUIMainPage extends JPanel {
             }
         });
         this.add(btnAbilities);
+
+        btnEditProfile = new JButton(new ImageIcon(editProfileBtnImage));
+        btnEditProfile.setBounds(BTN_EDIT_PROFILE_X, BTN_EDIT_PROFILE_Y, BTN_EDIT_PROFILE_W, BTN_EDIT_PROFILE_H);
+        btnEditProfile.setBorder(BorderFactory.createEmptyBorder());
+        btnEditProfile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // go to edit profile page
+                Main.changeScreen(7);
+            }
+        });
+        this.add(btnEditProfile);
 
 //        weaponTypes = new String[]{"All", "Swords", "Bows"};
 //

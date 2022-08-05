@@ -274,11 +274,12 @@ public class GUIAbilitiesPage extends JPanel {
                 // check which JCheckBoxes are checked off
 
                 // insert newPlayer (handled in DatabaseConnectionHandler.java)
-//                try {
-//                    Main.dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
-//                } catch (Exception ex) {
-//                    throw new RuntimeException(ex);
-//                }
+                System.out.println("GUIAbilitiesPage:: " + cbOwner.isSelected() + cbLevel.isSelected() + cbCD.isSelected() + cbDMG.isSelected());
+                try {
+                    Main.dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
 //            }
             }
         });

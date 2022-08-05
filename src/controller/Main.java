@@ -31,7 +31,7 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_scw2018", "a13454772");
+        dbHandler.login("ORA_spark73", "a41475948");
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -39,7 +39,8 @@ public class Main {
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
-        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+//        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+        frame.setSize(GUIMainPage.W, GUIMainPage.H);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         guiMainPage = new GUIMainPage();
@@ -50,12 +51,15 @@ public class Main {
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
 
-        guiMainPage.setVisible(false);
-        guiCreateAccountPage.setVisible(true);
+        guiMainPage.setVisible(true);
+//        guiCreateAccountPage.setVisible(true);
+        guiCreateAccountPage.setVisible(false);
+
 //        guiCharactersPage.setVisible(false);
 //        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
         guiAbilitiesPage.setVisible(false);
+//        guiAbilitiesPage.setVisible(true);
 
         frame.setVisible(true);
 
@@ -69,36 +73,42 @@ public class Main {
             frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
             guiCreateAccountPage.setVisible(true);
         }
-        else if (screenNum == 2) {
+        else if (screenNum == 2) { // main page
             if (guiCreateAccountPage.isVisible()) {
                 guiCreateAccountPage.setVisible(false);
             }
             frame.setSize(GUIMainPage.W, GUIMainPage.H);
             guiMainPage.setVisible(true);
         }
-//        else if (screenNum == 3) {
+//        else if (screenNum == 3) { // characters page
 //            if (guiMainPage.isVisible()) {
 //                guiMainPage.setVisible(false);
 //            }
 //            guiCharactersPage.setVisible(true);
 //        }
-//        else if (screenNum == 4) {
+//        else if (screenNum == 4) { // parties page
 //            if (guiMainPage.isVisible()) {
 //                guiMainPage.setVisible(false);
 //            }
 //            guiPartiesPage.setVisible(true);
 //        }
-        else if (screenNum == 5) {
+        else if (screenNum == 5) { // weapons page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiWeaponsPage.setVisible(true);
         }
-        else if (screenNum == 6) {
+        else if (screenNum == 6) { // abilities page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiAbilitiesPage.setVisible(true);
+        }
+        else if (screenNum == 7) { // edit profile page
+//            if (guiMainPage.isVisible()) {
+//                guiMainPage.setVisible(false);
+//            }
+//            guiEditProfilePage.setVisible(true);
         }
         else {
 //            ERROR MESSAGE!!!!!!
