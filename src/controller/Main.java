@@ -24,8 +24,7 @@ public class Main {
     public static GUIAbilitiesPage guiAbilitiesPage;
     public static void main(String[] args) {
 
-        dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_spark73", "a41475948");
+        // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -51,37 +50,6 @@ public class Main {
         guiAbilitiesPage.setVisible(false);
 
         frame.setVisible(true);
-
-        //---------------------------------------------------------------------
-
-        //creating test player
-        Player player1 = new Player("player1", "password123", "player1@gmail.com", "Tiger123");
-
-        //adding food
-        Food mushroomPizza = new Food("Mushroom Pizza", 450);
-        player1.consumes(mushroomPizza, 2);
-
-        ElementModel cryo = new ElementModel("Cryo");
-        Character qiqi = new Character("Qiqi", cryo);
-        qiqi.setBaseATK(42);
-        qiqi.setBaseHP(100);
-        qiqi.setLevel(0);
-
-        dbHandler.databaseSetup();
-        dbHandler.insertPlayer(player1);
-        dbHandler.insertElement(cryo);
-        dbHandler.insertCharacter(qiqi);
-
-        dbHandler.insertFood(mushroomPizza);
-        dbHandler.insertConsumes(player1, mushroomPizza, 2);
-
-        // uncomment this to test deleteConsumes method AFTER testing
-        // insertFood method first VVVVVVV
-
-        // dbHandler.deleteConsumes("player1", "Mushroom Pizza");
-
-
-        dbHandler.levelCharacter("Qiqi", 5);
 
     }
 

@@ -74,74 +74,8 @@ public class DatabaseConnectionHandler {
         }
     }
 
-    // sets up all the tables in the database
-    public void databaseSetup() {
-        dropTablesIfExists();
-        setupElement();
-        setupCharacter();
-        setupFood();
-        setupConsumes();
-        setupPlayer();
 
-    }
-
-    // clears the database of tables with the same name
-    private void dropTablesIfExists() {
-        try {
-            String query = "select table_name from user_tables";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ResultSet rs = ps.executeQuery();
-
-            ps.execute("DROP TABLE Character");
-            ps.execute("DROP TABLE Element");
-            ps.execute("DROP TABLE CharacterHP");
-
-//            while (rs.next()) {
-//                String tableName = rs.getString(1).toLowerCase();
-//                System.out.println(tableName);
-//
-
-
-//                if (tableName.equals("character")) {
-//                    ps.execute("DROP TABLE Character");
-//                    System.out.println("Character table dropped!");
-//                } else if (tableName.equals("element")) {
-//                    ps.execute("DROP TABLE Element");
-//                    System.out.println("Element table dropped!");
-//                } else if (tableName.equals("characterhp")) {
-//                    System.out.println("CharacterHP table dropped!");
-//                    ps.execute("DROP TABLE CharacterHP");
-//                }
-//            }
-
-            rs.close();
-            ps.close();
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-    }
-
-    // set up the player table
-    private void setupPlayer() {
-        try {
-            String playerQuery = "CREATE TABLE Player\n" +
-                "(\n" +
-                "    username char(60) PRIMARY KEY,\n" +
-                "    password char(80) NOT NULL,\n" +
-                "    email       char(80) NOT NULL,\n" +
-                "    displayName char(80) NOT NULL,\n" +
-                "    UNIQUE (email)\n" +
-                ")";
-            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(playerQuery), playerQuery, false);
-            psChar.executeUpdate();
-            psChar.close();
-
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-    }
-
-        public void insertPlayer(Player player) {
+    public void insertPlayer(Player player) {
         try {
             String playerQuery = "INSERT INTO Player (username, password, email, displayName) VALUES (?,?,?,?)";
             PrintablePreparedStatement psPlayer = new PrintablePreparedStatement(connection.prepareStatement(playerQuery), playerQuery, false);
@@ -161,33 +95,31 @@ public class DatabaseConnectionHandler {
         }
     }
 
-
-    // set up the abilities table
-    private void setupAbility() {
-        String abilitiesQuery = "CREATE TABLE Ability\n" +
-                "(\n" +
-                "    aname char(80) PRIMARY KEY,\n" +
-                "    cname char(80) NOT NULL,\n" +
-                "    level       int ,\n" +
-                "    cd float,\n" +
-                "    dmg int,\n" +
-                "    FOREIGN KEY (cname) REFERENCES Character ON DELETE CASCADE\n" +
-                ")";
+    //changes attributes in the Player table
+    public void updatePlayer(Player player) {
         try {
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesQuery), abilitiesQuery, false);
+            String query = "UPDATE PLAYER SET PASSWORD = ?, EMAIL = ?, DISPLAYNAME = ? WHERE USERNAME = ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(4, player.getUserName());
+            ps.setString(1, player.getPassword());
+            ps.setString(2, player.getEmail());
+            ps.setString(3, player.getDisplayName());
+
             ps.executeUpdate();
+            connection.commit();
             ps.close();
 
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
         }
-        setupAbilityDMG();
+
     }
 
     public void insertAbility(Abilities abilities) {
         try {
             insertAbilityDMG(abilities.getLevel(), abilities.getDmg());
-            String abilitiesQuery = "INSERT INTO Ability (aname, cname, level, cd, dmg) VALUES (?,?,?,?,?)";
+            String abilitiesQuery = "INSERT INTO ABILITYCAST(aname, cname, ABILITY_LEVEL, cd, dmg) VALUES (?,?,?,?,?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesQuery), abilitiesQuery, false);
 
             ps.setString(1, abilities.getAname());
@@ -206,27 +138,9 @@ public class DatabaseConnectionHandler {
         }
     }
 
-
-    private void setupAbilityDMG() {
-        String abilitiesDMGQuery = "CREATE TABLE AbilityDMG\n" +
-                "(\n" +
-                "    level       int ,\n" +
-                "    dmg int,\n" +
-                "    FOREIGN KEY (level) REFERENCES Ability ON DELETE CASCADE\n" +
-                ")";
-        try {
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesDMGQuery), abilitiesDMGQuery, false);
-            ps.executeUpdate();
-            ps.close();
-
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-    }
-
     public void insertAbilityDMG(int level, int dmg) {
         try {
-            String abilitiesDMGQuery = "INSERT INTO AbilityCast (level, dmg) VALUES (?,?)";
+            String abilitiesDMGQuery = "INSERT INTO ABILITYDMG (ability_level, dmg) VALUES (?,?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesDMGQuery), abilitiesDMGQuery, false);
 
             ps.setInt(1, level);
@@ -239,24 +153,6 @@ public class DatabaseConnectionHandler {
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
             rollbackConnection();
-        }
-    }
-
-
-    // set up the food table
-    private void setupFood() {
-        try {
-            String charQuery = "CREATE TABLE Food\n" +
-                    "(\n" +
-                    "    name    char(80) PRIMARY KEY,\n" +
-                    "    healAmount int DEFAULT 0,\n" +
-                    ")";
-            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charQuery, false);
-            psChar.executeUpdate();
-            psChar.close();
-
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
     }
 
@@ -280,32 +176,12 @@ public class DatabaseConnectionHandler {
     }
 
 
-    // set up the consumes table
-    private void setupConsumes() {
-        try {
-            String charQuery = "CREATE TABLE Consumes\n" +
-                    "(\n" +
-                    "    username    char(80) PRIMARY KEY,\n" +
-                    "    fname    char(80) PRIMARY KEY,\n" +
-                    "    amount int,\n" +
-                    ")";
-
-            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charQuery, false);
-            psChar.executeUpdate();
-            psChar.close();
-
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-
-    }
-
     public void deleteConsumes(String playerUsername, String foodName) {
         try {
             // DO I ADD THE "and foodName = ?" PART TOO?? vvvvvvvv
             // yes or else you delete all the food that player has (or rather oracle doesn't let u because of pk ic)
             // - W
-            String query = "DELETE FROM Consumes WHERE playerUsername = ? and foodName = ?";
+            String query = "DELETE FROM Consumes WHERE USERNAME = ? and FNAME = ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ps.setString(1, playerUsername);
             ps.setString(1, foodName);
@@ -344,24 +220,6 @@ public class DatabaseConnectionHandler {
 
     }
 
-
-
-    // creates the Element table
-    private void setupElement() {
-        try {
-            String query = "CREATE TABLE Element\n" +
-                    "(\n" +
-                    "    name char(80) PRIMARY KEY\n" +
-                    ")";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-
-        }
-    }
-
     // inserts elements
     public void insertElement(ElementModel elementModel) {
         try {
@@ -378,52 +236,10 @@ public class DatabaseConnectionHandler {
 
     }
 
-    // set up the character table
-    private void setupCharacter() {
-        try {
-            setupCharHP();
-            String charQuery = "CREATE TABLE Character\n" +
-                    "(\n" +
-                    "    name    char(80) PRIMARY KEY,\n" +
-                    "    character_level int,\n" +
-                    "    baseHP  int,\n" +
-                    "    baseATK int,\n" +
-                    "    ename   char(80) NOT NULL,\n" +
-                    "    FOREIGN KEY (ename) REFERENCES Element,\n" +
-                    "    FOREIGN KEY (character_level, baseHP) REFERENCES CharacterHP\n" +
-                    ")";
-            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(charQuery), charQuery, false);
-            psChar.executeUpdate();
-            psChar.close();
-
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-
-    }
-
-    //setup charHP table
-    private void setupCharHP() {
-        String charHPQuery = "CREATE TABLE CharacterHP\n" +
-                "(\n" +
-                "    character_level int,\n" +
-                "    baseHP  int,\n" +
-                "    currHP  int,\n" +
-                "    CONSTRAINT pk_charHP PRIMARY KEY (character_level, baseHP)\n" +
-                ")";
-        try {
-            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
-            psHP.executeUpdate();
-            psHP.close();
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-    }
-
-
-    // inserts a character
+    // inserts a character (does not work)
     // TODO: insert into CharHP only if key does not already exist
-      public void insertCharacter(Character character) {
+    // TODO: insert into CharATK
+    public void insertCharacter(Character character) {
         try {
             insertCharHP(character.getLevel(), character.getBaseHP());
             String characterQuery = "INSERT INTO Character(name, character_level, baseHP, baseATK, ename) VALUES (?, ?, ?, ?, ?)";
@@ -461,28 +277,5 @@ public class DatabaseConnectionHandler {
         }
 
     }
-
-
-
-//
-//    private void dropPlayerTableIfExists() {
-////        try {
-////            String query = "select table_name from user_tables";
-////            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-////            ResultSet rs = ps.executeQuery();
-////
-////            while(rs.next()) {
-////                if(rs.getString(1).toLowerCase().equals("branch")) {
-////                    ps.execute("DROP TABLE branch");
-////                    break;
-////                }
-////            }
-////
-////            rs.close();
-////            ps.close();
-////        } catch (SQLException e) {
-////            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-////        }
-//    }
 
 }
