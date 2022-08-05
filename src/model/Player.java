@@ -4,15 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
-    private final String username;
+    private final String userName;
     private final String email;
     private final String password;
     private final String displayName;
     private Map<String,Integer> foodInventory;
 
 
-    public Player(String username, String email, String password, String displayName) {
-        this.username = username;
+    public Player(String userName, String email, String password, String displayName) {
+        this.userName = userName;
         this.email = email;
         this.password = password;
         this.displayName = displayName;
@@ -22,7 +22,7 @@ public class Player {
 
     // getters
     public String getUsername() {
-        return username;
+        return userName;
     }
 
     public String getEmail() {
@@ -36,6 +36,24 @@ public class Player {
     public String getDisplayName() {
         return displayName;
     }
+
+    // setters
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
 
     public void consumes(Food food, int amount){
         String foodName = food.getFoodName();

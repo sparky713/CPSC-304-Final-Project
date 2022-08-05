@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Vector;
 
 import static java.awt.Font.BOLD;
@@ -18,10 +19,41 @@ import static java.awt.Font.BOLD;
 public class GUIAbilitiesPage extends JPanel {
     Graphics g = null;
     public static final String BACKGROUND_IMAGE_FILENAME = "images/weapons_page_bg.png";
-    public static final String ABILITIES_PANEL_FILENAME = "images/weapons_panel.png";
+    public static final String ABILITIES_PANEL_FILENAME = "images/abilities_panel.png";
     public static final String APPLY_BTN_IMAGE_FILENAME = "images/abilities_apply_btn.png";
+//    public static final String SPARKS_AND_SPLASH_IMAGE_FILENAME = "images/abilities/sparks_and_splash.png";
+//    public static final String PRESERVER_OF_FORTUNE_PANEL_FILENAME = "images/abilities/preserver_of_fortune.png";
+//    public static final String RIFF_REVOLUTION_IMAGE_FILENAME = "images/abilities/riff_revolution.png";
+//    public static final String BAND_OF_ALL_EVIL_IMAGE_FILENAME = "images/abilities/bane_of_all_evil.png";
+//    public static final String FATE_IMAGE_FILENAME = "images/abilities/fate.png";
+
     public static final int W = GUIMainPage.W;
     public static final int H = GUIMainPage.H;
+
+    public static final int SPARKS_AND_SPLASH = 0;
+    public static final int PRESERVER_OF_FORTUNE = 1;
+    public static final int RIFF_REVOLUTION = 2;
+    public static final int BAND_OF_ALL_EVIL = 3;
+    public static final int FATE = 4;
+
+    public static final int ICONS_Y = 207;
+    public static final int ICONS_W = 68;
+    public static final int ICONS_MARGIN = 52;
+    public static final int SPARKS_AND_SPLASH_ICON_X = 145;
+    public static final int PRESERVER_OF_FORTUNE_ICON_X = SPARKS_AND_SPLASH_ICON_X + ICONS_W + ICONS_MARGIN;
+    public static final int RIFF_REVOLUTION_ICON_X = PRESERVER_OF_FORTUNE_ICON_X + ICONS_W + ICONS_MARGIN;
+    public static final int BAND_OF_ALL_EVIL_ICON_X = RIFF_REVOLUTION_ICON_X + ICONS_W + ICONS_MARGIN;
+    public static final int FATE_ICON_X = BAND_OF_ALL_EVIL_ICON_X + ICONS_W + ICONS_MARGIN;
+
+    public static final int LIST_Y = 360;
+    public static final int LIST_W = 100;
+    public static final int LIST_H = 100;
+    public static final int LIST_MARGIN = 46;
+    public static final int SPARKS_AND_SPLASH_LIST_X = 78;
+    public static final int PRESERVER_OF_FORTUNE_LIST_X = SPARKS_AND_SPLASH_LIST_X + LIST_W + LIST_MARGIN;
+    public static final int RIFF_REVOLUTION_LIST_X = PRESERVER_OF_FORTUNE_LIST_X + LIST_W + LIST_MARGIN;
+    public static final int BAND_OF_ALL_EVIL_LIST_X = RIFF_REVOLUTION_LIST_X + LIST_W + LIST_MARGIN;
+    public static final int FATE_LIST_X = BAND_OF_ALL_EVIL_LIST_X + LIST_W + LIST_MARGIN;
 
     public static final int DROP_DOWN_CHARACTER_MENU_X = 118;
     public static final int DROP_DOWN_CHARACTER_MENU_Y = 142;
@@ -33,41 +65,25 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int DROP_DOWN_LEVEL_MENU_W = 115;
     public static final int DROP_DOWN_LEVEL_MENU_H = DROP_DOWN_CHARACTER_MENU_H;
 
-    public static final int LBL_MARGIN_TOP = 15;
+    public static final int LBL_MARGIN_BOTTOM = 20;
     public static final int LBL_TITLE_X = 83;
     public static final int LBL_TITLE_Y = 65;
     public static final int LBL_TITLE_W = 300;
     public static final int LBL_TITLE_H = 37;
     public static final int LBL_TITLE_FONT_SIZE = 32;
 
-    public static final int LBL_FONT_SIZE = 16;
+    public static final int LBL_SHOW_X = DROP_DOWN_CHARACTER_MENU_X;
+    public static final int LBL_SHOW_Y = DROP_DOWN_CHARACTER_MENU_Y - LBL_MARGIN_BOTTOM;
+    public static final int LBL_SHOW_W = DROP_DOWN_CHARACTER_MENU_W;
+    public static final int LBL_SHOW_H = DROP_DOWN_CHARACTER_MENU_H;
+    public static final int LBL_SHOW_FONT_SIZE = 16;
 
-    public static final int LBL_CHARACTERS_X = DROP_DOWN_CHARACTER_MENU_X;
-    public static final int LBL_CHARACTERS_Y = DROP_DOWN_CHARACTER_MENU_Y - 30;
-    public static final int LBL_CHARACTERS_W = 100;
-    public static final int LBL_CHARACTERS_H = 37;
-
-    public static final int LBL_LEVEL_X = DROP_DOWN_LEVEL_MENU_X;
-    public static final int LBL_LEVEL_Y = DROP_DOWN_LEVEL_MENU_Y - 30;
-    public static final int LBL_LEVEL_W = LBL_CHARACTERS_W;
-    public static final int LBL_LEVEL_H = LBL_CHARACTERS_H;
-
-    public static final int LBL_MIN_CD_X = DROP_DOWN_LEVEL_MENU_X + DROP_DOWN_LEVEL_MENU_W + 15;
-    public static final int LBL_MIN_CD_Y = DROP_DOWN_CHARACTER_MENU_Y - 20;
-    public static final int LBL_MIN_CD_W = 63;
-    public static final int LBL_MIN_CD_H = 20;
-
-    public static final int TF_MIN_CD_X = LBL_MIN_CD_X;
+    public static final int TF_MIN_CD_X = DROP_DOWN_LEVEL_MENU_X + DROP_DOWN_LEVEL_MENU_W + 15;
     public static final int TF_MIN_CD_Y = DROP_DOWN_CHARACTER_MENU_Y + 5;
     public static final int TF_MIN_CD_W = 80;
-    public static final int TF_MIN_CD_H = LBL_MIN_CD_H;
+    public static final int TF_MIN_CD_H = 20;
 
-    public static final int LBL_MIN_DMG_X = LBL_MIN_CD_X + LBL_MIN_CD_W + 35;
-    public static final int LBL_MIN_DMG_Y = LBL_MIN_CD_Y;
-    public static final int LBL_MIN_DMG_W = 80;
-    public static final int LBL_MIN_DMG_H = LBL_MIN_CD_H;
-
-    public static final int TF_MIN_DMG_X = LBL_MIN_DMG_X;
+    public static final int TF_MIN_DMG_X = TF_MIN_CD_X + 63 + 35;
     public static final int TF_MIN_DMG_Y = TF_MIN_CD_Y;
     public static final int TF_MIN_DMG_W = TF_MIN_CD_W;
     public static final int TF_MIN_DMG_H = TF_MIN_CD_H;
@@ -77,26 +93,52 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int BTN_APPLY_W = 80;
     public static final int BTN_APPLY_H = 50;
 
-    public static final int ABILITIES_PANEL_IMAGE_X = 113;
+    public static final int ABILITIES_PANEL_IMAGE_X = 50;
     public static final int ABILITIES_PANEL_IMAGE_Y = 177;
 
     public BufferedImage bgImage;
     public BufferedImage abilitiesPanelImage;
     public BufferedImage applyBtnImage;
-    public JComboBox<String> characterDropDown;
-    public JComboBox<Integer> levelDropDown;
-    public String[] characterNames;
-    public Integer[] levels;
+//    public BufferedImage sparksAndSplashImage;
+//    public BufferedImage preserverOfFortuneImage;
+//    public BufferedImage riffRevolutionImage;
+//    public BufferedImage baneOfAllEvilImage;
+//    public BufferedImage fateImage;
+
+
+    public Font lstFont = new Font("Arial", Font.PLAIN, 18);
     public JLabel lblTitle;
-    public JLabel lblCharacterName;
-    public JLabel lblLevel;
-    public JLabel lblCD;
-    public JLabel lblDMG;
-    public JTextField tfCD;
-    public JTextField tfDMG;
+    public JLabel show;
+    public JTextArea taSparksAndSplash;
+    public JTextArea taPreserverOfFortune;
+    public JTextArea taRiffRevolution;
+    public JTextArea taBaneOfAllEvil;
+    public JTextArea taFate;
+
+    public HashMap<Integer, String[]> abilitiesMap;
+    public String sasList[];
+    public String pofList[];
+    public String rrList[];
+    public String boaList[];
+    public String fList[];
+
+    public JList lstSparksAndSplash;
+    public JList lstPreserverOfFortune;
+    public JList lstRiffRevolution;
+    public JList lstBaneOfAllEvil;
+    public JList lstFate;
+//    public JLabel lblOwner;
+//    public JLabel lblLevel;
+//    public JLabel lblCD;
+//    public JLabel lblDMG;
+    public JCheckBox cbOwner;
+    public JCheckBox cbLevel;
+    public JCheckBox cbCD;
+    public JCheckBox cbDMG;
+
     public JButton btnApply;
 
-    public Vector<Abilities> weapons;
+    public Vector<Abilities> abilities;
 
     public GUIAbilitiesPage() {
         setLayout(null);
@@ -104,7 +146,48 @@ public class GUIAbilitiesPage extends JPanel {
         this.setBounds(0, 0, W, H);
         Main.frame.add(this, 0);
 
-        weapons = null;
+        abilities = null;
+
+        abilitiesMap = new HashMap<Integer, String[]>();
+
+//        pofList = new String[]{"owner:", "", "level:", "", "cd:", "", "dmg", ""};
+        sasList = new String[]{"", "", "", ""};
+        pofList = new String[]{"", "", "", ""};
+        rrList = new String[]{"", "", "", ""};
+        boaList = new String[]{"", "", "", ""};
+        fList = new String[]{"", "", "", ""};
+
+        abilitiesMap.put(SPARKS_AND_SPLASH, sasList);
+        abilitiesMap.put(PRESERVER_OF_FORTUNE, pofList);
+        abilitiesMap.put(RIFF_REVOLUTION, rrList);
+        abilitiesMap.put(BAND_OF_ALL_EVIL, boaList);
+        abilitiesMap.put(FATE, fList);
+
+        lstSparksAndSplash = new JList(abilitiesMap.get(0));
+        lstSparksAndSplash.setBounds(SPARKS_AND_SPLASH_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstSparksAndSplash.setFont(lstFont);
+        this.add(lstSparksAndSplash);
+
+        abilitiesMap.get(0)[0] = "v";
+        lstPreserverOfFortune = new JList(abilitiesMap.get(1));
+        lstPreserverOfFortune.setBounds(PRESERVER_OF_FORTUNE_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstPreserverOfFortune.setFont(lstFont);
+        this.add(lstPreserverOfFortune);
+
+        lstRiffRevolution = new JList(abilitiesMap.get(2));
+        lstRiffRevolution.setBounds(RIFF_REVOLUTION_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstRiffRevolution.setFont(lstFont);
+        this.add(lstRiffRevolution);
+
+        lstBaneOfAllEvil = new JList(abilitiesMap.get(3));
+        lstBaneOfAllEvil.setBounds(BAND_OF_ALL_EVIL_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstBaneOfAllEvil.setFont(lstFont);
+        this.add(lstBaneOfAllEvil);
+
+        lstFate = new JList(abilitiesMap.get(4));
+        lstFate.setBounds(FATE_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstFate.setFont(lstFont);
+        this.add(lstFate);
 
         //---------------------------------------------------------------------
         // read images
@@ -123,12 +206,23 @@ public class GUIAbilitiesPage extends JPanel {
             System.exit(1);
         }
 
-        try { // abilities button image
+        try { // apply button image
             applyBtnImage = ImageIO.read(new File(APPLY_BTN_IMAGE_FILENAME));
         } catch (IOException e) {
             System.out.println("GUIAbilitiesPage::GUIAbilitiesPage(): error: file not found: " + APPLY_BTN_IMAGE_FILENAME);
             System.exit(1);
         }
+
+//        try { // icon images
+//            sparksAndSplashImage = ImageIO.read(new File(SPARKS_AND_SPLASH_IMAGE_FILENAME));
+//            preserverOfFortuneImage = ImageIO.read(new File(PRESERVER_OF_FORTUNE_PANEL_FILENAME));
+//            riffRevolutionImage = ImageIO.read(new File(RIFF_REVOLUTION_IMAGE_FILENAME));
+//            baneOfAllEvilImage = ImageIO.read(new File(BAND_OF_ALL_EVIL_IMAGE_FILENAME));
+//            fateImage = ImageIO.read(new File(FATE_IMAGE_FILENAME));
+//        } catch (IOException e) {
+//            System.out.println("GUIAbilitiesPage::GUIAbilitiesPage(): error: file for ability icon not found");
+//            System.exit(1);
+//        }
 
         //---------------------------------------------------------------------
         // init JComponents
@@ -140,77 +234,34 @@ public class GUIAbilitiesPage extends JPanel {
         lblTitle.setForeground(Color.white);
         this.add(lblTitle);
 
-        // String array containing the options for the drop-down menu
-        characterNames = new String[]{"All", "Swords", "Bows"};
-        levels = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8};
+        show = new JLabel("Show:");
+        show.setBounds(LBL_SHOW_X, LBL_SHOW_Y, LBL_SHOW_W, LBL_SHOW_H);
+        show.setFont(new Font("Helvetica", Font.PLAIN, LBL_SHOW_FONT_SIZE));
+        show.setForeground(Color.white);
+        this.add(show);
 
-        lblCharacterName = new JLabel("character:");
-        lblCharacterName.setBounds(LBL_CHARACTERS_X, LBL_CHARACTERS_Y, LBL_CHARACTERS_W, LBL_CHARACTERS_H);
-        lblCharacterName.setFont(new Font("Helvetica", Font.PLAIN, LBL_FONT_SIZE));
-        lblCharacterName.setForeground(Color.white);
-        this.add(lblCharacterName);
+        taSparksAndSplash = new JTextArea();
+        taPreserverOfFortune = new JTextArea();
+        taRiffRevolution = new JTextArea();
+        taBaneOfAllEvil = new JTextArea();
+        taFate = new JTextArea();
 
-        characterDropDown = new JComboBox<>(characterNames);
-        characterDropDown.setBounds(DROP_DOWN_CHARACTER_MENU_X, DROP_DOWN_CHARACTER_MENU_Y, DROP_DOWN_CHARACTER_MENU_W,
-                                    DROP_DOWN_CHARACTER_MENU_H);
-        this.add(characterDropDown);
+        cbOwner = new JCheckBox("owner");
+        cbOwner.setBounds(DROP_DOWN_CHARACTER_MENU_X, DROP_DOWN_CHARACTER_MENU_Y, DROP_DOWN_CHARACTER_MENU_W, DROP_DOWN_CHARACTER_MENU_H);
+        this.add(cbOwner);
 
+        cbLevel = new JCheckBox("level");
+        cbLevel.setBounds(DROP_DOWN_LEVEL_MENU_X, DROP_DOWN_LEVEL_MENU_Y, DROP_DOWN_LEVEL_MENU_W, DROP_DOWN_LEVEL_MENU_H);
+        this.add(cbLevel);
 
-        lblLevel = new JLabel("level:");
-        lblLevel.setBounds(LBL_LEVEL_X, LBL_LEVEL_Y, LBL_LEVEL_W, LBL_LEVEL_H);
-        lblLevel.setFont(new Font("Helvetica", Font.PLAIN, LBL_FONT_SIZE));
-        lblLevel.setForeground(Color.white);
-        this.add(lblLevel);
+        cbCD = new JCheckBox("CD");
+        cbCD.setBounds(TF_MIN_CD_X, TF_MIN_CD_Y, TF_MIN_CD_W, TF_MIN_CD_H);
+        this.add(cbCD);
 
-        levelDropDown = new JComboBox<>(levels);
-        levelDropDown.setBounds(DROP_DOWN_LEVEL_MENU_X, DROP_DOWN_LEVEL_MENU_Y, DROP_DOWN_LEVEL_MENU_W, DROP_DOWN_LEVEL_MENU_H);
-        this.add(levelDropDown);
+        cbDMG = new JCheckBox("DMG");
+        cbDMG.setBounds(TF_MIN_DMG_X, TF_MIN_DMG_Y, TF_MIN_DMG_W, TF_MIN_DMG_H);
+        this.add(cbDMG);
 
-
-        lblCD = new JLabel("min cd:");
-        lblCD.setBounds(LBL_MIN_CD_X, LBL_MIN_CD_Y, LBL_MIN_CD_W, LBL_MIN_CD_H);
-        lblCD.setFont(new Font("Helvetica", Font.PLAIN, LBL_FONT_SIZE));
-        lblCD.setForeground(Color.white);
-        this.add(lblCD);
-
-        tfCD = new JTextField();
-        tfCD.setBounds(TF_MIN_CD_X, TF_MIN_CD_Y, TF_MIN_CD_W, TF_MIN_CD_H);
-//        tfCD.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                }
-//            }
-//        });
-        this.add(tfCD, new Integer(0), 0);
-
-        tfCD = new JTextField();
-        tfCD.setBounds(TF_MIN_CD_X, TF_MIN_CD_Y, TF_MIN_CD_W, TF_MIN_CD_H);
-//        tfCD.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                }
-//            }
-//        });
-        this.add(tfCD, new Integer(0), 0);
-
-        lblDMG = new JLabel("min dmg:");
-        lblDMG.setBounds(LBL_MIN_DMG_X, LBL_MIN_DMG_Y, LBL_MIN_DMG_W, LBL_MIN_DMG_H);
-        lblDMG.setFont(new Font("Helvetica", Font.PLAIN, LBL_FONT_SIZE));
-        lblDMG.setForeground(Color.white);
-        this.add(lblDMG);
-
-        tfDMG = new JTextField();
-        tfDMG.setBounds(TF_MIN_DMG_X, TF_MIN_DMG_Y, TF_MIN_DMG_W, TF_MIN_DMG_H);
-//        tfDMG.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyPressed(KeyEvent e) {
-//                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                }
-//            }
-//        });
-        this.add(tfDMG, new Integer(0), 0);
 
         btnApply = new JButton(new ImageIcon(applyBtnImage));
         btnApply.setBounds(BTN_APPLY_X, BTN_APPLY_Y, BTN_APPLY_W, BTN_APPLY_H);
@@ -220,27 +271,19 @@ public class GUIAbilitiesPage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 // TODO: filter abilities according to properties specified
 //                tfCD.getText(), tfDMG.getText();
+                // check which JCheckBoxes are checked off
 
                 // insert newPlayer (handled in DatabaseConnectionHandler.java)
-//                try {
-//                    Game.dbHandler.insertPlayer(newPlayer);
-//                } catch (Exception ex) {
-//                    throw new RuntimeException(ex);
-//                }
-
-                // TODO: show message indicating successful login
+                System.out.println("GUIAbilitiesPage:: " + cbOwner.isSelected() + cbLevel.isSelected() + cbCD.isSelected() + cbDMG.isSelected());
+                try {
+                    Main.dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+//            }
             }
         });
         this.add(btnApply);
-
-
-
-        // TODO: add abilities and attach labels
-//        lblWeapons = new JLabel("bow 1");
-//        lblWeapons.setBounds(LBL_WEAPONS_X, LBL_WEAPONS_Y, LBL_W, LBL_H);
-//        lblWeapons.setFont(new Font("Arial", BOLD, 20));
-//        lblWeapons.setForeground(Color.white);
-//        this.add(lblWeapons);
 
         repaint();
 
@@ -263,6 +306,13 @@ public class GUIAbilitiesPage extends JPanel {
     public void paint(Graphics g) {
         g.drawImage(bgImage, 0, 0, null);
         g.drawImage(abilitiesPanelImage, ABILITIES_PANEL_IMAGE_X, ABILITIES_PANEL_IMAGE_Y, null);
+
+//        g.drawImage(sparksAndSplashImage, SPARKS_AND_SPLASH_ICON_X, ICONS_Y, null);
+//        g.drawImage(preserverOfFortuneImage, PRESERVER_OF_FORTUNE_ICON_X, ICONS_Y, null);
+//        g.drawImage(riffRevolutionImage, RIFF_REVOLUTION_ICON_X, ICONS_Y, null);
+//        g.drawImage(baneOfAllEvilImage, BAND_OF_ALL_EVIL_ICON_X, ICONS_Y, null);
+//        g.drawImage(fateImage, FATE_ICON_X, ICONS_Y, null);
+
         paintComponents(g);
     }
 }

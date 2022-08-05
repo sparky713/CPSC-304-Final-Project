@@ -34,16 +34,15 @@ public class GUICreateAccountPage extends JPanel {
     public static final int LBL_H = 32;
     public static final int BORDER_X = 53;
     public static final int BORDER_Y = 55;
-    public static final int TEXT_FIELD_NAME_W = 280 / 2 - 5;
+    //    public static final int TEXT_FIELD_NAME_W = 280 / 2 - 5;
     public static final int TEXT_FIELD_X = 112;
     public static final int TEXT_FIELD_W = 280;
     public static final int TEXT_FIELD_H = 40;
 
     public static final int TEXT_FIELD_MARGIN_TOP = 50;
     public static final int TEXT_FIELD_MARGIN_LEFT = 10;
-    public static final int TEXT_FIELD_FIRST_NAME_Y = 210;
-    public static final int TEXT_FIELD_LAST_NAME_Y = TEXT_FIELD_FIRST_NAME_Y;
-    public static final int TEXT_FIELD_EMAIL_Y = TEXT_FIELD_FIRST_NAME_Y + TEXT_FIELD_MARGIN_TOP;
+    public static final int TEXT_FIELD_USERNAME_Y = 210;
+    public static final int TEXT_FIELD_EMAIL_Y = TEXT_FIELD_USERNAME_Y + TEXT_FIELD_MARGIN_TOP;
     public static final int TEXT_FIELD_PASSWORD_Y = TEXT_FIELD_EMAIL_Y + TEXT_FIELD_MARGIN_TOP;
     public static final int TEXT_FIELD_DISPLAY_NAME_Y = TEXT_FIELD_PASSWORD_Y + TEXT_FIELD_MARGIN_TOP;
 
@@ -52,28 +51,33 @@ public class GUICreateAccountPage extends JPanel {
     public static final int BUTTON_W = 254;
     public static final int BUTTON_H = 40;
 
-    public static final String DEAFULT_TEXT_FIRST_NAME = " First Name";
-    public static final String DEAFULT_TEXT_LAST_NAME = " Last Name";
+    public static final String DEAFULT_TEXT_USERNAME = " Username";
     public static final String DEAFULT_TEXT_EMAIL = " Email Address";
     public static final String DEAFULT_TEXT_PWD = " Password";
     public static final String DEAFULT_TEXT_DISPLAY_NAME = " Display Name";
 
+    public static final int POPUP_MENU_X = 200;
+    public static final int POPUP_MENU_Y = 300;
+    public static final int POPUP_MENU_W = 100;
+    public static final int POPUP_MENU_H = 100;
+
     public BufferedImage signUpbtnImage;
     public BufferedImage borderImage;
     public JLabel lblCreateAccount;
-    public JTextField tfFirstName;
-    public JTextField tfLastName;
+    public JTextField tfUsername;
+    //    public JTextField tfLastName;
     public JTextField tfEmail;
     public JTextField tfPassword;
     public JTextField tfDisplayName;
     public JButton btnSignUp;
+    public JOptionPane loginSuccessMessageWindow;
 
     public Vector<JTextField> tfs;
 //    public boolean tfEdited;
 
     public GUICreateAccountPage() {
         setLayout(null);
-        this.setBackground(new Color(255,255,255));
+        this.setBackground(new Color(255, 255, 255));
         this.setBounds(0, 0, W, H);
         Main.frame.add(this, 0);
 
@@ -98,49 +102,32 @@ public class GUICreateAccountPage extends JPanel {
         // init JComponents
         //---------------------------------------------------------------------
 
+        loginSuccessMessageWindow = new JOptionPane();
+        loginSuccessMessageWindow.setBounds(POPUP_MENU_X, POPUP_MENU_Y, POPUP_MENU_W, POPUP_MENU_H);
+
         tfs = new Vector<JTextField>();
         lblCreateAccount = new JLabel("CREATE ACCOUNT");
         lblCreateAccount.setBounds(LBL_X, LBL_Y, LBL_W, LBL_H);
         lblCreateAccount.setFont(new Font("Arial", BOLD, 28));
         this.add(lblCreateAccount);
 
-        tfFirstName = new JTextField(DEAFULT_TEXT_FIRST_NAME);
-        tfFirstName.setEnabled(false);
-        tfFirstName.setDisabledTextColor(Color.gray);
-        tfFirstName.setBounds(TEXT_FIELD_X, TEXT_FIELD_FIRST_NAME_Y, TEXT_FIELD_NAME_W, TEXT_FIELD_H);
-        tfFirstName.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-        tfFirstName.addMouseListener(new MouseAdapter() {
+        tfUsername = new JTextField(DEAFULT_TEXT_USERNAME);
+        tfUsername.setEnabled(false);
+        tfUsername.setDisabledTextColor(Color.gray);
+        tfUsername.setBounds(TEXT_FIELD_X, TEXT_FIELD_USERNAME_Y, TEXT_FIELD_W, TEXT_FIELD_H);
+        tfUsername.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+        tfUsername.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                tfFirstName.requestFocus();
-                tfFirstName.setEnabled(true);
-                if (tfFirstName.getText().equals(DEAFULT_TEXT_FIRST_NAME)) {
-                    tfFirstName.setText("");
+                tfUsername.requestFocus();
+                tfUsername.setEnabled(true);
+                if (tfUsername.getText().equals(DEAFULT_TEXT_USERNAME)) {
+                    tfUsername.setText("");
                 }
             }
         });
 
-        this.add(tfFirstName);
-
-        tfLastName = new JTextField(DEAFULT_TEXT_LAST_NAME);
-        tfLastName.setEnabled(false);
-        tfLastName.setDisabledTextColor(Color.gray);
-        tfLastName.setBounds(tfFirstName.getX() + tfFirstName.getWidth() + TEXT_FIELD_MARGIN_LEFT,
-                TEXT_FIELD_LAST_NAME_Y, TEXT_FIELD_NAME_W, TEXT_FIELD_H);
-        tfLastName.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-        tfLastName.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                tfLastName.requestFocus();
-                tfLastName.setEnabled(true);
-//                System.out.println("text: " + tfLastName.getText() + " default: " + DEAFULT_TEXT_LAST_NAME
-//                + " match? " + tfLastName.getText().equals(DEAFULT_TEXT_LAST_NAME));
-                if (tfLastName.getText().equals(DEAFULT_TEXT_LAST_NAME)) {
-                    tfLastName.setText("");
-                }
-            }
-        });
-        this.add(tfLastName);
+        this.add(tfUsername);
 
         tfEmail = new JTextField(DEAFULT_TEXT_EMAIL);
         tfEmail.setEnabled(false);
@@ -193,8 +180,8 @@ public class GUICreateAccountPage extends JPanel {
         });
         this.add(tfDisplayName);
 
-        tfs.add(tfFirstName);
-        tfs.add(tfLastName);
+        tfs.add(tfUsername);
+//        tfs.add(tfLastName);
         tfs.add(tfEmail);
         tfs.add(tfPassword);
         tfs.add(tfDisplayName);
@@ -206,25 +193,19 @@ public class GUICreateAccountPage extends JPanel {
         btnSignUp.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: insert account info tuple into Player table
-                Player newPlayer = new Player(tfFirstName.getText(), tfEmail.getText(),
+                Player newPlayer = new Player(tfUsername.getText(), tfEmail.getText(),
                         tfPassword.getText(), tfDisplayName.getText());
-                // insert newPlayer (handled in DatabaseConnectionHandler.java)
-//                try {
-//                    Game.dbHandler.insertPlayer(newPlayer);
-//                } catch (Exception ex) {
-//                    throw new RuntimeException(ex);
-//                }
-
-                // TODO: show message indicating successful login
-
+                dbHandler.insertPlayer(newPlayer);
                 // open main page
+                Main.guiMainPage.lblDisplayName.setText(tfDisplayName.getText());
                 Main.changeScreen(2);
+                // show message indicating successful login
+                loginSuccessMessageWindow.showMessageDialog(null, "Welcome " +
+                        tfDisplayName.getText() + "!", "Account Created Successfully", JOptionPane.INFORMATION_MESSAGE);
             }
         });
         this.add(btnSignUp);
         Main.frame.getRootPane().setDefaultButton(btnSignUp);
-
         //---------------------------------------------------------------------
         // timer(thread) - to call update() and paint()
         //---------------------------------------------------------------------
@@ -234,7 +215,7 @@ public class GUICreateAccountPage extends JPanel {
                 update();
                 repaint();
             }
-        },0, 10);
+        }, 0, 10);
     }
 
     public void update() {
@@ -253,8 +234,13 @@ public class GUICreateAccountPage extends JPanel {
         btnSignUp.setEnabled(true);
 //        }
     }
+
     public void paint(Graphics g) {
         g.drawImage(borderImage, BORDER_X, BORDER_Y, null);
         paintComponents(g);
+    }
+
+    public void setDbHandler(DatabaseConnectionHandler dbHandler) {
+        this.dbHandler = dbHandler;
     }
 }
