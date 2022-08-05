@@ -172,7 +172,6 @@ public class DatabaseConnectionHandler {
                 "    cd float,\n" +
                 "    dmg int,\n" +
                 "    FOREIGN KEY (cname) REFERENCES Character ON DELETE CASCADE\n" +
-                "    ON UPDATE CASCADE\n" +
                 ")";
         try {
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesQuery), abilitiesQuery, false);
@@ -214,7 +213,6 @@ public class DatabaseConnectionHandler {
                 "    level       int ,\n" +
                 "    dmg int,\n" +
                 "    FOREIGN KEY (level) REFERENCES Ability ON DELETE CASCADE\n" +
-                "    ON UPDATE CASCADE\n" +
                 ")";
         try {
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(abilitiesDMGQuery), abilitiesDMGQuery, false);
@@ -305,6 +303,8 @@ public class DatabaseConnectionHandler {
     public void deleteConsumes(String playerUsername, String foodName) {
         try {
             // DO I ADD THE "and foodName = ?" PART TOO?? vvvvvvvv
+            // yes or else you delete all the food that player has (or rather oracle doesn't let u because of pk ic)
+            // - W
             String query = "DELETE FROM Consumes WHERE playerUsername = ? and foodName = ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ps.setString(1, playerUsername);
@@ -462,39 +462,6 @@ public class DatabaseConnectionHandler {
 
     }
 
-    //levels up a character by given amount
-    public void levelCharacter(String cName, int amount) {
-        try {
-            String sel_level = "SELECT CHARACTER_LEVEL, BASEHP FROM CHARACTER WHERE name = 'Qiqi'";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(sel_level), sel_level, false);
-//            ps.setString(1, cName);
-            ResultSet lv_hp = ps.executeQuery();
-
-            lv_hp.next();
-            int oldBaseHP = lv_hp.getInt("basehp");
-            int newLevel = lv_hp.getInt("character_level") + amount;
-
-            insertCharHP(newLevel, oldBaseHP);
-
-            ps.execute("UPDATE Character SET CHARACTER_LEVEL = ? WHERE NAME = ?");
-            ps.setInt(1, newLevel);
-            ps.setString(2, cName);
-
-            int rowCount = ps.executeUpdate();
-            if (rowCount == 0) {
-                System.out.println(WARNING_TAG + "Character " + cName + " does not exist!");
-            }
-
-            connection.commit();
-            lv_hp.close();
-            ps.close();
-
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-            rollbackConnection();
-        }
-
-    }
 
 
 //
