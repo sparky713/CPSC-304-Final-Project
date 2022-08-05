@@ -39,11 +39,11 @@ public class Player {
         this.email = email;
     }
 
-    public void setPassword(String email) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setDisplayName(String email) {
+    public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 

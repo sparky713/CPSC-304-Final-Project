@@ -27,6 +27,13 @@ public class Main {
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
 
         //---------------------------------------------------------------------
+        // Database Setup
+        // ---------------------------------------------------------------------
+
+        DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
+        dbHandler.login("ORA_scw2018", "a13454772");
+
+        //---------------------------------------------------------------------
         // GUI Setup
         //---------------------------------------------------------------------
         frame = new JFrame("CPSC 304 Group 44 Project");
@@ -37,6 +44,7 @@ public class Main {
 
         guiMainPage = new GUIMainPage();
         guiCreateAccountPage = new GUICreateAccountPage();
+        guiCreateAccountPage.setDbHandler(dbHandler);
         guiCharactersPage = new GUICharactersPage();
         guiPartiesPage = new GUIPartiesPage();
         guiWeaponsPage = new GUIWeaponsPage();

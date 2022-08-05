@@ -80,6 +80,7 @@ public class GUIMainPage extends JPanel {
     public JButton btnParties;
     public JButton btnWeapons;
     public JButton btnAbilities;
+    public JButton btnUpdateAccountInfo;
 
     public static final int DROP_DOWN_MENU_X = 615;
     public static final int DROP_DOWN_MENU_Y = 135;
