@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Player {
-    private final String userName;
-    private final String email;
-    private final String password;
-    private final String displayName;
+    private String userName;
+    private String email;
+    private String password;
+    private String displayName;
     private Map<String,Integer> foodInventory;
 
 
