@@ -152,7 +152,7 @@ INSERT
 INTO AbilityDMG (ABILITY_LEVEL, DMG)
 VALUES (17, 133);
 
-/* Tuples in AbilityCast table */
+/* Tuples in Ability table */
 INSERT
 INTO AbilityCast (aname, cname, ABILITY_LEVEL, cd, dmg)
 VALUES ('Sparks and Splash', 'Klee', 10, 38.0, 89);

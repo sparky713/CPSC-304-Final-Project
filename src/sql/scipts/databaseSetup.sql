@@ -58,16 +58,16 @@ CREATE TABLE AbilityDMG
     dmg           int
 );
 
-CREATE TABLE AbilityCast
+CREATE TABLE Ability
 (
     aname         varchar2(80) PRIMARY KEY,
     cname         varchar2(80) NOT NULL,
     ability_level int,
     cd            float,
     dmg           int,
-    FOREIGN KEY (cname) REFERENCES Character
+    FOREIGN KEY (cname) REFERENCES Character (name)
         ON DELETE CASCADE,
-    FOREIGN KEY (ability_level) REFERENCES AbilityDMG
+    FOREIGN KEY (ability_level) REFERENCES AbilityDMG (ability_level)
 );
 
 CREATE TABLE Food

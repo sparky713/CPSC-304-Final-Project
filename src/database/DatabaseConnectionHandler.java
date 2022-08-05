@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 //import model.PlayerModel;
 
@@ -231,6 +233,46 @@ public class DatabaseConnectionHandler {
 
             ps.setInt(1, level);
             ps.setInt(2, dmg);
+
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+    public void showAbilitiesProperties(boolean showOwner, boolean showLevel, boolean showCD, boolean showDMG) {
+        List<String> projection = Arrays.asList();
+
+        if (showOwner) {
+            projection.add("cname");
+        }
+
+        if (showLevel) {
+            projection.add("ability_level");
+        }
+
+        if (showCD) {
+            projection.add("cd");
+        }
+
+        if (showDMG) {
+            projection.add("dmg");
+        }
+
+        String selectedColumns = String.join(",", projection);
+
+        try {
+            String query = "SELECT " + selectedColumns + " FROM Ability";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+
+            ps.getResultSet().getString(2);
+            ps.getResultSet().getInt(3);
+            ps.getResultSet().getFloat(4);
+            ps.getResultSet().getInt(5);
 
             ps.executeUpdate();
             connection.commit();
