@@ -52,14 +52,14 @@ public class Main {
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
 
-        guiMainPage.setVisible(true);
+        guiMainPage.setVisible(false);
 //        guiCreateAccountPage.setVisible(true);
         guiCreateAccountPage.setVisible(false);
 
 //        guiCharactersPage.setVisible(false);
 //        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
-        guiAbilitiesPage.setVisible(false);
+        guiAbilitiesPage.setVisible(true);
 //        guiAbilitiesPage.setVisible(true);
 
         frame.setVisible(true);
