@@ -13,6 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.*;
 
+//TEST
 public class Main {
     public static DatabaseConnectionHandler dbHandler = null;
     public static JFrame frame;
