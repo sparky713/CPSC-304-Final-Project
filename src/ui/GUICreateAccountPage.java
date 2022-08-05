@@ -103,6 +103,8 @@ public class GUICreateAccountPage extends JPanel {
         //---------------------------------------------------------------------
 
         loginSuccessMessageWindow = new JOptionPane();
+        loginSuccessMessageWindow.setBounds(POPUP_MENU_X, POPUP_MENU_Y, POPUP_MENU_W, POPUP_MENU_H);
+
         tfs = new Vector<JTextField>();
         lblCreateAccount = new JLabel("CREATE ACCOUNT");
         lblCreateAccount.setBounds(LBL_X, LBL_Y, LBL_W, LBL_H);
@@ -126,26 +128,6 @@ public class GUICreateAccountPage extends JPanel {
         });
 
         this.add(tfUsername);
-
-//        tfLastName = new JTextField(DEAFULT_TEXT_LAST_NAME);
-//        tfLastName.setEnabled(false);
-//        tfLastName.setDisabledTextColor(Color.gray);
-//        tfLastName.setBounds(tfFirstName.getX() + tfFirstName.getWidth() + TEXT_FIELD_MARGIN_LEFT,
-//                TEXT_FIELD_LAST_NAME_Y, TEXT_FIELD_NAME_W, TEXT_FIELD_H);
-//        tfLastName.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-//        tfLastName.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                tfLastName.requestFocus();
-//                tfLastName.setEnabled(true);
-////                System.out.println("text: " + tfLastName.getText() + " default: " + DEAFULT_TEXT_LAST_NAME
-////                + " match? " + tfLastName.getText().equals(DEAFULT_TEXT_LAST_NAME));
-//                if (tfLastName.getText().equals(DEAFULT_TEXT_LAST_NAME)) {
-//                    tfLastName.setText("");
-//                }
-//            }
-//        });
-//        this.add(tfLastName);
 
         tfEmail = new JTextField(DEAFULT_TEXT_EMAIL);
         tfEmail.setEnabled(false);
@@ -214,14 +196,13 @@ public class GUICreateAccountPage extends JPanel {
                 Player newPlayer = new Player(tfUsername.getText(), tfEmail.getText(),
                         tfPassword.getText(), tfDisplayName.getText());
                 // insert newPlayer (handled in DatabaseConnectionHandler.java)
-                Main.dbHandler.insertPlayer(newPlayer);
+//                Main.dbHandler.insertPlayer(newPlayer);
                 // open main page
+                Main.guiMainPage.lblDisplayName.setText(tfDisplayName.getText());
                 Main.changeScreen(2);
                 // show message indicating successful login
                 loginSuccessMessageWindow.showMessageDialog(null, "Welcome " +
                         tfDisplayName.getText() + "!", "Account Created Successfully", JOptionPane.INFORMATION_MESSAGE);
-                loginSuccessMessageWindow.setBounds(POPUP_MENU_X, POPUP_MENU_Y, POPUP_MENU_W, POPUP_MENU_H);
-
             }
         });
         this.add(btnSignUp);

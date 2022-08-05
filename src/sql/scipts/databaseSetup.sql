@@ -58,7 +58,7 @@ CREATE TABLE AbilityDMG
     dmg           int
 );
 
-CREATE TABLE AbilityCast
+CREATE TABLE Ability
 (
     aname         varchar2(80) PRIMARY KEY,
     cname         varchar2(80) NOT NULL,

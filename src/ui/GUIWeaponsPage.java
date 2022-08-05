@@ -14,7 +14,7 @@ import java.util.Vector;
 import static java.awt.Font.BOLD;
 
 /**
- * The ui for the weapons page.
+ * The ui for the abilities page.
  */
 public class GUIWeaponsPage extends JPanel {
     Graphics g = null;
@@ -64,7 +64,7 @@ public class GUIWeaponsPage extends JPanel {
             System.exit(1);
         }
 
-        try { // weapons button image
+        try { // abilities button image
             weaponsPanelImage = ImageIO.read(new File(WEAPONS_PANEL_FILENAME));
         } catch (IOException e) {
             System.out.println("GUIMainPage::GUIMainPage(): error: file not found: " + WEAPONS_PANEL_FILENAME);
@@ -88,7 +88,7 @@ public class GUIWeaponsPage extends JPanel {
         lblTitle.setForeground(Color.white);
         this.add(lblTitle);
 
-        // TODO: add weapons and attach labels
+        // TODO: add abilities and attach labels
 //        lblWeapons = new JLabel("bow 1");
 //        lblWeapons.setBounds(LBL_WEAPONS_X, LBL_WEAPONS_Y, LBL_W, LBL_H);
 //        lblWeapons.setFont(new Font("Arial", BOLD, 20));
