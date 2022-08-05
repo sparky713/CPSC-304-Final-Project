@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Vector;
 
 import static java.awt.Font.BOLD;
@@ -29,6 +30,12 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int W = GUIMainPage.W;
     public static final int H = GUIMainPage.H;
 
+    public static final int SPARKS_AND_SPLASH = 0;
+    public static final int PRESERVER_OF_FORTUNE = 1;
+    public static final int RIFF_REVOLUTION = 2;
+    public static final int BAND_OF_ALL_EVIL = 3;
+    public static final int FATE = 4;
+
     public static final int ICONS_Y = 207;
     public static final int ICONS_W = 68;
     public static final int ICONS_MARGIN = 52;
@@ -37,6 +44,16 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int RIFF_REVOLUTION_ICON_X = PRESERVER_OF_FORTUNE_ICON_X + ICONS_W + ICONS_MARGIN;
     public static final int BAND_OF_ALL_EVIL_ICON_X = RIFF_REVOLUTION_ICON_X + ICONS_W + ICONS_MARGIN;
     public static final int FATE_ICON_X = BAND_OF_ALL_EVIL_ICON_X + ICONS_W + ICONS_MARGIN;
+
+    public static final int LIST_Y = 360;
+    public static final int LIST_W = 100;
+    public static final int LIST_H = 100;
+    public static final int LIST_MARGIN = 46;
+    public static final int SPARKS_AND_SPLASH_LIST_X = 78;
+    public static final int PRESERVER_OF_FORTUNE_LIST_X = SPARKS_AND_SPLASH_LIST_X + LIST_W + LIST_MARGIN;
+    public static final int RIFF_REVOLUTION_LIST_X = PRESERVER_OF_FORTUNE_LIST_X + LIST_W + LIST_MARGIN;
+    public static final int BAND_OF_ALL_EVIL_LIST_X = RIFF_REVOLUTION_LIST_X + LIST_W + LIST_MARGIN;
+    public static final int FATE_LIST_X = BAND_OF_ALL_EVIL_LIST_X + LIST_W + LIST_MARGIN;
 
     public static final int DROP_DOWN_CHARACTER_MENU_X = 118;
     public static final int DROP_DOWN_CHARACTER_MENU_Y = 142;
@@ -89,8 +106,27 @@ public class GUIAbilitiesPage extends JPanel {
 //    public BufferedImage fateImage;
 
 
+    public Font lstFont = new Font("Arial", Font.PLAIN, 18);
     public JLabel lblTitle;
     public JLabel show;
+    public JTextArea taSparksAndSplash;
+    public JTextArea taPreserverOfFortune;
+    public JTextArea taRiffRevolution;
+    public JTextArea taBaneOfAllEvil;
+    public JTextArea taFate;
+
+    public HashMap<Integer, String[]> abilitiesMap;
+    public String sasList[];
+    public String pofList[];
+    public String rrList[];
+    public String boaList[];
+    public String fList[];
+
+    public JList lstSparksAndSplash;
+    public JList lstPreserverOfFortune;
+    public JList lstRiffRevolution;
+    public JList lstBaneOfAllEvil;
+    public JList lstFate;
 //    public JLabel lblOwner;
 //    public JLabel lblLevel;
 //    public JLabel lblCD;
@@ -111,6 +147,47 @@ public class GUIAbilitiesPage extends JPanel {
         Main.frame.add(this, 0);
 
         abilities = null;
+
+        abilitiesMap = new HashMap<Integer, String[]>();
+
+//        pofList = new String[]{"owner:", "", "level:", "", "cd:", "", "dmg", ""};
+        sasList = new String[]{"", "", "", ""};
+        pofList = new String[]{"", "", "", ""};
+        rrList = new String[]{"", "", "", ""};
+        boaList = new String[]{"", "", "", ""};
+        fList = new String[]{"", "", "", ""};
+
+        abilitiesMap.put(SPARKS_AND_SPLASH, sasList);
+        abilitiesMap.put(PRESERVER_OF_FORTUNE, pofList);
+        abilitiesMap.put(RIFF_REVOLUTION, rrList);
+        abilitiesMap.put(BAND_OF_ALL_EVIL, boaList);
+        abilitiesMap.put(FATE, fList);
+
+        lstSparksAndSplash = new JList(abilitiesMap.get(0));
+        lstSparksAndSplash.setBounds(SPARKS_AND_SPLASH_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstSparksAndSplash.setFont(lstFont);
+        this.add(lstSparksAndSplash);
+
+        abilitiesMap.get(0)[0] = "v";
+        lstPreserverOfFortune = new JList(abilitiesMap.get(1));
+        lstPreserverOfFortune.setBounds(PRESERVER_OF_FORTUNE_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstPreserverOfFortune.setFont(lstFont);
+        this.add(lstPreserverOfFortune);
+
+        lstRiffRevolution = new JList(abilitiesMap.get(2));
+        lstRiffRevolution.setBounds(RIFF_REVOLUTION_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstRiffRevolution.setFont(lstFont);
+        this.add(lstRiffRevolution);
+
+        lstBaneOfAllEvil = new JList(abilitiesMap.get(3));
+        lstBaneOfAllEvil.setBounds(BAND_OF_ALL_EVIL_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstBaneOfAllEvil.setFont(lstFont);
+        this.add(lstBaneOfAllEvil);
+
+        lstFate = new JList(abilitiesMap.get(4));
+        lstFate.setBounds(FATE_LIST_X, LIST_Y, LIST_W, LIST_H);
+        lstFate.setFont(lstFont);
+        this.add(lstFate);
 
         //---------------------------------------------------------------------
         // read images
@@ -163,9 +240,11 @@ public class GUIAbilitiesPage extends JPanel {
         show.setForeground(Color.white);
         this.add(show);
 
-        // String array containing the options for the drop-down menu
-//        characterNames = new String[]{"All", "Swords", "Bows"};
-//        levels = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8};
+        taSparksAndSplash = new JTextArea();
+        taPreserverOfFortune = new JTextArea();
+        taRiffRevolution = new JTextArea();
+        taBaneOfAllEvil = new JTextArea();
+        taFate = new JTextArea();
 
         cbOwner = new JCheckBox("owner");
         cbOwner.setBounds(DROP_DOWN_CHARACTER_MENU_X, DROP_DOWN_CHARACTER_MENU_Y, DROP_DOWN_CHARACTER_MENU_W, DROP_DOWN_CHARACTER_MENU_H);
@@ -196,22 +275,14 @@ public class GUIAbilitiesPage extends JPanel {
 
                 // insert newPlayer (handled in DatabaseConnectionHandler.java)
 //                try {
-//                    Game.dbHandler.insertPlayer(newPlayer);
+//                    Main.dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
 //                } catch (Exception ex) {
 //                    throw new RuntimeException(ex);
 //                }
+//            }
             }
         });
         this.add(btnApply);
-
-
-
-        // TODO: add abilities and attach labels
-//        lblWeapons = new JLabel("bow 1");
-//        lblWeapons.setBounds(LBL_WEAPONS_X, LBL_WEAPONS_Y, LBL_W, LBL_H);
-//        lblWeapons.setFont(new Font("Arial", BOLD, 20));
-//        lblWeapons.setForeground(Color.white);
-//        this.add(lblWeapons);
 
         repaint();
 

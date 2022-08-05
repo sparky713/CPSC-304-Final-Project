@@ -1,5 +1,6 @@
 package database;
 
+import controller.Main;
 import model.*;
 import model.Character;
 import util.PrintablePreparedStatement;
@@ -183,11 +184,19 @@ public class DatabaseConnectionHandler {
             String query = "SELECT " + selectedColumns + " FROM Ability";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 
-            ps.getResultSet().getString(2);
-            ps.getResultSet().getInt(3);
-            ps.getResultSet().getFloat(4);
-            ps.getResultSet().getInt(5);
+            ResultSet rsAbilities = ps.getResultSet();
+            rsAbilities.last();
+            int numAbilities = rsAbilities.getRow();
+            rsAbilities.beforeFirst();
 
+            for (int i = 0; i < numAbilities; i++) {
+                rsAbilities.next();
+                //set list text
+                Main.guiAbilitiesPage.abilitiesMap.get(i)[0] = ps.getResultSet().getString(1); // cname
+                Main.guiAbilitiesPage.abilitiesMap.get(i)[1] = Integer.toString(ps.getResultSet().getInt(2)); // ability_level
+                Main.guiAbilitiesPage.abilitiesMap.get(i)[2] = Float.toString(ps.getResultSet().getFloat(3)); // cd
+                Main.guiAbilitiesPage.abilitiesMap.get(i)[3] = Integer.toString(ps.getResultSet().getInt(4)); // dmg
+            }
             ps.executeUpdate();
             connection.commit();
             ps.close();
