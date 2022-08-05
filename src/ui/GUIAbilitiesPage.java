@@ -18,21 +18,21 @@ import static java.awt.Font.BOLD;
 public class GUIAbilitiesPage extends JPanel {
     Graphics g = null;
     public static final String BACKGROUND_IMAGE_FILENAME = "images/weapons_page_bg.png";
-    public static final String ABILITIES_PANEL_FILENAME = "images/weapons_panel.png";
+    public static final String ABILITIES_PANEL_FILENAME = "images/abilities_panel.png";
     public static final String APPLY_BTN_IMAGE_FILENAME = "images/abilities_apply_btn.png";
-    public static final String SPARKS_AND_SPLASH_IMAGE_FILENAME = "images/abilities/sparks_and_splash.png";
-    public static final String PRESERVER_OF_FORTUNE_PANEL_FILENAME = "images/abilities/preserver_of_fortune.png";
-    public static final String RIFF_REVOLUTION_IMAGE_FILENAME = "images/abilities/riff_revolution.png";
-    public static final String BAND_OF_ALL_EVIL_IMAGE_FILENAME = "images/abilities/bane_of_all_evil.png";
-    public static final String FATE_IMAGE_FILENAME = "images/abilities/fate.png";
+//    public static final String SPARKS_AND_SPLASH_IMAGE_FILENAME = "images/abilities/sparks_and_splash.png";
+//    public static final String PRESERVER_OF_FORTUNE_PANEL_FILENAME = "images/abilities/preserver_of_fortune.png";
+//    public static final String RIFF_REVOLUTION_IMAGE_FILENAME = "images/abilities/riff_revolution.png";
+//    public static final String BAND_OF_ALL_EVIL_IMAGE_FILENAME = "images/abilities/bane_of_all_evil.png";
+//    public static final String FATE_IMAGE_FILENAME = "images/abilities/fate.png";
 
     public static final int W = GUIMainPage.W;
     public static final int H = GUIMainPage.H;
 
     public static final int ICONS_Y = 207;
     public static final int ICONS_W = 68;
-    public static final int ICONS_MARGIN = 82;
-    public static final int SPARKS_AND_SPLASH_ICON_X = 90;
+    public static final int ICONS_MARGIN = 52;
+    public static final int SPARKS_AND_SPLASH_ICON_X = 145;
     public static final int PRESERVER_OF_FORTUNE_ICON_X = SPARKS_AND_SPLASH_ICON_X + ICONS_W + ICONS_MARGIN;
     public static final int RIFF_REVOLUTION_ICON_X = PRESERVER_OF_FORTUNE_ICON_X + ICONS_W + ICONS_MARGIN;
     public static final int BAND_OF_ALL_EVIL_ICON_X = RIFF_REVOLUTION_ICON_X + ICONS_W + ICONS_MARGIN;
@@ -76,17 +76,17 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int BTN_APPLY_W = 80;
     public static final int BTN_APPLY_H = 50;
 
-    public static final int ABILITIES_PANEL_IMAGE_X = 113;
+    public static final int ABILITIES_PANEL_IMAGE_X = 50;
     public static final int ABILITIES_PANEL_IMAGE_Y = 177;
 
     public BufferedImage bgImage;
     public BufferedImage abilitiesPanelImage;
     public BufferedImage applyBtnImage;
-    public BufferedImage sparksAndSplashImage;
-    public BufferedImage preserverOfFortuneImage;
-    public BufferedImage riffRevolutionImage;
-    public BufferedImage baneOfAllEvilImage;
-    public BufferedImage fateImage;
+//    public BufferedImage sparksAndSplashImage;
+//    public BufferedImage preserverOfFortuneImage;
+//    public BufferedImage riffRevolutionImage;
+//    public BufferedImage baneOfAllEvilImage;
+//    public BufferedImage fateImage;
 
 
     public JLabel lblTitle;
@@ -136,16 +136,16 @@ public class GUIAbilitiesPage extends JPanel {
             System.exit(1);
         }
 
-        try { // apply button image
-            sparksAndSplashImage = ImageIO.read(new File(SPARKS_AND_SPLASH_IMAGE_FILENAME));
+//        try { // icon images
+//            sparksAndSplashImage = ImageIO.read(new File(SPARKS_AND_SPLASH_IMAGE_FILENAME));
 //            preserverOfFortuneImage = ImageIO.read(new File(PRESERVER_OF_FORTUNE_PANEL_FILENAME));
 //            riffRevolutionImage = ImageIO.read(new File(RIFF_REVOLUTION_IMAGE_FILENAME));
 //            baneOfAllEvilImage = ImageIO.read(new File(BAND_OF_ALL_EVIL_IMAGE_FILENAME));
 //            fateImage = ImageIO.read(new File(FATE_IMAGE_FILENAME));
-        } catch (IOException e) {
-            System.out.println("GUIAbilitiesPage::GUIAbilitiesPage(): error: file for ability icon not found");
-            System.exit(1);
-        }
+//        } catch (IOException e) {
+//            System.out.println("GUIAbilitiesPage::GUIAbilitiesPage(): error: file for ability icon not found");
+//            System.exit(1);
+//        }
 
         //---------------------------------------------------------------------
         // init JComponents
@@ -235,11 +235,10 @@ public class GUIAbilitiesPage extends JPanel {
         g.drawImage(bgImage, 0, 0, null);
         g.drawImage(abilitiesPanelImage, ABILITIES_PANEL_IMAGE_X, ABILITIES_PANEL_IMAGE_Y, null);
 
-        g.drawImage(sparksAndSplashImage, 100, 100, null);
+//        g.drawImage(sparksAndSplashImage, SPARKS_AND_SPLASH_ICON_X, ICONS_Y, null);
 //        g.drawImage(preserverOfFortuneImage, PRESERVER_OF_FORTUNE_ICON_X, ICONS_Y, null);
-        g.drawImage(riffRevolutionImage, RIFF_REVOLUTION_ICON_X, ICONS_Y, null);
+//        g.drawImage(riffRevolutionImage, RIFF_REVOLUTION_ICON_X, ICONS_Y, null);
 //        g.drawImage(baneOfAllEvilImage, BAND_OF_ALL_EVIL_ICON_X, ICONS_Y, null);
-        System.out.println("3");
 //        g.drawImage(fateImage, FATE_ICON_X, ICONS_Y, null);
 
         paintComponents(g);
