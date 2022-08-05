@@ -52,7 +52,7 @@ public class Main {
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
 
-        guiMainPage.setVisible(true);
+        guiMainPage.setVisible(false);
 //        guiCreateAccountPage.setVisible(true);
         guiCreateAccountPage.setVisible(false);
 
