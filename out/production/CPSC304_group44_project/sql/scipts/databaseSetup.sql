@@ -144,11 +144,11 @@ CREATE TABLE Plays
 
 CREATE TABLE Consumes
 (
-    id
+    id       int,
     username varchar2(80),
     fname    varchar2(80),
     amount   int,
-    PRIMARY KEY (username, fname),
+    PRIMARY KEY (id, username, fname),
     FOREIGN KEY (username) REFERENCES Player
         ON DELETE CASCADE,
     FOREIGN KEY (fname) REFERENCES Food

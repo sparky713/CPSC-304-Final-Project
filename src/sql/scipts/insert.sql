@@ -367,28 +367,28 @@ VALUES ('Skyward Harp', 10);
 
 /* Tuples in Consumes table */
 INSERT
-INTO Consumes (username, fname, amount)
-VALUES ('player1', 'Mushroom Pizza', 2);
+INTO Consumes (id, username, fname, amount)
+VALUES (1, 'player1', 'Mushroom Pizza', 2);
 
 INSERT
-INTO Consumes (USERNAME, FNAME, AMOUNT)
-VALUES ('player2', 'Jade Parcels', 5);
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (2, 'player2', 'Jade Parcels', 5);
 
 INSERT
-INTO Consumes (USERNAME, FNAME, AMOUNT)
-VALUES ('player2', 'Fullmoon Egg', 1);
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (3, 'player2', 'Fullmoon Egg', 1);
 
 INSERT
-INTO Consumes (USERNAME, FNAME, AMOUNT)
-VALUES ('player3', 'Teyvat Fried Egg', 1);
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (4, 'player3', 'Teyvat Fried Egg', 1);
 
 INSERT
-INTO Consumes (USERNAME, FNAME, AMOUNT)
-VALUES ('player4', 'Butter Crab', 3);
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (5, 'player4', 'Butter Crab', 3);
 
 INSERT
-INTO Consumes (USERNAME, FNAME, AMOUNT)
-VALUES ('player5', 'Crystal Shrimp', 7);
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (6, 'player5', 'Crystal Shrimp', 7);
 
 
 /* Tuples in ComprisedOf table */
