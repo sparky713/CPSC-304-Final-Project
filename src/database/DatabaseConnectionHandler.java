@@ -331,18 +331,34 @@ public class DatabaseConnectionHandler {
             // 2) consumes.username is not valid
             // 3) playerName must be an actual string of form '...', can't just use a variable that is a string
             String playerName = player.getUsername();
-            String query = "SELECT fname, SUM(amount) FROM consumes WHERE username = " + playerName + " GROUP BY fname";
+            String query = " SELECT fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs = ps.getResultSet();
 
-            while(rs.next()) {
-                Map<String,Integer> oneFood = new HashMap<String,Integer>();
-                Food foodModel =  new Food(rs.getString("name"),
-                        rs.getInt("healAmount"));
-                int foodModelQuantity = rs.getInt("amount");
-                oneFood.put(foodModel.getFoodName(), foodModelQuantity);
+//            while(rs.next()) {
+//                Map<String,Integer> oneFood = new HashMap<String,Integer>();
+////                Food foodModel =  new Food(rs.getString("name"),
+////                        rs.getInt("healAmount"));
+//                try {
+//                    int foodModelQuantity = rs.getInt("amount");
+//                } catch (SQLException e) {
+//                System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//            }
+//                oneFood.put(rs.getString("fname"), foodModelQuantity);
+//                result.add(oneFood);
+//            }
+
+            while (rs.next()) {
+                Map<String, Integer> oneFood = new HashMap<String, Integer>();
+                try {
+                    oneFood.put(rs.getString(3), rs.getInt(4));
+                } catch (SQLException e) {
+                    System.out.println("error!!!!!!");
+                    System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+                }
                 result.add(oneFood);
             }
+
 
             rs.close();
             ps.close();
