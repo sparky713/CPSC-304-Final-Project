@@ -126,6 +126,7 @@ public class DatabaseConnectionHandler {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
+
             String email = "";
             String password = "";
             String displayName = "";
