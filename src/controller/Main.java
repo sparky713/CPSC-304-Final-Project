@@ -40,8 +40,8 @@ public class Main {
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
-//        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
-        frame.setSize(GUIMainPage.W, GUIMainPage.H);
+        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+//        frame.setSize(GUIMainPage.W, GUIMainPage.H);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         guiMainPage = new GUIMainPage();
@@ -53,13 +53,13 @@ public class Main {
         guiAbilitiesPage = new GUIAbilitiesPage();
 
         guiMainPage.setVisible(false);
-//        guiCreateAccountPage.setVisible(true);
-        guiCreateAccountPage.setVisible(false);
+        guiCreateAccountPage.setVisible(true);
+//        guiCreateAccountPage.setVisible(false);
 
 //        guiCharactersPage.setVisible(false);
 //        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
-        guiAbilitiesPage.setVisible(true);
+        guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
 
         frame.setVisible(true);

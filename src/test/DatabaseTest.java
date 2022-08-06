@@ -39,7 +39,7 @@ public class DatabaseTest {
         dbHandler.insertPlayer(player1);
 
         dbHandler.insertFood(mushroomPizza);
-        dbHandler.insertConsumes(player1, mushroomPizza, 2);
+        dbHandler.insertConsumes(1, player1, mushroomPizza, 2);
 
         // uncomment this to test deleteConsumes method AFTER testing
         // insertFood method first VVVVVVV

@@ -144,6 +144,7 @@ CREATE TABLE Plays
 
 CREATE TABLE Consumes
 (
+    id
     username varchar2(80),
     fname    varchar2(80),
     amount   int,
