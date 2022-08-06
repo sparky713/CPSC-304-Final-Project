@@ -321,32 +321,37 @@ public class DatabaseConnectionHandler {
 
     }
 
-//    public Map<String,Integer> getPlayerFoodInfo() {
-//        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
-//
-//
-//        try {
-//            String query = "SELECT * FROM consumes";
-//            //String query = "SELECT * FROM consumes";
-//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-//            ResultSet rs = ps.executeQuery();
-//
-//            while(rs.next()) {
-//                Map<String,Integer> oneFood = new HashMap<String,Integer>();
-//                Food foodModel =  new Food(rs.getString("name"),
-//                        rs.getInt("healAmount"));
-//                //int foodModelQuantity =
-//                //result.add(model);
-//            }
-//
-//            rs.close();
-//            ps.close();
-//        } catch (SQLException e) {
-//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-//        }
-//
-//        return result.toArray(new Food[result.size()]);
-//    }
+    public ArrayList<Map<String,Integer>> getPlayerFoodInfo(Player player) {
+        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
+
+
+        try {
+            //FIXXXXXXXX*************************************:
+            // 1) GROUP BY is used incorrectly
+            // 2) consumes.username is not valid
+            // 3) playerName must be an actual string of form '...', can't just use a variable that is a string
+            String playerName = player.getUsername();
+            String query = "SELECT * FROM consumes WHERE consumes.username = playerName GROUP BY fname";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                Map<String,Integer> oneFood = new HashMap<String,Integer>();
+                Food foodModel =  new Food(rs.getString("name"),
+                        rs.getInt("healAmount"));
+                int foodModelQuantity = rs.getInt("amount");
+                oneFood.put(foodModel.getFoodName(), foodModelQuantity);
+                result.add(oneFood);
+            }
+
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
+        return result;
+    }
 
 
 
