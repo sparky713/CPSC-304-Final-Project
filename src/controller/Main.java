@@ -13,6 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.*;
 
+//TEST
 public class Main {
     public static DatabaseConnectionHandler dbHandler = null;
     public static JFrame frame;
@@ -53,14 +54,14 @@ public class Main {
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
 
-        guiMainPage.setVisible(true);
+        guiMainPage.setVisible(false);
 //        guiCreateAccountPage.setVisible(true);
         guiCreateAccountPage.setVisible(false);
 
 //        guiCharactersPage.setVisible(false);
 //        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
-        guiAbilitiesPage.setVisible(false);
+        guiAbilitiesPage.setVisible(true);
 //        guiAbilitiesPage.setVisible(true);
         guiEditProfilePage.setVisible(false);
 

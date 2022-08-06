@@ -11,7 +11,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 
 import static java.awt.Font.BOLD;
@@ -275,11 +277,42 @@ public class GUIAbilitiesPage extends JPanel {
 
                 // insert newPlayer (handled in DatabaseConnectionHandler.java)
                 System.out.println("GUIAbilitiesPage:: " + cbOwner.isSelected() + cbLevel.isSelected() + cbCD.isSelected() + cbDMG.isSelected());
-                try {
-                    Main.dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
+
+//                List<String> projection = Arrays.asList();
+                String[] projection = new String[4];
+
+                if (cbOwner.isSelected()) {
+                    try {
+                        projection[0] = "cname";
+                    }
+                    catch (Exception ee){
+                        System.out.println("line 288");
+                    }
                 }
+
+                if (cbLevel.isSelected()) {
+//                    projection.add("ability_level");
+                    projection[1] = "ability_level";
+                }
+
+                if (cbCD.isSelected()) {
+//                    projection.add("cd");
+                    projection[2] = "cd";
+
+                }
+
+                if (cbDMG.isSelected()) {
+//                    projection.add("dmg");
+                    projection[3] = "dmg";
+                }
+
+                String selectedColumns = String.join(",", projection);
+                System.out.println(": " + selectedColumns);
+//                try {
+//                    Main.dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
+//                } catch (Exception ex) {
+//                    throw new RuntimeException(ex);
+//                }
 //            }
             }
         });
