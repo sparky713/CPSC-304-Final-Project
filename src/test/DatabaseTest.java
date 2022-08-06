@@ -39,7 +39,9 @@ public class DatabaseTest {
         dbHandler.insertPlayer(player1);
 
         dbHandler.insertFood(mushroomPizza);
-        dbHandler.insertConsumes(player1, mushroomPizza, 2);
+        dbHandler.insertConsumes(1, player1, mushroomPizza, 2);
+
+        dbHandler.getPlayerFoodInfo(player1);
 
         // uncomment this to test deleteConsumes method AFTER testing
         // insertFood method first VVVVVVV
@@ -71,6 +73,12 @@ public class DatabaseTest {
         player.setDisplayName("Orange");
         player.setPassword("22222");
         dbHandler.updatePlayer(player);
+
+        Player actual = dbHandler.selectPlayer("player6");
+        Player expected = new Player("player6","email@email.com","22222", "Orange" );
+        assertEquals(actual.getDisplayName(), expected.getDisplayName());
+        assertEquals(actual.getEmail(), expected.getEmail());
+        assertEquals(actual.getPassword(), expected.getPassword());
         dbHandler.deletePlayer("player6");
     }
 
