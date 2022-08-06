@@ -331,7 +331,7 @@ public class DatabaseConnectionHandler {
             // 2) consumes.username is not valid
             // 3) playerName must be an actual string of form '...', can't just use a variable that is a string
             String playerName = player.getUsername();
-            String query = "SELECT * FROM consumes WHERE consumes.username = playerName GROUP BY fname";
+            String query = "SELECT fname, SUM(amount) FROM consumes WHERE username = " + playerName + " GROUP BY fname";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ResultSet rs = ps.executeQuery();
 
