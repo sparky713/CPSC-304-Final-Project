@@ -1,6 +1,7 @@
 package ui;
 
 import controller.Main;
+import database.DatabaseConnectionHandler;
 import model.Abilities;
 
 import javax.imageio.ImageIO;
@@ -11,10 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 import static java.awt.Font.BOLD;
 
@@ -32,12 +30,6 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int W = GUIMainPage.W;
     public static final int H = GUIMainPage.H;
 
-    public static final int SPARKS_AND_SPLASH = 0;
-    public static final int PRESERVER_OF_FORTUNE = 1;
-    public static final int RIFF_REVOLUTION = 2;
-    public static final int BAND_OF_ALL_EVIL = 3;
-    public static final int FATE = 4;
-
     public static final int ICONS_Y = 207;
     public static final int ICONS_W = 68;
     public static final int ICONS_MARGIN = 52;
@@ -47,9 +39,9 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int BAND_OF_ALL_EVIL_ICON_X = RIFF_REVOLUTION_ICON_X + ICONS_W + ICONS_MARGIN;
     public static final int FATE_ICON_X = BAND_OF_ALL_EVIL_ICON_X + ICONS_W + ICONS_MARGIN;
 
-    public static final int LIST_Y = 360;
+    public static final int LIST_Y = 335;
     public static final int LIST_W = 100;
-    public static final int LIST_H = 100;
+    public static final int LIST_H = 145;
     public static final int LIST_MARGIN = 46;
     public static final int SPARKS_AND_SPLASH_LIST_X = 78;
     public static final int PRESERVER_OF_FORTUNE_LIST_X = SPARKS_AND_SPLASH_LIST_X + LIST_W + LIST_MARGIN;
@@ -57,46 +49,51 @@ public class GUIAbilitiesPage extends JPanel {
     public static final int BAND_OF_ALL_EVIL_LIST_X = RIFF_REVOLUTION_LIST_X + LIST_W + LIST_MARGIN;
     public static final int FATE_LIST_X = BAND_OF_ALL_EVIL_LIST_X + LIST_W + LIST_MARGIN;
 
-    public static final int DROP_DOWN_CHARACTER_MENU_X = 118;
-    public static final int DROP_DOWN_CHARACTER_MENU_Y = 142;
-    public static final int DROP_DOWN_CHARACTER_MENU_W = 115;
-    public static final int DROP_DOWN_CHARACTER_MENU_H = 30;
-
-    public static final int DROP_DOWN_LEVEL_MENU_X = 240;
-    public static final int DROP_DOWN_LEVEL_MENU_Y = DROP_DOWN_CHARACTER_MENU_Y;
-    public static final int DROP_DOWN_LEVEL_MENU_W = 115;
-    public static final int DROP_DOWN_LEVEL_MENU_H = DROP_DOWN_CHARACTER_MENU_H;
-
-    public static final int LBL_MARGIN_BOTTOM = 20;
+    public static final int LBL_MARGIN_RIGHT = 12;
     public static final int LBL_TITLE_X = 83;
     public static final int LBL_TITLE_Y = 65;
     public static final int LBL_TITLE_W = 300;
     public static final int LBL_TITLE_H = 37;
     public static final int LBL_TITLE_FONT_SIZE = 32;
 
-    public static final int LBL_SHOW_X = DROP_DOWN_CHARACTER_MENU_X;
-    public static final int LBL_SHOW_Y = DROP_DOWN_CHARACTER_MENU_Y - LBL_MARGIN_BOTTOM;
-    public static final int LBL_SHOW_W = DROP_DOWN_CHARACTER_MENU_W;
+    public static final int ABILITIES_PANEL_IMAGE_X = 50;
+    public static final int ABILITIES_PANEL_IMAGE_Y = 165;
+
+    public static final int CHECK_BOX_MARGIN = 10;
+
+    public static final int DROP_DOWN_CHARACTER_MENU_X = 300;
+    public static final int DROP_DOWN_CHARACTER_MENU_Y = ABILITIES_PANEL_IMAGE_Y - 40;
+    public static final int DROP_DOWN_CHARACTER_MENU_W = 80;
+    public static final int DROP_DOWN_CHARACTER_MENU_H = 30;
+
+    public static final int DROP_DOWN_LEVEL_MENU_X = DROP_DOWN_CHARACTER_MENU_X + DROP_DOWN_CHARACTER_MENU_W + CHECK_BOX_MARGIN;
+    public static final int DROP_DOWN_LEVEL_MENU_Y = DROP_DOWN_CHARACTER_MENU_Y;
+    public static final int DROP_DOWN_LEVEL_MENU_W = DROP_DOWN_CHARACTER_MENU_W;
+    public static final int DROP_DOWN_LEVEL_MENU_H = DROP_DOWN_CHARACTER_MENU_H;
+
+    public static final int LBL_SHOW_W = 50;
     public static final int LBL_SHOW_H = DROP_DOWN_CHARACTER_MENU_H;
+    public static final int LBL_SHOW_X = DROP_DOWN_CHARACTER_MENU_X - LBL_SHOW_W - LBL_MARGIN_RIGHT;
+    public static final int LBL_SHOW_Y = DROP_DOWN_CHARACTER_MENU_Y;
+
     public static final int LBL_SHOW_FONT_SIZE = 16;
 
-    public static final int TF_MIN_CD_X = DROP_DOWN_LEVEL_MENU_X + DROP_DOWN_LEVEL_MENU_W + 15;
+    public static final int TF_MIN_CD_X = DROP_DOWN_LEVEL_MENU_X + DROP_DOWN_LEVEL_MENU_W + CHECK_BOX_MARGIN;
     public static final int TF_MIN_CD_Y = DROP_DOWN_CHARACTER_MENU_Y + 5;
-    public static final int TF_MIN_CD_W = 80;
+    public static final int TF_MIN_CD_W = DROP_DOWN_CHARACTER_MENU_W;
     public static final int TF_MIN_CD_H = 20;
 
-    public static final int TF_MIN_DMG_X = TF_MIN_CD_X + 63 + 35;
+    public static final int TF_MIN_DMG_X = TF_MIN_CD_X + TF_MIN_CD_W + CHECK_BOX_MARGIN;
     public static final int TF_MIN_DMG_Y = TF_MIN_CD_Y;
-    public static final int TF_MIN_DMG_W = TF_MIN_CD_W;
+    public static final int TF_MIN_DMG_W = DROP_DOWN_CHARACTER_MENU_W;
     public static final int TF_MIN_DMG_H = TF_MIN_CD_H;
 
-    public static final int BTN_APPLY_X = 640;
-    public static final int BTN_APPLY_Y = 125;
+    public static final int BTN_APPLY_X = 680;
+    public static final int BTN_APPLY_Y = 116;
     public static final int BTN_APPLY_W = 80;
     public static final int BTN_APPLY_H = 50;
 
-    public static final int ABILITIES_PANEL_IMAGE_X = 50;
-    public static final int ABILITIES_PANEL_IMAGE_Y = 177;
+    public static final String DEFAULT_STRING = "-------";
 
     public BufferedImage bgImage;
     public BufferedImage abilitiesPanelImage;
@@ -108,22 +105,19 @@ public class GUIAbilitiesPage extends JPanel {
 //    public BufferedImage fateImage;
 
 
-    public Font lstFont = new Font("Arial", Font.PLAIN, 18);
+    public Font lstFont = new Font("Arial", Font.PLAIN, 13);
     public JLabel lblTitle;
     public JLabel show;
-    public JTextArea taSparksAndSplash;
-    public JTextArea taPreserverOfFortune;
-    public JTextArea taRiffRevolution;
-    public JTextArea taBaneOfAllEvil;
-    public JTextArea taFate;
 
-    public HashMap<Integer, String[]> abilitiesMap;
-    public String sasList[];
-    public String pofList[];
-    public String rrList[];
-    public String boaList[];
-    public String fList[];
+    public String emptyList[];
 
+    DefaultListModel<String> sasList;
+    DefaultListModel<String> pofList;
+    DefaultListModel<String> rrList;
+    DefaultListModel<String> boaList;
+    DefaultListModel<String> fList;
+
+    public DefaultListModel deafultListModels[];
     public JList lstSparksAndSplash;
     public JList lstPreserverOfFortune;
     public JList lstRiffRevolution;
@@ -141,6 +135,7 @@ public class GUIAbilitiesPage extends JPanel {
     public JButton btnApply;
 
     public Vector<Abilities> abilities;
+    private DatabaseConnectionHandler dbHandler = null;
 
     public GUIAbilitiesPage() {
         setLayout(null);
@@ -150,46 +145,70 @@ public class GUIAbilitiesPage extends JPanel {
 
         abilities = null;
 
-        abilitiesMap = new HashMap<Integer, String[]>();
+//        pofList = new String[]{" ", " ", " ", " "};
+        sasList = new DefaultListModel<>();
+        pofList = new DefaultListModel<>();
+        rrList = new DefaultListModel<>();
+        boaList = new DefaultListModel<>();
+        fList = new DefaultListModel<>();
+        emptyList = new String[]{"owner:", DEFAULT_STRING, "level:", DEFAULT_STRING, "cd:", DEFAULT_STRING, "dmg", DEFAULT_STRING};
 
-//        pofList = new String[]{"owner:", "", "level:", "", "cd:", "", "dmg", ""};
-        sasList = new String[]{"", "", "", ""};
-        pofList = new String[]{"", "", "", ""};
-        rrList = new String[]{"", "", "", ""};
-        boaList = new String[]{"", "", "", ""};
-        fList = new String[]{"", "", "", ""};
+        for (String val : emptyList) {
+            sasList.addElement(val);
+        }
+        for (String val : emptyList) {
+            pofList.addElement(val);
+        }
+        for (String val : emptyList) {
+            rrList.addElement(val);
+        }
+        for (String val : emptyList) {
+            boaList.addElement(val);
+        }
+        for (String val : emptyList) {
+            fList.addElement(val);
+        }
 
-        abilitiesMap.put(SPARKS_AND_SPLASH, sasList);
-        abilitiesMap.put(PRESERVER_OF_FORTUNE, pofList);
-        abilitiesMap.put(RIFF_REVOLUTION, rrList);
-        abilitiesMap.put(BAND_OF_ALL_EVIL, boaList);
-        abilitiesMap.put(FATE, fList);
-
-        lstSparksAndSplash = new JList(abilitiesMap.get(0));
+//        lstSparksAndSplash = new JList(abilitiesMap.get(0));
+        lstSparksAndSplash = new JList(sasList);
         lstSparksAndSplash.setBounds(SPARKS_AND_SPLASH_LIST_X, LIST_Y, LIST_W, LIST_H);
         lstSparksAndSplash.setFont(lstFont);
+        lstSparksAndSplash.setBackground(Color.lightGray);
         this.add(lstSparksAndSplash);
 
-        abilitiesMap.get(0)[0] = "v";
-        lstPreserverOfFortune = new JList(abilitiesMap.get(1));
+//        lstPreserverOfFortune = new JList(abilitiesMap.get(1));
+        lstPreserverOfFortune = new JList(pofList);
         lstPreserverOfFortune.setBounds(PRESERVER_OF_FORTUNE_LIST_X, LIST_Y, LIST_W, LIST_H);
         lstPreserverOfFortune.setFont(lstFont);
         this.add(lstPreserverOfFortune);
 
-        lstRiffRevolution = new JList(abilitiesMap.get(2));
+//        lstRiffRevolution = new JList(abilitiesMap.get(2));
+        lstRiffRevolution = new JList(rrList);
         lstRiffRevolution.setBounds(RIFF_REVOLUTION_LIST_X, LIST_Y, LIST_W, LIST_H);
         lstRiffRevolution.setFont(lstFont);
+        lstRiffRevolution.setBackground(Color.lightGray);
         this.add(lstRiffRevolution);
 
-        lstBaneOfAllEvil = new JList(abilitiesMap.get(3));
+//        lstBaneOfAllEvil = new JList(abilitiesMap.get(3));
+        lstBaneOfAllEvil = new JList(boaList);
         lstBaneOfAllEvil.setBounds(BAND_OF_ALL_EVIL_LIST_X, LIST_Y, LIST_W, LIST_H);
         lstBaneOfAllEvil.setFont(lstFont);
         this.add(lstBaneOfAllEvil);
 
-        lstFate = new JList(abilitiesMap.get(4));
+//        lstFate = new JList(abilitiesMap.get(4));
+        lstFate = new JList(fList);
         lstFate.setBounds(FATE_LIST_X, LIST_Y, LIST_W, LIST_H);
         lstFate.setFont(lstFont);
+        lstFate.setBackground(Color.lightGray);
         this.add(lstFate);
+
+        deafultListModels = new DefaultListModel[5];
+        deafultListModels[0] = sasList;
+        deafultListModels[1] = pofList;
+        deafultListModels[2] = rrList;
+        deafultListModels[3] = boaList;
+        deafultListModels[4] = fList;
+
 
         //---------------------------------------------------------------------
         // read images
@@ -239,14 +258,8 @@ public class GUIAbilitiesPage extends JPanel {
         show = new JLabel("Show:");
         show.setBounds(LBL_SHOW_X, LBL_SHOW_Y, LBL_SHOW_W, LBL_SHOW_H);
         show.setFont(new Font("Helvetica", Font.PLAIN, LBL_SHOW_FONT_SIZE));
-        show.setForeground(Color.white);
+        show.setForeground(Color.black);
         this.add(show);
-
-        taSparksAndSplash = new JTextArea();
-        taPreserverOfFortune = new JTextArea();
-        taRiffRevolution = new JTextArea();
-        taBaneOfAllEvil = new JTextArea();
-        taFate = new JTextArea();
 
         cbOwner = new JCheckBox("owner");
         cbOwner.setBounds(DROP_DOWN_CHARACTER_MENU_X, DROP_DOWN_CHARACTER_MENU_Y, DROP_DOWN_CHARACTER_MENU_W, DROP_DOWN_CHARACTER_MENU_H);
@@ -271,49 +284,9 @@ public class GUIAbilitiesPage extends JPanel {
         btnApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO: filter abilities according to properties specified
-//                tfCD.getText(), tfDMG.getText();
                 // check which JCheckBoxes are checked off
-
-                // insert newPlayer (handled in DatabaseConnectionHandler.java)
                 System.out.println("GUIAbilitiesPage:: " + cbOwner.isSelected() + cbLevel.isSelected() + cbCD.isSelected() + cbDMG.isSelected());
-
-//                List<String> projection = Arrays.asList();
-                String[] projection = new String[4];
-
-                if (cbOwner.isSelected()) {
-                    try {
-                        projection[0] = "cname";
-                    }
-                    catch (Exception ee){
-                        System.out.println("line 288");
-                    }
-                }
-
-                if (cbLevel.isSelected()) {
-//                    projection.add("ability_level");
-                    projection[1] = "ability_level";
-                }
-
-                if (cbCD.isSelected()) {
-//                    projection.add("cd");
-                    projection[2] = "cd";
-
-                }
-
-                if (cbDMG.isSelected()) {
-//                    projection.add("dmg");
-                    projection[3] = "dmg";
-                }
-
-                String selectedColumns = String.join(",", projection);
-                System.out.println(": " + selectedColumns);
-//                try {
-//                    Main.dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
-//                } catch (Exception ex) {
-//                    throw new RuntimeException(ex);
-//                }
-//            }
+                dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
             }
         });
         this.add(btnApply);
@@ -347,5 +320,9 @@ public class GUIAbilitiesPage extends JPanel {
 //        g.drawImage(fateImage, FATE_ICON_X, ICONS_Y, null);
 
         paintComponents(g);
+    }
+
+    public void setDbHandler(DatabaseConnectionHandler dbHandler) {
+        this.dbHandler = dbHandler;
     }
 }
