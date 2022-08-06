@@ -196,6 +196,7 @@ public class GUICreateAccountPage extends JPanel {
                 Player newPlayer = new Player(tfUsername.getText(), tfEmail.getText(),
                         tfPassword.getText(), tfDisplayName.getText());
                 dbHandler.insertPlayer(newPlayer);
+                Main.guiEditProfilePage.addPlayer(newPlayer);
                 // open main page
                 Main.guiMainPage.lblDisplayName.setText(tfDisplayName.getText());
                 Main.changeScreen(2);

@@ -2,6 +2,7 @@ package ui;
 
 import controller.Main;
 import database.DatabaseConnectionHandler;
+import model.Player;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -70,7 +71,8 @@ public class GUIEditProfilePage extends JPanel {
     public JButton displayNameButton;
     public JButton returnButton;
 
-    DatabaseConnectionHandler handler;
+    private DatabaseConnectionHandler handler;
+    private Player player;
 
     public GUIEditProfilePage(DatabaseConnectionHandler handler) {
         this.handler = handler;
@@ -99,17 +101,38 @@ public class GUIEditProfilePage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String new_email = tfEmail.getText();
+                player.setEmail(new_email);
+                handler.updatePlayer(player);
+                Main.guiEditProfilePage.setVisible(false);
                 Main.changeScreen(2);
             }
         });
         passwordButton = new JButton("Change Password");
         passwordButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_PASSWORD_Y, 200, 40);
         this.add(passwordButton);
+        passwordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.setPassword(tfPassword.getText());
+                handler.updatePlayer(player);
+                Main.guiEditProfilePage.setVisible(false);
+                Main.changeScreen(2);
+            }
+        });
 
         displayNameButton = new JButton("Change Display Name");
-        displayNameButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_USERNAME_Y, 200, 40);
+        displayNameButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_DISPLAY_NAME_Y, 200, 40);
         this.add(displayNameButton);
 
+        displayNameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                player.setDisplayName(tfDisplayName.getText());
+                handler.updatePlayer(player);
+                Main.guiEditProfilePage.setVisible(false);
+                Main.changeScreen(2);
+            }
+        });
 
         tfEmail = new JTextField(DEFAULT_TEXT_EMAIL);
         tfEmail.setEnabled(false);
@@ -166,5 +189,9 @@ public class GUIEditProfilePage extends JPanel {
         tfs.add(tfPassword);
         tfs.add(tfDisplayName);
 
+    }
+
+    public void addPlayer(Player player){
+        this.player = player;
     }
 }

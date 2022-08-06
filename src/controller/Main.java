@@ -112,8 +112,8 @@ public class Main {
             guiAbilitiesPage.setVisible(true);
         }
         else if (screenNum == 7) { // edit profile page
-           if (guiEditProfilePage.isVisible()) {
-                guiEditProfilePage.setVisible(false);
+           if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
             }
             guiEditProfilePage.setVisible(true);
         }
