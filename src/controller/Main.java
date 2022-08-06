@@ -52,6 +52,7 @@ public class Main {
         guiPartiesPage = new GUIPartiesPage();
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
+        guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
 
         guiMainPage.setVisible(false);
@@ -61,6 +62,8 @@ public class Main {
 //        guiCharactersPage.setVisible(false);
 //        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
+//        guiAbilitiesPage.setVisible(false);
+        guiAbilitiesPage.setVisible(true);
         guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
         guiEditProfilePage.setVisible(false);

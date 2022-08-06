@@ -9,11 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 //import model.PlayerModel;
 
@@ -208,23 +204,28 @@ public class DatabaseConnectionHandler {
     }
 
     public void showAbilitiesProperties(boolean showOwner, boolean showLevel, boolean showCD, boolean showDMG) {
-        List<String> projection = Arrays.asList();
+        Vector<String> projection = new Vector<String>();
 
-        if (showOwner) {
-            projection.add("cname");
-        }
+//        if (showOwner) {
+//            projection.add("cname");
+//        }
+//
+//        if (showLevel) {
+//            projection.add("ability_level");
+//        }
+//
+//        if (showCD) {
+//            projection.add("cd");
+//        }
+//
+//        if (showDMG) {
+//            projection.add("dmg");
+//        }
 
-        if (showLevel) {
-            projection.add("ability_level");
-        }
-
-        if (showCD) {
-            projection.add("cd");
-        }
-
-        if (showDMG) {
-            projection.add("dmg");
-        }
+        projection.add("cname");
+        projection.add("ability_level");
+        projection.add("cd");
+        projection.add("dmg");
 
         String selectedColumns = String.join(",", projection);
         System.out.println("DCH::showAbilitiesProperties: " + selectedColumns);
@@ -233,18 +234,50 @@ public class DatabaseConnectionHandler {
             String query = "SELECT " + selectedColumns + " FROM ABILITY";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 
-            ResultSet rsAbilities = ps.getResultSet();
-            rsAbilities.last();
-            int numAbilities = rsAbilities.getRow();
-            rsAbilities.beforeFirst();
+////            ps.getResultSet().setFetchDirection(ResultSet.TYPE_SCROLL_SENSITIVE,
+////                    ResultSet.CONCUR_UPDATABLE);
+//            ResultSet rsAbilities = ps.getResultSet();
+            ResultSet rsAbilities = ps.executeQuery(query);
+//            rsAbilities.setFetchDirection(ResultSet.FETCH_REVERSE);
+////            rsAbilities.setFetchDirection(ResultSet.TYPE_SCROLL_INSENSITIVE);
+////            rsAbilities.setFetchDirection(ResultSet.CONCUR_UPDATABLE);
+//            System.out.println("fetch dir: " + ps.getFetchDirection());
+//            rsAbilities.last();
+//            int numAbilities = rsAbilities.getRow();
+//            int num = ps.getMaxRows();
 
-            for (int i = 0; i < numAbilities; i++) {
+//            rsAbilities.beforeFirst();
+            for (int i = 0; i < 5; i++) {
                 rsAbilities.next();
                 //set list text
-                Main.guiAbilitiesPage.abilitiesMap.get(i)[0] = ps.getResultSet().getString(1); // cname
-                Main.guiAbilitiesPage.abilitiesMap.get(i)[1] = Integer.toString(ps.getResultSet().getInt(2)); // ability_level
-                Main.guiAbilitiesPage.abilitiesMap.get(i)[2] = Float.toString(ps.getResultSet().getFloat(3)); // cd
-                Main.guiAbilitiesPage.abilitiesMap.get(i)[3] = Integer.toString(ps.getResultSet().getInt(4)); // dmg
+                if (showOwner) { // cname
+                    Main.guiAbilitiesPage.deafultListModels[i].set(1,ps.getResultSet().getString(1));
+                }
+                else {
+                    Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
+                }
+
+                if (showLevel) { // ability_level
+                    Main.guiAbilitiesPage.deafultListModels[i].set(3, Integer.toString(ps.getResultSet().getInt(2)));
+
+                }
+                else {
+                    Main.guiAbilitiesPage.deafultListModels[i].set(3, Main.guiAbilitiesPage.DEFAULT_STRING);
+                }
+
+                if (showCD) { // cd
+                    Main.guiAbilitiesPage.deafultListModels[i].set(5, Float.toString(ps.getResultSet().getFloat(3)));
+                }
+                else {
+                    Main.guiAbilitiesPage.deafultListModels[i].set(5, Main.guiAbilitiesPage.DEFAULT_STRING);
+                }
+
+                if (showDMG) { // dmg
+                    Main.guiAbilitiesPage.deafultListModels[i].set(7, Integer.toString(ps.getResultSet().getInt(4)));
+                }
+                else {
+                    Main.guiAbilitiesPage.deafultListModels[i].set(7, Main.guiAbilitiesPage.DEFAULT_STRING);
+                }
             }
             ps.executeUpdate();
             connection.commit();
