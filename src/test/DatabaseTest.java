@@ -71,6 +71,12 @@ public class DatabaseTest {
         player.setDisplayName("Orange");
         player.setPassword("22222");
         dbHandler.updatePlayer(player);
+
+        Player actual = dbHandler.selectPlayer("player6");
+        Player expected = new Player("player6","email@email.com","22222", "Orange" );
+        assertEquals(actual.getDisplayName(), expected.getDisplayName());
+        assertEquals(actual.getEmail(), expected.getEmail());
+        assertEquals(actual.getPassword(), expected.getPassword());
         dbHandler.deletePlayer("player6");
     }
 
