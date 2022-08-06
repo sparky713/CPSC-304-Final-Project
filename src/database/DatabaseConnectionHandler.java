@@ -128,6 +128,7 @@ public class DatabaseConnectionHandler {
 
 
 
+
             String email = "";
             String password = "";
             String displayName = "";
