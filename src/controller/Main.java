@@ -22,6 +22,7 @@ public class Main {
     public static GUIPartiesPage guiPartiesPage;
     public static GUIWeaponsPage guiWeaponsPage;
     public static GUIAbilitiesPage guiAbilitiesPage;
+    public static GUIEditProfilePage guiEditProfilePage;
     public static void main(String[] args) {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
@@ -31,7 +32,7 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_spark73", "a41475948");
+        dbHandler.login("ORA_SCW2018", "a13454772");
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -50,6 +51,7 @@ public class Main {
         guiPartiesPage = new GUIPartiesPage();
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
+        guiEditProfilePage = new GUIEditProfilePage(dbHandler);
 
         guiMainPage.setVisible(true);
 //        guiCreateAccountPage.setVisible(true);
@@ -60,6 +62,7 @@ public class Main {
         guiWeaponsPage.setVisible(false);
         guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
+        guiEditProfilePage.setVisible(false);
 
         frame.setVisible(true);
 
@@ -105,10 +108,10 @@ public class Main {
             guiAbilitiesPage.setVisible(true);
         }
         else if (screenNum == 7) { // edit profile page
-//            if (guiMainPage.isVisible()) {
-//                guiMainPage.setVisible(false);
-//            }
-//            guiEditProfilePage.setVisible(true);
+           if (guiEditProfilePage.isVisible()) {
+                guiEditProfilePage.setVisible(false);
+            }
+            guiEditProfilePage.setVisible(true);
         }
         else {
 //            ERROR MESSAGE!!!!!!

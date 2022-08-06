@@ -119,6 +119,37 @@ public class DatabaseConnectionHandler {
 
     }
 
+    // finds a player given a username
+    public Player selectPlayer(String username) {
+        try {
+            String query = "SELECT * FROM PLAYER WHERE USERNAME = ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            String email = "";
+            String password = "";
+            String displayName = "";
+
+            while (rs.next()) {
+                email = rs.getString("email");
+                password = rs.getString("password");
+                displayName = rs.getString("DISPLAYNAME");
+            }
+
+            Player p = new Player(username, email, password, displayName);
+
+            ps.close();
+            rs.close();
+
+            return p;
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+        return null;
+    }
+
     public void deletePlayer(String username) {
         try {
             String q = "DELETE FROM PLAYER WHERE USERNAME = ?";
