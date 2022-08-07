@@ -1,14 +1,11 @@
 package test;
 
 import database.DatabaseConnectionHandler;
-import model.Character;
-import model.ElementModel;
 import model.Food;
 import model.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,12 +33,24 @@ public class DatabaseTest {
         Food mushroomPizza = new Food("Mushroom Pizza", 450);
         player1.consumes(mushroomPizza, 2);
 
-        dbHandler.insertPlayer(player1);
+        dbHandler.countArtifacts();
 
         dbHandler.insertFood(mushroomPizza);
         dbHandler.insertConsumes(1, player1, mushroomPizza, 2);
 
         dbHandler.getPlayerFoodInfo(player1);
+
+        // uncomment this to test deleteConsumes method AFTER testing
+        // insertFood method first VVVVVVV
+
+        // dbHandler.deleteConsumes("player1", "Mushroom Pizza");
+
+    }
+
+    @Test
+    void testArtifactGroupBy() {
+
+        dbHandler.countArtifacts();
 
         // uncomment this to test deleteConsumes method AFTER testing
         // insertFood method first VVVVVVV

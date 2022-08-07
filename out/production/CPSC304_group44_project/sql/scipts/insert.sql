@@ -509,3 +509,23 @@ VALUES ('Xiao', 'Pearl Necklace');
 INSERT
 INTO Wears(cname, aname)
 VALUES ('Mona', 'Heart Pin');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Xinyan', 'Adventurers Flower');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Mona', 'Adventurers Flower');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Qiqi', 'Gold Crown');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Xiao', 'Ruby Pin');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Mona', 'Emerald Crown');

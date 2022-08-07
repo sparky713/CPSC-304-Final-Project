@@ -1,9 +1,9 @@
 package model;
 
-public class ElementModel {
+public class Element {
     String name;
 
-    public ElementModel(String name) {
+    public Element(String name) {
         this.name = name;
     }
 

@@ -27,6 +27,18 @@ VALUES ('player2', 'animalParty', 2);
 
 INSERT
 INTO PartyCreation (USERNAME, PNAME, PARTYSIZE)
+VALUES ('player2', 'theBestTeam', 3);
+
+INSERT
+INTO PartyCreation (USERNAME, PNAME, PARTYSIZE)
+VALUES ('player2', 'mainParty', 3);
+
+INSERT
+INTO PartyCreation (USERNAME, PNAME, PARTYSIZE)
+VALUES ('player2', 'battleTeam', 2);
+
+INSERT
+INTO PartyCreation (USERNAME, PNAME, PARTYSIZE)
 VALUES ('player3', 'coolKidsonly', 1);
 
 INSERT
@@ -406,6 +418,38 @@ VALUES ('player2', 'animalParty', 'Klee');
 
 INSERT
 INTO ComprisedOf (USERNAME, PNAME, CNAME)
+VALUES ('player2', 'theBestTeam', 'Qiqi');
+
+INSERT
+INTO ComprisedOf (USERNAME, PNAME, CNAME)
+VALUES ('player2', 'theBestTeam', 'Klee');
+
+INSERT
+INTO ComprisedOf (USERNAME, PNAME, CNAME)
+VALUES ('player2', 'theBestTeam', 'Xiao');
+
+INSERT
+INTO ComprisedOf (USERNAME, PNAME, CNAME)
+VALUES ('player2', 'mainParty', 'Klee');
+
+INSERT
+INTO ComprisedOf (USERNAME, PNAME, CNAME)
+VALUES ('player2', 'mainParty', 'Xinyan');
+
+INSERT
+INTO ComprisedOf (USERNAME, PNAME, CNAME)
+VALUES ('player2', 'mainParty', 'Mona');
+
+INSERT
+INTO ComprisedOf (USERNAME, PNAME, CNAME)
+VALUES ('player2', 'battleTeam', 'Mona');
+
+INSERT
+INTO ComprisedOf (USERNAME, PNAME, CNAME)
+VALUES ('player2', 'battleTeam', 'Klee');
+
+INSERT
+INTO ComprisedOf (USERNAME, PNAME, CNAME)
 VALUES ('player3', 'coolKidsonly', 'Klee');
 
 INSERT
@@ -509,3 +553,23 @@ VALUES ('Xiao', 'Pearl Necklace');
 INSERT
 INTO Wears(cname, aname)
 VALUES ('Mona', 'Heart Pin');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Xinyan', 'Adventurers Flower');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Mona', 'Adventurers Flower');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Qiqi', 'Gold Crown');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Xiao', 'Ruby Pin');
+
+INSERT
+INTO Wears(cname, aname)
+VALUES ('Mona', 'Emerald Crown');

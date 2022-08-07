@@ -76,7 +76,9 @@ public class DatabaseConnectionHandler {
         }
     }
 
-
+    //----------------------------------------------------------------------
+    // Player
+    // ---------------------------------------------------------------------
     public void insertPlayer(Player player) {
         try {
             String playerQuery = "INSERT INTO PLAYER (username, password, email, displayName) VALUES (?,?,?,?)";
@@ -163,6 +165,87 @@ public class DatabaseConnectionHandler {
         }
     }
 
+    //----------------------------------------------------------------------
+    // Artifact
+    // ---------------------------------------------------------------------
+    public void countArtifacts() {
+//
+//        String selectedColumns = String.join(",", projection);
+            String selectedColumns = " ";
+//        System.out.println("DCH::showAbilitiesProperties: " + selectedColumns);
+        try {
+//            String query = "SELECT cname, count(*) FROM Wears GROUP BY cname";
+            // OR
+            String query = "SELECT cname, count(*) FROM COMPRISEDOF GROUP BY cname";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+
+            ResultSet rs = ps.executeQuery(query);
+
+            while (rs.next()) {
+                // TODO: Display the count (GUI) when display artifacts button is clicked
+            }
+
+//            for (int i = 0; i < 5; i++) {
+//                rsAbilities.next();
+//                //set list text
+////                if (showOwner) { // cname
+//                    Main.guiAbilitiesPage.deafultListModels[i].set(1,ps.getResultSet().getString(1));
+////                }
+////                else {
+////                    Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
+////                }
+//            }
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+    //----------------------------------------------------------------------
+    // Party
+    // ---------------------------------------------------------------------
+    public void strongestParty() { // party with highest level character
+//
+//        String selectedColumns = String.join(",", projection);
+        String selectedColumns = " ";
+        try {
+            // 1) group by pname where username = current player's username (player2)
+            String query = "SELECT pname, count(*) FROM ComprisedOf, Character GROUP BY cname";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+
+            ResultSet rs = ps.executeQuery(query);
+
+            while (rs.next()) {
+                // TODO: Display the count (GUI) when display artifacts button is clicked
+            }
+
+//            for (int i = 0; i < 5; i++) {
+//                rsAbilities.next();
+//                //set list text
+////                if (showOwner) { // cname
+//                    Main.guiAbilitiesPage.deafultListModels[i].set(1,ps.getResultSet().getString(1));
+////                }
+////                else {
+////                    Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
+////                }
+//            }
+            ps.executeUpdate();
+            connection.commit();
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            rollbackConnection();
+        }
+    }
+
+    //----------------------------------------------------------------------
+    // Ability
+    // ---------------------------------------------------------------------
     public void insertAbility(Abilities abilities) {
         try {
             insertAbilityDMG(abilities.getLevel(), abilities.getDmg());
@@ -289,7 +372,9 @@ public class DatabaseConnectionHandler {
         }
     }
 
-
+    //----------------------------------------------------------------------
+    // Food
+    // ---------------------------------------------------------------------
     // inserts food
     public void insertFood(Food food) {
         try {
@@ -386,41 +471,9 @@ public class DatabaseConnectionHandler {
         return result;
     }
 
-
-
-
-
-    // creates the Element table
-    private void setupElement() {
-        try {
-            String query = "CREATE TABLE Element\n" +
-                    "(\n" +
-                    "    name char(80) PRIMARY KEY\n" +
-                    ")";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ps.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-
-        }
-    }
-
-    // inserts elements
-    public void insertElement(ElementModel elementModel) {
-        try {
-            String q = "INSERT INTO Element VALUES (?)";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
-            ps.setString(1, elementModel.getName());
-            ps.executeUpdate();
-            connection.commit();
-            ps.close();
-        } catch (SQLException e) {
-            rollbackConnection();
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-
-    }
+    //----------------------------------------------------------------------
+    // Character
+    // ---------------------------------------------------------------------
 
     // inserts a character (does not work)
     // TODO: insert into CharHP only if key does not already exist
