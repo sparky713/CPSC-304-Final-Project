@@ -1,17 +1,10 @@
 package controller;
 
 import database.DatabaseConnectionHandler;
-import model.Character;
-import model.ElementModel;
-import model.Food;
-import model.Player;
 import ui.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.*;
 
 //TEST
 public class Main {
@@ -28,7 +21,7 @@ public class Main {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
 
-        //---------------------------------------------------------------------
+        //----------------------------------------------------------------------
         // Database Setup
         // ---------------------------------------------------------------------
 
