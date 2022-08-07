@@ -6,6 +6,8 @@ import model.Weapon;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -40,11 +42,14 @@ public class GUIWeaponsPage extends JPanel {
 
     public BufferedImage bgImage;
     public BufferedImage weaponsPanelImage;
+    public BufferedImage backBtnImage;
     public JComboBox<String> weaponDropDown;
     public String[] weaponTypes;
     public JLabel lblTitle;
 
     public Vector<Weapon> weapons;
+
+    public JButton btnBack;
 
     public GUIWeaponsPage() {
         setLayout(null);
@@ -71,6 +76,13 @@ public class GUIWeaponsPage extends JPanel {
             System.exit(1);
         }
 
+        try { // back button image
+            backBtnImage = ImageIO.read(new File(GUIMainPage.BACK_BTN_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIWeaponsPage::GUIWeaponsPage(): error: file not found: " + GUIMainPage.BACK_BTN_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
         //---------------------------------------------------------------------
         // init JComponents
         //---------------------------------------------------------------------
@@ -87,6 +99,18 @@ public class GUIWeaponsPage extends JPanel {
         lblTitle.setFont(new Font("Helvetica", BOLD, LBL_TITLE_FONT_SIZE));
         lblTitle.setForeground(Color.white);
         this.add(lblTitle);
+
+        btnBack = new JButton(new ImageIcon(backBtnImage));
+        btnBack.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
+        btnBack.setBorder(BorderFactory.createEmptyBorder());
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.changeScreen(2);
+                Main.guiWeaponsPage.setVisible(false);
+            }
+        });
+        this.add(btnBack);
 
         // TODO: add abilities and attach labels
 //        lblWeapons = new JLabel("bow 1");
