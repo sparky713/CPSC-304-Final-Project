@@ -483,7 +483,7 @@ VALUES ('player3', 'Alley Hunter', 3);
 
 INSERT
 INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)
-VALUES ('player4', 'Jade Cutter', 1);
+VALUES ('player2', 'Jade Cutter', 1);
 
 INSERT
 INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)

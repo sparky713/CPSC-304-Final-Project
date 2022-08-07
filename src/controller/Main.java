@@ -24,6 +24,9 @@ public class Main {
     public static GUIWeaponsPage guiWeaponsPage;
     public static GUIAbilitiesPage guiAbilitiesPage;
     public static GUIEditProfilePage guiEditProfilePage;
+
+    public static GUIFriendsPage guiFriendsPage;
+
     public static void main(String[] args) {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
@@ -41,8 +44,8 @@ public class Main {
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
-        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
-//        frame.setSize(GUIMainPage.W, GUIMainPage.H);
+//        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+        frame.setSize(GUIMainPage.W, GUIMainPage.H);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         guiMainPage = new GUIMainPage();
@@ -54,9 +57,11 @@ public class Main {
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
+        guiFriendsPage = new GUIFriendsPage(dbHandler);
 
         guiMainPage.setVisible(false);
-        guiCreateAccountPage.setVisible(true);
+        guiCreateAccountPage.setVisible(false);
+        guiFriendsPage.setVisible(true);
 //        guiCreateAccountPage.setVisible(false);
 
 //        guiCharactersPage.setVisible(false);
@@ -79,8 +84,7 @@ public class Main {
             }
             frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
             guiCreateAccountPage.setVisible(true);
-        }
-        else if (screenNum == 2) { // main page
+        } else if (screenNum == 2) { // main page
             if (guiCreateAccountPage.isVisible()) {
                 guiCreateAccountPage.setVisible(false);
             }
@@ -104,20 +108,22 @@ public class Main {
                 guiMainPage.setVisible(false);
             }
             guiWeaponsPage.setVisible(true);
-        }
-        else if (screenNum == 6) { // abilities page
+        } else if (screenNum == 6) { // abilities page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiAbilitiesPage.setVisible(true);
-        }
-        else if (screenNum == 7) { // edit profile page
-           if (guiMainPage.isVisible()) {
+        } else if (screenNum == 7) { // edit profile page
+            if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiEditProfilePage.setVisible(true);
-        }
-        else {
+        } else if (screenNum == 8) { //friends page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiFriendsPage.setVisible(true);
+        } else {
 //            ERROR MESSAGE!!!!!!
             System.out.println("Game::changeScreen(" + screenNum + "): Error. Page Not Found");
         }

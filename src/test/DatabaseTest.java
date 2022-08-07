@@ -1,14 +1,12 @@
 package test;
 
 import database.DatabaseConnectionHandler;
-import model.Character;
-import model.ElementModel;
-import model.Food;
-import model.Player;
+import model.*;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -81,5 +79,6 @@ public class DatabaseTest {
         assertEquals(actual.getPassword(), expected.getPassword());
         dbHandler.deletePlayer("player6");
     }
+
 
 }

@@ -53,11 +53,6 @@ public class GUIEditProfilePage extends JPanel {
     public static final String DEFAULT_TEXT_PWD = " Password";
     public static final String DEFAULT_TEXT_DISPLAY_NAME = " Display Name";
 
-    public static final int POPUP_MENU_X = 200;
-    public static final int POPUP_MENU_Y = 300;
-    public static final int POPUP_MENU_W = 100;
-    public static final int POPUP_MENU_H = 100;
-
     JLabel lblCreateAccount;
 
     public JTextField tfEmail;

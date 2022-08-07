@@ -251,31 +251,27 @@ public class DatabaseConnectionHandler {
                 rsAbilities.next();
                 //set list text
                 if (showOwner) { // cname
-                    Main.guiAbilitiesPage.deafultListModels[i].set(1,ps.getResultSet().getString(1));
-                }
-                else {
+                    Main.guiAbilitiesPage.deafultListModels[i].set(1, ps.getResultSet().getString(1));
+                } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showLevel) { // ability_level
                     Main.guiAbilitiesPage.deafultListModels[i].set(3, Integer.toString(ps.getResultSet().getInt(2)));
 
-                }
-                else {
+                } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(3, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showCD) { // cd
                     Main.guiAbilitiesPage.deafultListModels[i].set(5, Float.toString(ps.getResultSet().getFloat(3)));
-                }
-                else {
+                } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(5, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showDMG) { // dmg
                     Main.guiAbilitiesPage.deafultListModels[i].set(7, Integer.toString(ps.getResultSet().getInt(4)));
-                }
-                else {
+                } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(7, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
             }
@@ -354,8 +350,8 @@ public class DatabaseConnectionHandler {
 
     }
 
-    public ArrayList<Map<String,Integer>> getPlayerFoodInfo(Player player) {
-        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
+    public ArrayList<Map<String, Integer>> getPlayerFoodInfo(Player player) {
+        ArrayList<Map<String, Integer>> result = new ArrayList<Map<String, Integer>>();
 
 
         try {
@@ -368,9 +364,9 @@ public class DatabaseConnectionHandler {
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()) {
-                Map<String,Integer> oneFood = new HashMap<String,Integer>();
-                Food foodModel =  new Food(rs.getString("name"),
+            while (rs.next()) {
+                Map<String, Integer> oneFood = new HashMap<String, Integer>();
+                Food foodModel = new Food(rs.getString("name"),
                         rs.getInt("healAmount"));
                 int foodModelQuantity = rs.getInt("amount");
                 oneFood.put(foodModel.getFoodName(), foodModelQuantity);
@@ -385,9 +381,6 @@ public class DatabaseConnectionHandler {
 
         return result;
     }
-
-
-
 
 
     // creates the Element table
@@ -422,46 +415,80 @@ public class DatabaseConnectionHandler {
 
     }
 
-    // inserts a character (does not work)
-    // TODO: insert into CharHP only if key does not already exist
-    // TODO: insert into CharATK
-    public void insertCharacter(Character character) {
+    // returns a list of weapons with ATK greater than minATK
+    public ArrayList<Character> giveCharacterWithMinATK(String username, int minATK) {
         try {
-            insertCharHP(character.getLevel(), character.getBaseHP());
-            String characterQuery = "INSERT INTO Character(name, character_level, baseHP, baseATK, ename) VALUES (?, ?, ?, ?, ?)";
-            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(characterQuery), characterQuery, false);
+            String query = "SELECT * FROM CHARACTER C1 INNER JOIN PLAYS P on C1.NAME = P.CNAME WHERE P.USERNAME = ? AND C1.BASEATK> ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(1, username);
+            ps.setInt(2, minATK);
 
-            psChar.setString(1, character.getName());
-            psChar.setInt(2, character.getLevel());
-            psChar.setInt(3, character.getBaseHP());
-            psChar.setInt(4, character.getBaseATK());
-            psChar.setString(5, character.getElement().getName());
+            ResultSet rs = ps.executeQuery();
 
-            psChar.executeUpdate();
-            connection.commit();
+            ArrayList<Character> cList = new ArrayList<Character>();
 
-            psChar.close();
+            while(rs.next()) {
+                String cName = rs.getString("name");
+                int level = rs.getInt("level");
+                int baseHP = rs.getInt("baseHP");
+                int baseATK = rs.getInt("baseATK");
+                String eName = rs.getString("ename");
+
+                Character character = new Character(cName, level, baseHP, baseATK, eName);
+                cList.add(character);
+
+            }
+
+            ps.close();
+            rs.close();
+            return cList;
+
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-            rollbackConnection();
         }
+        return null;
     }
 
-    private void insertCharHP(int level, int baseHP) {
-        try {
-            String charHPQuery = "INSERT INTO CharacterHP(character_level, baseHP, currHP) VALUES (?, ?, ?)";
-            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
-
-            psHP.setInt(1, level);
-            psHP.setInt(2, baseHP);
-            psHP.setInt(3, baseHP + 50 * level);
-            psHP.executeUpdate();
-            psHP.close();
-        } catch (SQLException e) {
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-            rollbackConnection();
-        }
-
-    }
+//    // inserts a character (does not work)
+//    // TODO: insert into CharHP only if key does not already exist
+//    // TODO: insert into CharATK
+//    public void insertCharacter(Character character) {
+//        try {
+//            insertCharHP(character.getLevel(), character.getBaseHP());
+//            String characterQuery = "INSERT INTO Character(name, character_level, baseHP, baseATK, ename) VALUES (?, ?, ?, ?, ?)";
+//            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(characterQuery), characterQuery, false);
+//
+//            psChar.setString(1, character.getName());
+//            psChar.setInt(2, character.getLevel());
+//            psChar.setInt(3, character.getBaseHP());
+//            psChar.setInt(4, character.getBaseATK());
+//            psChar.setString(5, character.getElement().getName());
+//
+//            psChar.executeUpdate();
+//            connection.commit();
+//
+//            psChar.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//            rollbackConnection();
+//        }
+//    }
+//
+//    private void insertCharHP(int level, int baseHP) {
+//        try {
+//            String charHPQuery = "INSERT INTO CharacterHP(character_level, baseHP, currHP) VALUES (?, ?, ?)";
+//            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
+//
+//            psHP.setInt(1, level);
+//            psHP.setInt(2, baseHP);
+//            psHP.setInt(3, baseHP + 50 * level);
+//            psHP.executeUpdate();
+//            psHP.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//            rollbackConnection();
+//        }
+//
+//    }
 
 }
