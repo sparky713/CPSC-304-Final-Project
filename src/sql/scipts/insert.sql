@@ -380,6 +380,34 @@ VALUES (3, 'player2', 'Fullmoon Egg', 1);
 
 INSERT
 INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (7, 'player2', 'Mushroom Pizza', 2);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (8, 'player2', 'Teyvat Fried Egg', 3);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (9, 'player2', 'Butter Crab', 2);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (10, 'player2', 'Crystal Shrimp', 5);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (11, 'player2', 'Five Pickled Treasures', 1);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (12, 'player2', 'Grilled Tiger Fish', 7);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (13, 'player2', 'Lotus Flower Crisp', 4);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
 VALUES (4, 'player3', 'Teyvat Fried Egg', 1);
 
 INSERT
