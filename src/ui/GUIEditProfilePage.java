@@ -19,12 +19,13 @@ import java.util.Vector;
 import static java.awt.Font.BOLD;
 
 public class GUIEditProfilePage extends JPanel {
-    public static final int W = 500;
-    public static final int H = 700;
+    public static final int W = 850;
+    public static final int H = 750;
 
-    public static final String BORDER_IMAGE_FILENAME = "images/sign_up_border.png";
+    public static final String BACK_BTN_IMAGE_FILENAME = "images/back_btn_black.png";
 
-    public BufferedImage borderImage;
+
+    public BufferedImage backBtnImage;
 
     public static final int LBL_X = 112;
     public static final int LBL_Y = 115;
@@ -81,10 +82,10 @@ public class GUIEditProfilePage extends JPanel {
         this.setBounds(0, 0, GUIMainPage.W, GUIMainPage.H);
         Main.frame.add(this, 0);
 
-        try { // border image
-            borderImage = ImageIO.read(new File(BORDER_IMAGE_FILENAME));
+        try { // back button image
+            backBtnImage = ImageIO.read(new File(BACK_BTN_IMAGE_FILENAME));
         } catch (IOException e) {
-            System.out.println("GUICreateAccountPage::GUICreateAccountPage(): error: file not found: " + BORDER_IMAGE_FILENAME);
+            System.out.println("GUIEditProfilePage::GUIEditProfilePage(): error: file not found: " + BACK_BTN_IMAGE_FILENAME);
             System.exit(1);
         }
 
@@ -122,8 +123,6 @@ public class GUIEditProfilePage extends JPanel {
 
         displayNameButton = new JButton("Change Display Name");
         displayNameButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_DISPLAY_NAME_Y, 200, 40);
-        this.add(displayNameButton);
-
         displayNameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,6 +132,18 @@ public class GUIEditProfilePage extends JPanel {
                 Main.changeScreen(2);
             }
         });
+        this.add(displayNameButton);
+
+        returnButton = new JButton(new ImageIcon(backBtnImage));
+        returnButton.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.changeScreen(2);
+                Main.guiEditProfilePage.setVisible(false);
+            }
+        });
+        this.add(returnButton);
 
         tfEmail = new JTextField(DEFAULT_TEXT_EMAIL);
         tfEmail.setEnabled(false);

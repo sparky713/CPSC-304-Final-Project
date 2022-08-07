@@ -33,7 +33,7 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_SCW2018", "a13454772");
+        dbHandler.login("ORA_spark73", "a41475948");
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -59,8 +59,8 @@ public class Main {
         guiCreateAccountPage.setVisible(true);
 //        guiCreateAccountPage.setVisible(false);
 
-//        guiCharactersPage.setVisible(false);
-//        guiPartiesPage.setVisible(false);
+        guiCharactersPage.setVisible(false);
+        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(false);
         guiAbilitiesPage.setVisible(true);
@@ -87,18 +87,18 @@ public class Main {
             frame.setSize(GUIMainPage.W, GUIMainPage.H);
             guiMainPage.setVisible(true);
         }
-//        else if (screenNum == 3) { // characters page
-//            if (guiMainPage.isVisible()) {
-//                guiMainPage.setVisible(false);
-//            }
-//            guiCharactersPage.setVisible(true);
-//        }
-//        else if (screenNum == 4) { // parties page
-//            if (guiMainPage.isVisible()) {
-//                guiMainPage.setVisible(false);
-//            }
-//            guiPartiesPage.setVisible(true);
-//        }
+        else if (screenNum == 3) { // characters page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiCharactersPage.setVisible(true);
+        }
+        else if (screenNum == 4) { // parties page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiPartiesPage.setVisible(true);
+        }
         else if (screenNum == 5) { // weapons page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
