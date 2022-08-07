@@ -416,9 +416,39 @@ public class DatabaseConnectionHandler {
     }
 
     // returns a list of weapons with ATK greater than minATK
-    public ArrayList<Character> giveCharacterWithMinATK(String username, int minATK) {
+    public ArrayList<Weapon> giveOwnedWeaponWithMinATK(int minATK, String username) {
         try {
-            String query = "SELECT * FROM CHARACTER C1 INNER JOIN PLAYS P on C1.NAME = P.CNAME WHERE P.USERNAME = ? AND C1.BASEATK> ?";
+            String query = "SELECT * FROM Weapon INNER JOIN OWNSWEAPON ON OWNSWEAPON.WNAME = WEAPON.NAME WHERE OWNSWEAPON.USERNAME = ? AND WEAPON.BASEATK > ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(1, username);
+            ps.setInt(2, minATK);
+
+            ResultSet rs = ps.executeQuery();
+
+            ArrayList<Weapon> wList = new ArrayList<Weapon>();
+
+            while (rs.next()) {
+                String wname = rs.getString("name");
+                int baseATK = rs.getInt("baseATK");
+                Weapon w = new Weapon(wname, baseATK);
+                wList.add(w);
+            }
+
+            ps.close();
+            rs.close();
+            return wList;
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+        return null;
+    }
+
+    // returns a list of character with ATK greater than minATK
+    public ArrayList<Character> giveCharacterWithMinATK(int minATK, String username) {
+        try {
+
+            String query = "SELECT * FROM CHARACTER INNER JOIN PLAYS ON PLAYS.CNAME = CHARACTER.NAME WHERE PLAYS.USERNAME = ? AND CHARACTER.BASEATK > ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ps.setString(1, username);
             ps.setInt(2, minATK);
@@ -427,12 +457,12 @@ public class DatabaseConnectionHandler {
 
             ArrayList<Character> cList = new ArrayList<Character>();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 String cName = rs.getString("name");
-                int level = rs.getInt("level");
-                int baseHP = rs.getInt("baseHP");
-                int baseATK = rs.getInt("baseATK");
-                String eName = rs.getString("ename");
+                int level = rs.getInt(2);
+                int baseHP = rs.getInt(3);
+                int baseATK = rs.getInt(4);
+                String eName = rs.getString(5);
 
                 Character character = new Character(cName, level, baseHP, baseATK, eName);
                 cList.add(character);

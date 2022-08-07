@@ -2,6 +2,7 @@ package test;
 
 import database.DatabaseConnectionHandler;
 import model.*;
+import model.Character;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -80,5 +81,18 @@ public class DatabaseTest {
         dbHandler.deletePlayer("player6");
     }
 
+    @Test
+    void testWeapon() {
+        ArrayList<Weapon> weapons = dbHandler.giveOwnedWeaponWithMinATK(64, "player2");
+        assertEquals("jade cutter", weapons.get(0).getName().toLowerCase());
+        assertEquals("alley hunter",weapons.get(1).getName().toLowerCase());
+
+    }
+    @Test
+    void testMinChar() {
+        ArrayList<Character> characters = dbHandler.giveCharacterWithMinATK(1, "player1");
+        System.out.println(characters.size());
+
+    }
 
 }
