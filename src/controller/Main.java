@@ -1,6 +1,7 @@
 package controller;
 
 import database.DatabaseConnectionHandler;
+import model.Player;
 import ui.*;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class Main {
 
     public static GUINestedAggregationPage guiNestedAggregationPage;
 
+    public static Player currPlayer;
     public static void main(String[] args) {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
@@ -31,16 +33,17 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_scw2018", "a13454772");
+        dbHandler.login("ORA_spark73", "a41475948");
 
         //---------------------------------------------------------------------
         // GUI Setup
         //---------------------------------------------------------------------
+        currPlayer = null;
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
-//        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
-        frame.setSize(GUIMainPage.W, GUIMainPage.H);
+        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+//        frame.setSize(GUIMainPage.W, GUIMainPage.H);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         guiMainPage = new GUIMainPage();
@@ -48,6 +51,7 @@ public class Main {
         guiCreateAccountPage.setDbHandler(dbHandler);
         guiCharactersPage = new GUICharactersPage();
         guiPartiesPage = new GUIPartiesPage();
+        guiPartiesPage.setDbHandler(dbHandler);
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiAbilitiesPage.setDbHandler(dbHandler);
@@ -55,17 +59,16 @@ public class Main {
         guiFriendsPage = new GUIFriendsPage(dbHandler);
         guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
-        guiMainPage.setVisible(true);
-        guiCreateAccountPage.setVisible(false);
+        guiMainPage.setVisible(false);
+        guiCreateAccountPage.setVisible(true);
         guiFriendsPage.setVisible(false);
         guiNestedAggregationPage.setVisible(false);
-//        guiCreateAccountPage.setVisible(false);
 
         guiCharactersPage.setVisible(false);
         guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(false);
-        guiAbilitiesPage.setVisible(false);
+//        guiAbilitiesPage.setVisible(true);
         guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
         guiEditProfilePage.setVisible(false);
@@ -81,7 +84,8 @@ public class Main {
             }
             frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
             guiCreateAccountPage.setVisible(true);
-        } else if (screenNum == 2) { // main page
+        }
+        else if (screenNum == 2) { // main page
             if (guiCreateAccountPage.isVisible()) {
                 guiCreateAccountPage.setVisible(false);
             }
@@ -105,13 +109,15 @@ public class Main {
                 guiMainPage.setVisible(false);
             }
             guiWeaponsPage.setVisible(true);
-        } else if (screenNum == 6) { // abilities page
+        }
+        else if (screenNum == 6) { // abilities page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiAbilitiesPage.setVisible(true);
-        } else if (screenNum == 7) { // edit profile page
-            if (guiMainPage.isVisible()) {
+        }
+        else if (screenNum == 7) { // edit profile page
+           if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiEditProfilePage.setVisible(true);
