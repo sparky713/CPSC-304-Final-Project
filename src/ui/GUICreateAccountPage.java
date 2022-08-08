@@ -200,9 +200,10 @@ public class GUICreateAccountPage extends JPanel {
                 // open main page
                 Main.guiMainPage.lblDisplayName.setText(tfDisplayName.getText());
                 Main.changeScreen(2);
-                // show message indicating successful login
+                // lblShow message indicating successful login
                 loginSuccessMessageWindow.showMessageDialog(null, "Welcome " +
                         tfDisplayName.getText() + "!", "Account Created Successfully", JOptionPane.INFORMATION_MESSAGE);
+                Main.currPlayer = newPlayer;
             }
         });
         this.add(btnSignUp);

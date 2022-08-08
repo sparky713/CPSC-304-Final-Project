@@ -1,6 +1,7 @@
 package controller;
 
 import database.DatabaseConnectionHandler;
+import model.Player;
 import ui.*;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ public class Main {
     public static GUIWeaponsPage guiWeaponsPage;
     public static GUIAbilitiesPage guiAbilitiesPage;
     public static GUIEditProfilePage guiEditProfilePage;
+    public static Player currPlayer;
     public static void main(String[] args) {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
@@ -31,6 +33,7 @@ public class Main {
         //---------------------------------------------------------------------
         // GUI Setup
         //---------------------------------------------------------------------
+        currPlayer = null;
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
@@ -43,22 +46,23 @@ public class Main {
         guiCreateAccountPage.setDbHandler(dbHandler);
         guiCharactersPage = new GUICharactersPage();
         guiPartiesPage = new GUIPartiesPage();
+        guiPartiesPage.setDbHandler(dbHandler);
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
 
         guiMainPage.setVisible(false);
+//        guiMainPage.setVisible(true);
         guiCreateAccountPage.setVisible(true);
 //        guiCreateAccountPage.setVisible(false);
 
         guiCharactersPage.setVisible(false);
         guiPartiesPage.setVisible(false);
+//        guiPartiesPage.setVisible(true);
         guiWeaponsPage.setVisible(false);
-//        guiAbilitiesPage.setVisible(false);
-        guiAbilitiesPage.setVisible(true);
-        guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
+        guiAbilitiesPage.setVisible(false);
         guiEditProfilePage.setVisible(false);
 
         frame.setVisible(true);

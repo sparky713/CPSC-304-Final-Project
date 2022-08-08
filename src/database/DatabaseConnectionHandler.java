@@ -166,38 +166,31 @@ public class DatabaseConnectionHandler {
     }
 
     //----------------------------------------------------------------------
-    // Artifact
+    // Party
     // ---------------------------------------------------------------------
-    public void countArtifacts() {
-//
-//        String selectedColumns = String.join(",", projection);
-            String selectedColumns = " ";
-//        System.out.println("DCH::showAbilitiesProperties: " + selectedColumns);
+    public void numPartiesPerCharacter(Player player) {
         try {
 //            String query = "SELECT cname, count(*) FROM Wears GROUP BY cname";
             // OR
-            String query = "SELECT cname, count(*) FROM COMPRISEDOF GROUP BY cname";
+            String query = "SELECT cname, count(*) FROM COMPRISEDOF WHERE username = ? GROUP BY cname ORDER BY count(*) DESC";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+//            ps.setString(1, Main.currPlayer.getUsername());
+//            ps.setString(1, player.getUsername());
+            ps.setString(1, "player2"); // TODO change to player.getUsername()
+            ResultSet rs = ps.executeQuery();
 
-            ResultSet rs = ps.executeQuery(query);
-
+            int i = 0;
             while (rs.next()) {
-                // TODO: Display the count (GUI) when display artifacts button is clicked
+//                // TODO: Display the count (GUI) when display artifacts button is clicked
+//            //set list text
+                Main.guiPartiesPage.characterLabels[i].setText(ps.getResultSet().getString(1));
+                Main.guiPartiesPage.numPartyLabels[i].setText(ps.getResultSet().getString(2));
+                i++;
             }
-
-//            for (int i = 0; i < 5; i++) {
-//                rsAbilities.next();
-//                //set list text
-////                if (showOwner) { // cname
-//                    Main.guiAbilitiesPage.deafultListModels[i].set(1,ps.getResultSet().getString(1));
-////                }
-////                else {
-////                    Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
-////                }
-//            }
             ps.executeUpdate();
             connection.commit();
             ps.close();
+            rs.close();
 
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
@@ -205,37 +198,49 @@ public class DatabaseConnectionHandler {
         }
     }
 
-    //----------------------------------------------------------------------
-    // Party
-    // ---------------------------------------------------------------------
-    public void strongestParty() { // party with highest level character
+
+    public void strongestCharacterLevelInParty(Player player, int level) { // party with highest level character
 //
 //        String selectedColumns = String.join(",", projection);
         String selectedColumns = " ";
         try {
             // 1) group by pname where username = current player's username (player2)
-            String query = "SELECT pname, count(*) FROM ComprisedOf, Character GROUP BY cname";
+            // 2) join CHARACTER and COMPRISEDOF tables
+            // 3) find the party(s) containing the character with the highest level greater than the given level input
+            String query = "SELECT co.pname, max(c.character_level)\n" +
+                    "FROM character c, comprisedof co\n" +
+                    "WHERE co.username = ? AND c.name = co.cname\n" +
+                    "GROUP BY co.pname\n" +
+                    "HAVING max(c.character_level) >= ?\n" +
+                    "ORDER BY max(c.character_level) DESC";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 
-            ResultSet rs = ps.executeQuery(query);
+//            ps.setString(1, Main.currPlayer.getUsername());
+            ps.setString(1, "player2");
+            ps.setInt(2, level);
 
-            while (rs.next()) {
-                // TODO: Display the count (GUI) when display artifacts button is clicked
+            ResultSet rs = ps.executeQuery();
+            int i = 0;
+            for (int j = 0; j < Main.guiPartiesPage.partyLabels.length; j++) {
+                Main.guiPartiesPage.partyLabels[j].setText(" ");
             }
 
-//            for (int i = 0; i < 5; i++) {
-//                rsAbilities.next();
-//                //set list text
-////                if (showOwner) { // cname
-//                    Main.guiAbilitiesPage.deafultListModels[i].set(1,ps.getResultSet().getString(1));
-////                }
-////                else {
-////                    Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
-////                }
-//            }
+            for (int c = 0; c < Main.guiPartiesPage.partyLabels.length; c++) {
+                Main.guiPartiesPage.maxLevelLabels[c].setText(" ");
+            }
+
+            while (rs.next()) {
+//                // TODO: Display the count (GUI) when display artifacts button is clicked
+//            //set list text
+                    Main.guiPartiesPage.partyLabels[i].setText(ps.getResultSet().getString(1));
+                    Main.guiPartiesPage.maxLevelLabels[i].setText(ps.getResultSet().getString(2));
+                    i++;
+            }
+
             ps.executeUpdate();
             connection.commit();
             ps.close();
+            rs.close();
 
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
@@ -311,7 +316,7 @@ public class DatabaseConnectionHandler {
         projection.add("dmg");
 
         String selectedColumns = String.join(",", projection);
-        System.out.println("DCH::showAbilitiesProperties: " + selectedColumns);
+//        System.out.println("DCH::showAbilitiesProperties: " + selectedColumns);
         try {
 
             String query = "SELECT " + selectedColumns + " FROM ABILITY";

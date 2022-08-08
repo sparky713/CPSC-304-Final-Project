@@ -16,7 +16,7 @@ public class DatabaseTest {
     @BeforeAll
     static void runBefore() {
         dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_scw2018", "a13454772");
+        dbHandler.login("ORA_spark73", "a41475948");
     }
 
     @AfterAll
@@ -33,8 +33,6 @@ public class DatabaseTest {
         Food mushroomPizza = new Food("Mushroom Pizza", 450);
         player1.consumes(mushroomPizza, 2);
 
-        dbHandler.countArtifacts();
-
         dbHandler.insertFood(mushroomPizza);
         dbHandler.insertConsumes(1, player1, mushroomPizza, 2);
 
@@ -48,9 +46,13 @@ public class DatabaseTest {
     }
 
     @Test
-    void testArtifactGroupBy() {
+    void testParty() {
 
-        dbHandler.countArtifacts();
+        Player player1 = new Player("player1", "password123", "player1@gmail.com", "Tiger123");
+//        dbHandler.countArtifacts();
+//        dbHandler.strongestCharacterLevelInParty(player1, 20);
+
+        dbHandler.numPartiesPerCharacter(player1);
 
         // uncomment this to test deleteConsumes method AFTER testing
         // insertFood method first VVVVVVV
