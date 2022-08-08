@@ -11,16 +11,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Vector;
 
 public class GUIFriendsPage extends JPanel {
+    public BufferedImage backBtnImage;
     public static final int W = 500;
     public static final int H = 700;
     public static final int BORDER_X = 53;
     public static final int BORDER_Y = 55;
     //    public static final int TEXT_FIELD_NAME_W = 280 / 2 - 5;
-    public static final int TEXT_FIELD_X = 20;
+    public static final int TEXT_FIELD_X = 120;
     public static final int TEXT_FIELD_W = 280;
     public static final int TEXT_FIELD_H = 30;
 
@@ -35,11 +37,9 @@ public class GUIFriendsPage extends JPanel {
     private JTextField atkText;
 
     private JButton userButton;
-    private JButton minATKButton;
-    private JFrame jFrame;
-
     private JTable characterTable;
 
+    private JButton returnButton;
     private ArrayList<Character> characters = null;
     private ArrayList<Weapon> weapons = null;
 
@@ -87,7 +87,7 @@ public class GUIFriendsPage extends JPanel {
         characterTable = new JTable(s,c);
         characterTable.setVisible(true);
         characterTable.setBackground(Color.white);
-        characterTable.setBounds(TEXT_FIELD_X + 200, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 100, 500, 500);
+        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 100, 500, 500);
 
         userButton.addActionListener(new ActionListener() {
             @Override
@@ -115,9 +115,9 @@ public class GUIFriendsPage extends JPanel {
                 characters = dbHandler.giveCharacterWithMinATK(minATK, username);
 
                 for (int i = 0; i < characters.size(); i++) {
-                    System.out.println(characters.size());
+//                    System.out.println(characters.size());
                     s[i][0] = characters.get(i).getName();
-                    System.out.println(s[i][0]);
+//                    System.out.println(s[i][0]);
                     s[i][1] = String.valueOf(characters.get(i).getLevel());
                     s[i][2] = String.valueOf(characters.get(i).getBaseATK());
                     s[i][3] = String.valueOf(characters.get(i).getBaseHP());
@@ -130,6 +130,16 @@ public class GUIFriendsPage extends JPanel {
             }
         });
 
+        returnButton = new JButton("Return");
+        returnButton.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W + 50, GUIMainPage.BTN_BACK_H);
+        returnButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.changeScreen(2);
+                Main.guiFriendsPage.setVisible(false);
+            }
+        });
+        this.add(returnButton);
 
         this.add(atkText);
         this.add(userText);

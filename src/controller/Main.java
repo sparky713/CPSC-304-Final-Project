@@ -31,7 +31,7 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_spark73", "a41475948");
+        dbHandler.login("ORA_scw2018", "a13454772");
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -55,17 +55,17 @@ public class Main {
         guiFriendsPage = new GUIFriendsPage(dbHandler);
         guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
-        guiMainPage.setVisible(false);
+        guiMainPage.setVisible(true);
         guiCreateAccountPage.setVisible(false);
         guiFriendsPage.setVisible(false);
-        guiNestedAggregationPage.setVisible(true);
+        guiNestedAggregationPage.setVisible(false);
 //        guiCreateAccountPage.setVisible(false);
 
         guiCharactersPage.setVisible(false);
         guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(false);
-        guiAbilitiesPage.setVisible(true);
+        guiAbilitiesPage.setVisible(false);
         guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
         guiEditProfilePage.setVisible(false);
@@ -120,6 +120,11 @@ public class Main {
                 guiMainPage.setVisible(false);
             }
             guiFriendsPage.setVisible(true);
+        } else if (screenNum == 9) {
+            if(guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiNestedAggregationPage.setVisible(true);
         } else {
 //            ERROR MESSAGE!!!!!!
             System.out.println("Game::changeScreen(" + screenNum + "): Error. Page Not Found");
