@@ -95,4 +95,12 @@ public class DatabaseTest {
 
     }
 
+    @Test
+    void testNested(){
+        ArrayList<Character> characterArrayList = dbHandler.nestedAggregation();
+        System.out.println(characterArrayList.get(0).getName());
+        System.out.println(characterArrayList.get(1).getName());
+
+    }
+
 }

@@ -479,6 +479,37 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
+    //returns a list of characters that have a baseATK greater than the averages over the characters owned by players
+    public ArrayList<Character> nestedAggregation() {
+        try {
+            String query = "SELECT * FROM CHARACTER WHERE CHARACTER.BASEATK > ALL (SELECT AVG(C.BASEATK) FROM CHARACTER C, PLAYS P WHERE P.CNAME = C.NAME GROUP BY USERNAME)";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+
+            ArrayList<Character> characters = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String cName = rs.getString(1);
+                int level = rs.getInt(2);
+                int baseHP = rs.getInt(3);
+                int baseATK = rs.getInt(4);
+                String e = rs.getString(5);
+                Character c = new Character(cName, level, baseHP, baseATK, e);
+                characters.add(c);
+            }
+
+            ps.close();
+            rs.close();
+
+            return characters;
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+
+        return null;
+    }
+
 //    // inserts a character (does not work)
 //    // TODO: insert into CharHP only if key does not already exist
 //    // TODO: insert into CharATK

@@ -27,6 +27,8 @@ public class Main {
 
     public static GUIFriendsPage guiFriendsPage;
 
+    public static GUINestedAggregationPage guiNestedAggregationPage;
+
     public static void main(String[] args) {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
@@ -58,10 +60,12 @@ public class Main {
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
         guiFriendsPage = new GUIFriendsPage(dbHandler);
+        guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
         guiMainPage.setVisible(false);
         guiCreateAccountPage.setVisible(false);
-        guiFriendsPage.setVisible(true);
+        guiFriendsPage.setVisible(false);
+        guiNestedAggregationPage.setVisible(true);
 //        guiCreateAccountPage.setVisible(false);
 
 //        guiCharactersPage.setVisible(false);
