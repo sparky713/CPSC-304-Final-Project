@@ -166,6 +166,7 @@ public class DatabaseConnectionHandler {
         }
     }
 
+
     public void insertAbility(Abilities abilities) {
         try {
             insertAbilityDMG(abilities.getLevel(), abilities.getDmg());
@@ -405,9 +406,57 @@ public class DatabaseConnectionHandler {
         return result;
     }
 
+    public String[] getPlayersWithAllFood() {
+        ArrayList<String> result = new ArrayList<String>();
+
+        try {
+            String query = "SELECT * FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
+
+//            String query = " SELECT username FROM consumes WHERE NOT EXISTS (SELECT name FROM food EXCEPT (SELECT fname FROM consumes))";
+//            String query = "SELECT * FROM consumes WHERE NOT EXISTS";
+//            String query3 = " SELECT name FROM food EXCEPT";
+//            String query4 = " SELECT fname FROM consumes ";
+//
+//            query += query3;
+//            query += query4;
 
 
 
+
+
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                String playerName = rs.getString("username");
+                result.add(playerName);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+        //System.out.println(result.toArray(new String[result.size()]));
+
+        return result.toArray(new String[result.size()]);
+    }
+
+
+
+
+
+//            String query = " SELECT p.username FROM player as p WHERE NOT EXISTS " +
+//                    "((SELECT f.name FROM food as f) EXCEPT " +
+//                    "(SELECT c.fname FROM consumes c WHERE c.username = p.username)) ";
+
+
+
+//                BranchModel model = new BranchModel(rs.getString("branch_addr"),
+//                        rs.getString("branch_city"),
+//                        rs.getInt("branch_id"),
+//                        rs.getString("branch_name"),
+//                        rs.getInt("branch_phone"));
+//                result.add(model);
 
     // creates the Element table
     private void setupElement() {

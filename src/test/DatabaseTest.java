@@ -43,6 +43,8 @@ public class DatabaseTest {
 
         dbHandler.getPlayerFoodInfo(player1);
 
+        dbHandler.getPlayersWithAllFood();
+
         // uncomment this to test deleteConsumes method AFTER testing
         // insertFood method first VVVVVVV
 
