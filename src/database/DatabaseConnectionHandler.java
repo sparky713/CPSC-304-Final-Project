@@ -312,6 +312,35 @@ public class DatabaseConnectionHandler {
 
     }
 
+    public Food selectFood(String foodName) {
+        try {
+            String query = "SELECT * FROM food WHERE name = ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(1, foodName);
+            ResultSet rs = ps.executeQuery();
+
+
+
+
+            int healAmount = 0;
+
+            while (rs.next()) {
+                healAmount = rs.getInt("healAmount");
+            }
+
+            Food f = new Food(foodName, healAmount);
+
+            ps.close();
+            rs.close();
+
+            return f;
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+        return null;
+    }
+
 
     public void deleteConsumes(String playerUsername, String foodName) {
         try {
@@ -321,7 +350,7 @@ public class DatabaseConnectionHandler {
             String query = "DELETE FROM Consumes WHERE USERNAME = ? and FNAME = ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ps.setString(1, playerUsername);
-            ps.setString(1, foodName);
+            ps.setString(2, foodName);
 
             int rowCount = ps.executeUpdate();
             if (rowCount == 0) {
@@ -336,6 +365,8 @@ public class DatabaseConnectionHandler {
             rollbackConnection();
         }
     }
+
+
 
 
     // inserts consumes
@@ -358,21 +389,8 @@ public class DatabaseConnectionHandler {
 
     }
 
-    public ArrayList<Map<String,Integer>> getPlayerFoodInfo(Player player) {
-        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
 
-
-        try {
-            //FIXXXXXXXX*************************************:
-            // 1) GROUP BY is used incorrectly
-            // 2) consumes.username is not valid
-            // 3) playerName must be an actual string of form '...', can't just use a variable that is a string
-            String playerName = player.getUsername();
-            String query = " SELECT fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ResultSet rs = ps.getResultSet();
-
-//            while(rs.next()) {
+    //            while(rs.next()) {
 //                Map<String,Integer> oneFood = new HashMap<String,Integer>();
 ////                Food foodModel =  new Food(rs.getString("name"),
 ////                        rs.getInt("healAmount"));
@@ -385,17 +403,33 @@ public class DatabaseConnectionHandler {
 //                result.add(oneFood);
 //            }
 
-            while (rs.next()) {
-                Map<String, Integer> oneFood = new HashMap<String, Integer>();
-                try {
-                    oneFood.put(rs.getString(3), rs.getInt(4));
-                } catch (SQLException e) {
-                    System.out.println("error!!!!!!");
-                    System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-                }
-                result.add(oneFood);
-            }
 
+
+    public ArrayList<Map<String,Integer>> getPlayerFoodInfo(Player player) {
+        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
+
+        try {
+            String playerName = player.getUsername();
+
+            String query = " SELECT fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            System.out.println("line 384");
+            //ResultSet rs = ps.getResultSet();
+
+            // changing this back to "executeQuery() got rid of cursor error, but gave and error for
+            // "INSERT INTO Food VALUES" for "Mushroom Pizza 2"
+            ResultSet rs = ps.executeQuery();
+            System.out.println("line 386");
+
+            while (rs.next()) {
+                System.out.println("line 389");
+                Map<String, Integer> oneFood = new HashMap<String, Integer>();
+                System.out.println("line 391");
+                oneFood.put(rs.getString(3), rs.getInt(4));
+                System.out.println("line 393");
+                result.add(oneFood);
+                System.out.println("line 395");
+            }
 
             rs.close();
             ps.close();
@@ -411,18 +445,6 @@ public class DatabaseConnectionHandler {
 
         try {
             String query = "SELECT * FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
-
-//            String query = " SELECT username FROM consumes WHERE NOT EXISTS (SELECT name FROM food EXCEPT (SELECT fname FROM consumes))";
-//            String query = "SELECT * FROM consumes WHERE NOT EXISTS";
-//            String query3 = " SELECT name FROM food EXCEPT";
-//            String query4 = " SELECT fname FROM consumes ";
-//
-//            query += query3;
-//            query += query4;
-
-
-
-
 
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ResultSet rs = ps.executeQuery();
