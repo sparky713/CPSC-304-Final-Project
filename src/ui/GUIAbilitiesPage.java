@@ -98,6 +98,7 @@ public class GUIAbilitiesPage extends JPanel {
     public BufferedImage bgImage;
     public BufferedImage abilitiesPanelImage;
     public BufferedImage applyBtnImage;
+    public BufferedImage backBtnImage;
 //    public BufferedImage sparksAndSplashImage;
 //    public BufferedImage preserverOfFortuneImage;
 //    public BufferedImage riffRevolutionImage;
@@ -133,6 +134,7 @@ public class GUIAbilitiesPage extends JPanel {
     public JCheckBox cbDMG;
 
     public JButton btnApply;
+    public JButton btnBack;
 
     public Vector<Abilities> abilities;
     private DatabaseConnectionHandler dbHandler = null;
@@ -234,6 +236,13 @@ public class GUIAbilitiesPage extends JPanel {
             System.exit(1);
         }
 
+        try { // back button image
+            backBtnImage = ImageIO.read(new File(GUIMainPage.BACK_BTN_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIAbilitiesPage::GUIAbilitiesPage(): error: file not found: " + GUIMainPage.BACK_BTN_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
 //        try { // icon images
 //            sparksAndSplashImage = ImageIO.read(new File(SPARKS_AND_SPLASH_IMAGE_FILENAME));
 //            preserverOfFortuneImage = ImageIO.read(new File(PRESERVER_OF_FORTUNE_PANEL_FILENAME));
@@ -290,6 +299,18 @@ public class GUIAbilitiesPage extends JPanel {
             }
         });
         this.add(btnApply);
+
+        btnBack = new JButton(new ImageIcon(backBtnImage));
+        btnBack.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
+        btnBack.setBorder(BorderFactory.createEmptyBorder());
+        btnBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.changeScreen(2);
+                Main.guiAbilitiesPage.setVisible(false);
+            }
+        });
+        this.add(btnBack);
 
         repaint();
 

@@ -1,17 +1,10 @@
 package controller;
 
 import database.DatabaseConnectionHandler;
-import model.Character;
-import model.ElementModel;
-import model.Food;
-import model.Player;
 import ui.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.*;
 
 //TEST
 public class Main {
@@ -33,12 +26,12 @@ public class Main {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
 
-        //---------------------------------------------------------------------
+        //----------------------------------------------------------------------
         // Database Setup
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_SCW2018", "a13454772");
+        dbHandler.login("ORA_spark73", "a41475948");
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -68,8 +61,8 @@ public class Main {
         guiNestedAggregationPage.setVisible(true);
 //        guiCreateAccountPage.setVisible(false);
 
-//        guiCharactersPage.setVisible(false);
-//        guiPartiesPage.setVisible(false);
+        guiCharactersPage.setVisible(false);
+        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(false);
         guiAbilitiesPage.setVisible(true);
@@ -95,18 +88,18 @@ public class Main {
             frame.setSize(GUIMainPage.W, GUIMainPage.H);
             guiMainPage.setVisible(true);
         }
-//        else if (screenNum == 3) { // characters page
-//            if (guiMainPage.isVisible()) {
-//                guiMainPage.setVisible(false);
-//            }
-//            guiCharactersPage.setVisible(true);
-//        }
-//        else if (screenNum == 4) { // parties page
-//            if (guiMainPage.isVisible()) {
-//                guiMainPage.setVisible(false);
-//            }
-//            guiPartiesPage.setVisible(true);
-//        }
+        else if (screenNum == 3) { // characters page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiCharactersPage.setVisible(true);
+        }
+        else if (screenNum == 4) { // parties page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiPartiesPage.setVisible(true);
+        }
         else if (screenNum == 5) { // weapons page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);

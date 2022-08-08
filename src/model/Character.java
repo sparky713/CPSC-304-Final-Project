@@ -15,6 +15,7 @@ public class Character {
         this.baseATK = baseATK;
         this.baseHP =baseHP;
         this.element = element;
+        level = 0;
     }
 
     public String getName() {
