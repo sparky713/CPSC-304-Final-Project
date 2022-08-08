@@ -18,6 +18,11 @@ public class Main {
     public static GUIWeaponsPage guiWeaponsPage;
     public static GUIAbilitiesPage guiAbilitiesPage;
     public static GUIEditProfilePage guiEditProfilePage;
+
+    public static GUIFriendsPage guiFriendsPage;
+
+    public static GUINestedAggregationPage guiNestedAggregationPage;
+
     public static Player currPlayer;
     public static void main(String[] args) {
 
@@ -51,18 +56,21 @@ public class Main {
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
+        guiFriendsPage = new GUIFriendsPage(dbHandler);
+        guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
         guiMainPage.setVisible(false);
-//        guiMainPage.setVisible(true);
         guiCreateAccountPage.setVisible(true);
-//        guiCreateAccountPage.setVisible(false);
+        guiFriendsPage.setVisible(false);
+        guiNestedAggregationPage.setVisible(false);
 
         guiCharactersPage.setVisible(false);
         guiPartiesPage.setVisible(false);
-//        guiPartiesPage.setVisible(true);
         guiWeaponsPage.setVisible(false);
+//        guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
         guiAbilitiesPage.setVisible(false);
+//        guiAbilitiesPage.setVisible(true);
         guiEditProfilePage.setVisible(false);
 
         frame.setVisible(true);
@@ -113,8 +121,17 @@ public class Main {
                 guiMainPage.setVisible(false);
             }
             guiEditProfilePage.setVisible(true);
-        }
-        else {
+        } else if (screenNum == 8) { //friends page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiFriendsPage.setVisible(true);
+        } else if (screenNum == 9) {
+            if(guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiNestedAggregationPage.setVisible(true);
+        } else {
 //            ERROR MESSAGE!!!!!!
             System.out.println("Game::changeScreen(" + screenNum + "): Error. Page Not Found");
         }

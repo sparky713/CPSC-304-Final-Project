@@ -100,6 +100,10 @@ INSERT
 INTO CharacterHP (CHARACTER_LEVEL, BASEHP, CURRHP)
 VALUES (17, 810, 998);
 
+INSERT
+INTO CHARACTERHP (CHARACTER_LEVEL, BASEHP, CURRHP)
+VALUES (20, 800, 900);
+
 
 /* Tuples in CharacterATK table */
 INSERT
@@ -122,6 +126,9 @@ INSERT
 INTO CharacterATK (CHARACTER_LEVEL, BASEATK, CURRATK)
 VALUES (17, 22, 31);
 
+INSERT INTO CHARACTERATK (CHARACTER_LEVEL, BASEATK, CURRATK)
+VALUES (20, 30, 40);
+
 /* Tuples in CHARACTER table */
 INSERT
 INTO CHARACTER (name, CHARACTER_LEVEL, baseHP, baseATK, ename)
@@ -142,6 +149,10 @@ VALUES ('Xiao', 22, 991, 27, 'Anemo');
 INSERT
 INTO CHARACTER (NAME, CHARACTER_LEVEL, BASEHP, BASEATK, ENAME)
 VALUES ('Mona', 17, 810, 22, 'Hydro');
+
+INSERT
+INTO CHARACTER (NAME, CHARACTER_LEVEL, BASEHP, BASEATK, ENAME)
+VALUES ('Kaeya', 20, 800, 30, 'Cryo');
 
 /* Tuples in AbilityDMG table */
 INSERT
@@ -164,6 +175,10 @@ INSERT
 INTO AbilityDMG (ABILITY_LEVEL, DMG)
 VALUES (17, 133);
 
+INSERT
+INTO ABILITYDMG
+VALUES (1, 20);
+
 /* Tuples in Ability table */
 INSERT
 INTO Ability (aname, cname, ABILITY_LEVEL, cd, dmg)
@@ -184,6 +199,10 @@ VALUES ('Bane of All Evil', 'Xiao', 22, 20.0, 201);
 INSERT
 INTO Ability (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
 VALUES ('Fate', 'Mona', 17, 12.0, 133);
+
+INSERT
+INTO ABILITY
+VALUES ('Glacial Waltz', 'Kaeya', 1,15.0, 20);
 
 
 /* Tuples in Artifact table */
@@ -476,6 +495,18 @@ VALUES ('player1', 'Klee');
 
 INSERT
 INTO Plays (USERNAME, CNAME)
+VALUES ('player1', 'Qiqi');
+
+INSERT
+INTO Plays (USERNAME, CNAME)
+VALUES ('player1', 'Xinyan');
+
+INSERT
+INTO Plays (USERNAME, CNAME)
+VALUES ('player1', 'Xiao');
+
+INSERT
+INTO Plays (USERNAME, CNAME)
 VALUES ('player2', 'Qiqi');
 
 INSERT
@@ -486,9 +517,9 @@ INSERT
 INTO Plays(USERNAME, CNAME)
 VALUES ('player4', 'Xinyan');
 
-INSERT
-INTO Plays(USERNAME, CNAME)
-VALUES ('player5', 'Xiao');
+-- INSERT
+-- INTO Plays(USERNAME, CNAME)
+-- VALUES ('player5', 'Xiao');
 
 
 /* Tuples in FightsWith table */
@@ -527,7 +558,7 @@ VALUES ('player3', 'Alley Hunter', 3);
 
 INSERT
 INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)
-VALUES ('player4', 'Jade Cutter', 1);
+VALUES ('player2', 'Jade Cutter', 1);
 
 INSERT
 INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)

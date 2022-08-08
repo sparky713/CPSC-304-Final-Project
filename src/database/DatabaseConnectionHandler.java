@@ -480,46 +480,99 @@ public class DatabaseConnectionHandler {
     // Character
     // ---------------------------------------------------------------------
 
-    // inserts a character (does not work)
-    // TODO: insert into CharHP only if key does not already exist
-    // TODO: insert into CharATK
-    public void insertCharacter(Character character) {
+    // returns a list of weapons with ATK greater than minATK
+    public ArrayList<Weapon> giveOwnedWeaponWithMinATK(int minATK, String username) {
         try {
-            insertCharHP(character.getLevel(), character.getBaseHP());
-            String characterQuery = "INSERT INTO Character(name, character_level, baseHP, baseATK, ename) VALUES (?, ?, ?, ?, ?)";
-            PrintablePreparedStatement psChar = new PrintablePreparedStatement(connection.prepareStatement(characterQuery), characterQuery, false);
+            String query = "SELECT * FROM Weapon INNER JOIN OWNSWEAPON ON OWNSWEAPON.WNAME = WEAPON.NAME WHERE OWNSWEAPON.USERNAME = ? AND WEAPON.BASEATK > ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(1, username);
+            ps.setInt(2, minATK);
 
-            psChar.setString(1, character.getName());
-            psChar.setInt(2, character.getLevel());
-            psChar.setInt(3, character.getBaseHP());
-            psChar.setInt(4, character.getBaseATK());
-            psChar.setString(5, character.getElement().getName());
+            ResultSet rs = ps.executeQuery();
 
-            psChar.executeUpdate();
-            connection.commit();
+            ArrayList<Weapon> wList = new ArrayList<Weapon>();
 
-            psChar.close();
+            while (rs.next()) {
+                String wname = rs.getString("name");
+                int baseATK = rs.getInt("baseATK");
+                Weapon w = new Weapon(wname, baseATK);
+                wList.add(w);
+            }
+
+            ps.close();
+            rs.close();
+            return wList;
+
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-            rollbackConnection();
         }
+        return null;
     }
 
-    private void insertCharHP(int level, int baseHP) {
+    // returns a list of character with ATK greater than minATK
+    public ArrayList<Character> giveCharacterWithMinATK(int minATK, String username) {
         try {
-            String charHPQuery = "INSERT INTO CharacterHP(character_level, baseHP, currHP) VALUES (?, ?, ?)";
-            PrintablePreparedStatement psHP = new PrintablePreparedStatement(connection.prepareStatement(charHPQuery), charHPQuery, false);
 
-            psHP.setInt(1, level);
-            psHP.setInt(2, baseHP);
-            psHP.setInt(3, baseHP + 50 * level);
-            psHP.executeUpdate();
-            psHP.close();
+            String query = "SELECT * FROM CHARACTER INNER JOIN PLAYS ON PLAYS.CNAME = CHARACTER.NAME WHERE PLAYS.USERNAME = ? AND CHARACTER.BASEATK > ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(1, username);
+            ps.setInt(2, minATK);
+
+            ResultSet rs = ps.executeQuery();
+
+            ArrayList<Character> cList = new ArrayList<Character>();
+
+            while (rs.next()) {
+                String cName = rs.getString("name");
+                int level = rs.getInt(2);
+                int baseHP = rs.getInt(3);
+                int baseATK = rs.getInt(4);
+                String eName = rs.getString(5);
+
+                Character character = new Character(cName, level, baseHP, baseATK, eName);
+                cList.add(character);
+
+            }
+
+            ps.close();
+            rs.close();
+            return cList;
+
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-            rollbackConnection();
+        }
+        return null;
+    }
+
+    //returns a list of characters that have a baseATK greater than the averages over the characters owned by players
+    public ArrayList<Character> nestedAggregation() {
+        try {
+            String query = "SELECT * FROM CHARACTER WHERE CHARACTER.BASEATK > ALL (SELECT AVG(C.BASEATK) FROM CHARACTER C, PLAYS P WHERE P.CNAME = C.NAME GROUP BY USERNAME)";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+
+            ArrayList<Character> characters = new ArrayList<>();
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String cName = rs.getString(1);
+                int level = rs.getInt(2);
+                int baseHP = rs.getInt(3);
+                int baseATK = rs.getInt(4);
+                String e = rs.getString(5);
+                Character c = new Character(cName, level, baseHP, baseATK, e);
+                characters.add(c);
+            }
+
+            ps.close();
+            rs.close();
+
+            return characters;
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
 
+        return null;
     }
 
 }

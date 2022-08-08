@@ -22,7 +22,7 @@
 //
 //    /**
 //     * Sets up the database to have a branch table with two tuples so we can insert/update/delete from it.
-//     * Refer to the databaseSetup.sql file to determine what tuples are going to be in the table.
+//     * Refer to the define.sql file to determine what tuples are going to be in the table.
 //     */
 ////    public void setupDatabase(TerminalTransactionsDelegate delegate) {
 ////        this.delegate = delegate;

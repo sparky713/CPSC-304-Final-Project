@@ -203,7 +203,7 @@ public class GUIMainPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // go to characters page
-                Main.changeScreen(3);
+                Main.changeScreen(8);
             }
         });
         this.add(btnCharacters);

@@ -1,11 +1,15 @@
 package test;
 
 import database.DatabaseConnectionHandler;
+import model.*;
+import model.Character;
 import model.Food;
 import model.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -91,6 +95,28 @@ public class DatabaseTest {
         assertEquals(actual.getEmail(), expected.getEmail());
         assertEquals(actual.getPassword(), expected.getPassword());
         dbHandler.deletePlayer("player6");
+    }
+
+    @Test
+    void testWeapon() {
+        ArrayList<Weapon> weapons = dbHandler.giveOwnedWeaponWithMinATK(64, "player2");
+        assertEquals("jade cutter", weapons.get(0).getName().toLowerCase());
+        assertEquals("alley hunter",weapons.get(1).getName().toLowerCase());
+
+    }
+    @Test
+    void testMinChar() {
+        ArrayList<Character> characters = dbHandler.giveCharacterWithMinATK(1, "player1");
+        System.out.println(characters.size());
+
+    }
+
+    @Test
+    void testNested(){
+        ArrayList<Character> characterArrayList = dbHandler.nestedAggregation();
+        System.out.println(characterArrayList.get(0).getName());
+        System.out.println(characterArrayList.get(1).getName());
+
     }
 
 }
