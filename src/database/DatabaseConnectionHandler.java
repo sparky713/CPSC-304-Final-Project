@@ -5,6 +5,7 @@ import model.*;
 import model.Character;
 import util.PrintablePreparedStatement;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -79,7 +80,7 @@ public class DatabaseConnectionHandler {
     //----------------------------------------------------------------------
     // Player
     // ---------------------------------------------------------------------
-    public void insertPlayer(Player player) {
+    public boolean insertPlayer(Player player) {
         try {
             String playerQuery = "INSERT INTO PLAYER (username, password, email, displayName) VALUES (?,?,?,?)";
             PrintablePreparedStatement psPlayer = new PrintablePreparedStatement(connection.prepareStatement(playerQuery), playerQuery, false);
@@ -95,8 +96,14 @@ public class DatabaseConnectionHandler {
 
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            JOptionPane duplicateUsernameMessage = new JOptionPane();
+            duplicateUsernameMessage.setBounds(Main.guiCreateAccountPage.POPUP_MENU_X, Main.guiCreateAccountPage.POPUP_MENU_Y, Main.guiCreateAccountPage.POPUP_MENU_W, Main.guiCreateAccountPage.POPUP_MENU_H);
+            duplicateUsernameMessage.showMessageDialog(null, Main.guiCreateAccountPage.tfUsername.getText() +
+                    " is already taken.", "Useranme Taken", JOptionPane.INFORMATION_MESSAGE);
             rollbackConnection();
+            return false;
         }
+        return true;
     }
 
     //changes attributes in the Player table
@@ -168,15 +175,13 @@ public class DatabaseConnectionHandler {
     //----------------------------------------------------------------------
     // Party
     // ---------------------------------------------------------------------
+//   --numPartiesPerCharacter
     public void numPartiesPerCharacter(Player player) {
         try {
-//            String query = "SELECT cname, count(*) FROM Wears GROUP BY cname";
-            // OR
             String query = "SELECT cname, count(*) FROM COMPRISEDOF WHERE username = ? GROUP BY cname ORDER BY count(*) DESC";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-//            ps.setString(1, Main.currPlayer.getUsername());
-//            ps.setString(1, player.getUsername());
-            ps.setString(1, "player2"); // TODO change to player.getUsername()
+            ps.setString(1, player.getUsername());
+//            ps.setString(1, "player2"); // TODO change to player.getUsername()
             ResultSet rs = ps.executeQuery();
 
             int i = 0;
@@ -198,11 +203,9 @@ public class DatabaseConnectionHandler {
         }
     }
 
-
+    //aggregation with having
     public void strongestCharacterLevelInParty(Player player, int level) { // party with highest level character
-//
-//        String selectedColumns = String.join(",", projection);
-        String selectedColumns = " ";
+
         try {
             // 1) group by pname where username = current player's username (player2)
             // 2) join CHARACTER and COMPRISEDOF tables
@@ -215,8 +218,7 @@ public class DatabaseConnectionHandler {
                     "ORDER BY max(c.character_level) DESC";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 
-//            ps.setString(1, Main.currPlayer.getUsername());
-            ps.setString(1, "player2");
+            ps.setString(1, player.getUsername());
             ps.setInt(2, level);
 
             ResultSet rs = ps.executeQuery();

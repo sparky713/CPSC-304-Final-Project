@@ -212,7 +212,7 @@ public class GUIPartiesPage extends JPanel {
                 maxLevel.setBounds(LBL_MAX_LEVEL_X, partyLabels[l].getY(), LBL_MAX_LEVEL_W, LBL_MAX_LEVEL_H);
             }
             maxLevel.setFont(new Font("Times New Roman", Font.PLAIN, LBL_PARTIES_FONT_SIZE));
-            maxLevel.setForeground(Color.orange);
+            maxLevel.setForeground(Color.white);
             this.add(maxLevel);
             maxLevelLabels[l] = maxLevel;
         }
