@@ -5,6 +5,7 @@ import database.DatabaseConnectionHandler;
 import model.Character;
 import model.Weapon;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +13,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GUICharacterByPlayerPage extends JPanel {
+    Graphics g = null;
+    public static final String BACKGROUND_IMAGE_FILENAME = "images/weapons_page_bg.png";
+
+    public BufferedImage bgImage;
     public BufferedImage backBtnImage;
     public static final int W = 500;
     public static final int H = 700;
@@ -51,6 +58,13 @@ public class GUICharacterByPlayerPage extends JPanel {
         this.setBounds(0, 0, GUIMainPage.W, GUIMainPage.H);
         Main.frame.add(this, 0);
 
+        try { // background image
+            bgImage = ImageIO.read(new File(BACKGROUND_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIWeaponsPage::GUIWeaponsPage(): error: file not found: " + BACKGROUND_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
         userText = new JTextField("Username");
         userText.setEnabled(false);
         userText.setDisabledTextColor(Color.gray);
@@ -84,8 +98,8 @@ public class GUICharacterByPlayerPage extends JPanel {
         Object[] c = {"Name", "Level", "BaseATK", "BaseHP", "Element"};
         characterTable = new JTable(s,c);
         characterTable.setVisible(true);
-        characterTable.setBackground(Color.white);
-        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 100, 500, 500);
+        characterTable.setBackground(Color.gray);
+        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 100, 500, 310);
 
         characterTable.getTableHeader().setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 80, 500, 20);
 
@@ -130,8 +144,16 @@ public class GUICharacterByPlayerPage extends JPanel {
             }
         });
 
-        returnButton = new JButton("Return");
-        returnButton.setBounds(GUIMainPage.BTN_BACK_X - 10, TEXT_FIELD_MARGIN_TOP, GUIMainPage.BTN_BACK_W + 50, GUIMainPage.BTN_BACK_H);
+        try { // return button image
+            backBtnImage = ImageIO.read(new File(GUIMainPage.BACK_BTN_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIMainPage::GUIMainPage(): error: file not found: " + GUIMainPage.BACK_BTN_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
+        returnButton = new JButton(new ImageIcon(backBtnImage));
+        returnButton.setBounds(GUIMainPage.BTN_BACK_X - 10, TEXT_FIELD_MARGIN_TOP, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
+        returnButton.setBorder(BorderFactory.createEmptyBorder());
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -158,5 +180,11 @@ public class GUICharacterByPlayerPage extends JPanel {
         this.add(characterTable.getTableHeader());
         this.add(characterTable);
 
+        repaint();
+    }
+
+    public void paint(Graphics g) {
+        g.drawImage(bgImage, 0, 0, null);
+        paintComponents(g);
     }
 }

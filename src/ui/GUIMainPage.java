@@ -321,24 +321,7 @@ public class GUIMainPage extends JPanel {
         });
         this.add(btnEditProfile);
 
-
-//        weaponTypes = new String[]{"All", "Swords", "Bows"};
-//
-//        weaponDropDown = new JComboBox<>(weaponTypes);
-//        weaponDropDown.setBounds(0, 0, DROP_DOWN_MENU_W, DROP_DOWN_MENU_H);
-//        this.add(weaponDropDown);
         repaint();
-
-//        //---------------------------------------------------------------------
-//        // timer(thread) - to call update() and paint()
-//        //---------------------------------------------------------------------
-//        java.util.Timer t = new Timer(true);
-//        t.schedule(new TimerTask() {
-//            public void run() {
-////                update();
-//                repaint();
-//            }
-//        },0, 10);
     }
 
 //    public void update() {

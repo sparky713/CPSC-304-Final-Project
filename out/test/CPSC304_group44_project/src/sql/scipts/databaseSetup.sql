@@ -1,3 +1,7 @@
+-- Drops, Creates, and Inserts into the Database
+-- needed for hand-in
+-- NOT UPDATED FOR HAND IN
+
 -- DROPS ALL TABLES
 
 DROP TABLE PLAYS;
