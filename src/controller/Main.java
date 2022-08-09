@@ -137,6 +137,12 @@ public class Main {
                 guiMainPage.setVisible(false);
             }
             guiNestedAggregationPage.setVisible(true);
+        }
+        else if (screenNum == 10) {
+            if(guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiFoodPage.setVisible(true);
         } else {
 //            ERROR MESSAGE!!!!!!
             System.out.println("Game::changeScreen(" + screenNum + "): Error. Page Not Found");
