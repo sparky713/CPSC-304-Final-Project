@@ -293,9 +293,18 @@ public class GUIAbilitiesPage extends JPanel {
         btnApply.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // check which JCheckBoxes are checked off
-                System.out.println("GUIAbilitiesPage:: " + cbOwner.isSelected() + cbLevel.isSelected() + cbCD.isSelected() + cbDMG.isSelected());
-                dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
+                if (cbOwner.isSelected() || cbLevel.isSelected() || cbCD.isSelected() || cbDMG.isSelected()) {
+                    // check which JCheckBoxes are checked off
+                    System.out.println("GUIAbilitiesPage:: " + cbOwner.isSelected() + cbLevel.isSelected() + cbCD.isSelected() + cbDMG.isSelected());
+                    dbHandler.showAbilitiesProperties(cbOwner.isSelected(), cbLevel.isSelected(), cbCD.isSelected(), cbDMG.isSelected());
+                }
+                else {
+                    for (int j = 0; j < 5; j++) {
+                        for (int i = 1; i <= 7; i += 2) {
+                            Main.guiAbilitiesPage.deafultListModels[j].set(i, Main.guiAbilitiesPage.DEFAULT_STRING);
+                        }
+                    }
+                }
             }
         });
         this.add(btnApply);
@@ -313,17 +322,6 @@ public class GUIAbilitiesPage extends JPanel {
         this.add(btnBack);
 
         repaint();
-
-//        //---------------------------------------------------------------------
-//        // timer(thread) - to call update() and paint()
-//        //---------------------------------------------------------------------
-//        java.util.Timer t = new Timer(true);
-//        t.schedule(new TimerTask() {
-//            public void run() {
-////                update();
-//                repaint();
-//            }
-//        },0, 10);
     }
 
 //    public void update() {
