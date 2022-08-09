@@ -19,11 +19,12 @@ import java.util.Vector;
 import static java.awt.Font.BOLD;
 
 public class GUIEditProfilePage extends JPanel {
+    Graphics g = null;
+    public BufferedImage bgImage;
     public static final int W = 850;
     public static final int H = 750;
 
-    public static final String BACK_BTN_IMAGE_FILENAME = "images/back_btn_black.png";
-
+    public static final String BACK_BTN_IMAGE_FILENAME = "images/back_btn_white.png";
 
     public BufferedImage backBtnImage;
 
@@ -31,24 +32,15 @@ public class GUIEditProfilePage extends JPanel {
     public static final int LBL_Y = 115;
     public static final int LBL_W = 272;
     public static final int LBL_H = 32;
-    public static final int BORDER_X = 53;
-    public static final int BORDER_Y = 55;
-    //    public static final int TEXT_FIELD_NAME_W = 280 / 2 - 5;
     public static final int TEXT_FIELD_X = 112;
     public static final int TEXT_FIELD_W = 280;
     public static final int TEXT_FIELD_H = 40;
 
     public static final int TEXT_FIELD_MARGIN_TOP = 50;
-    public static final int TEXT_FIELD_MARGIN_LEFT = 10;
     public static final int TEXT_FIELD_USERNAME_Y = 210;
     public static final int TEXT_FIELD_EMAIL_Y = TEXT_FIELD_USERNAME_Y + TEXT_FIELD_MARGIN_TOP;
     public static final int TEXT_FIELD_PASSWORD_Y = TEXT_FIELD_EMAIL_Y + TEXT_FIELD_MARGIN_TOP;
     public static final int TEXT_FIELD_DISPLAY_NAME_Y = TEXT_FIELD_PASSWORD_Y + TEXT_FIELD_MARGIN_TOP;
-
-    public static final int BUTTON_X = 123;
-    public static final int BUTTON_Y = 448;
-    public static final int BUTTON_W = 254;
-    public static final int BUTTON_H = 40;
 
     public static final String DEFAULT_TEXT_EMAIL = " Email Address";
     public static final String DEFAULT_TEXT_PWD = " Password";
@@ -76,6 +68,13 @@ public class GUIEditProfilePage extends JPanel {
         this.setBackground(new Color(255, 255, 255));
         this.setBounds(0, 0, GUIMainPage.W, GUIMainPage.H);
         Main.frame.add(this, 0);
+
+        try { // background image
+            bgImage = ImageIO.read(new File(GUIWeaponsPage.BACKGROUND_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIWeaponsPage::GUIWeaponsPage(): error: file not found: " + GUIWeaponsPage.BACKGROUND_IMAGE_FILENAME);
+            System.exit(1);
+        }
 
         try { // back button image
             backBtnImage = ImageIO.read(new File(BACK_BTN_IMAGE_FILENAME));
@@ -131,6 +130,7 @@ public class GUIEditProfilePage extends JPanel {
 
         returnButton = new JButton(new ImageIcon(backBtnImage));
         returnButton.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
+        returnButton.setBorder(BorderFactory.createEmptyBorder());
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -195,6 +195,13 @@ public class GUIEditProfilePage extends JPanel {
         tfs.add(tfPassword);
         tfs.add(tfDisplayName);
 
+        repaint();
+    }
+
+    public void paint(Graphics g) {
+        g.drawImage(bgImage, 0, 0, null);
+
+        paintComponents(g);
     }
 
     public void addPlayer(Player player){

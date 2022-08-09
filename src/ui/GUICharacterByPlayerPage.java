@@ -39,7 +39,8 @@ public class GUICharacterByPlayerPage extends JPanel {
     public static final int TEXT_FIELD_PASSWORD_Y = TEXT_FIELD_EMAIL_Y + TEXT_FIELD_MARGIN_TOP;
     public static final int TEXT_FIELD_DISPLAY_NAME_Y = TEXT_FIELD_PASSWORD_Y + TEXT_FIELD_MARGIN_TOP;
 
-    private JTextField userText;
+//    private JTextField userText;
+    private JComboBox<String> userText;
     private JTextField atkText;
     private JButton userButton;
     private JTable characterTable;
@@ -65,18 +66,37 @@ public class GUICharacterByPlayerPage extends JPanel {
             System.exit(1);
         }
 
-        userText = new JTextField("Username");
-        userText.setEnabled(false);
-        userText.setDisabledTextColor(Color.gray);
+        String[] usernames = new String[6];
+        usernames[0] = "select a user";
+        usernames[1] = "player1";
+        usernames[2] = "player2";
+        usernames[3] = "player3";
+        usernames[4] = "player4";
+        usernames[5] = "player5";
+
+        userText = new JComboBox<>(usernames);
         userText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
-        userText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-        userText.addMouseListener(new MouseAdapter() {
+        ActionListener partyActionListener = new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                userText.requestFocus();
-                userText.setEnabled(true);
+            public void actionPerformed(ActionEvent e) {
+
             }
-        });
+        };
+        userText.addActionListener(partyActionListener);
+        this.add(userText);
+
+//        userText = new JTextField("Username");
+//        userText.setEnabled(false);
+//        userText.setDisabledTextColor(Color.gray);
+//        userText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
+//        userText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+//        userText.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                userText.requestFocus();
+//                userText.setEnabled(true);
+//            }
+//        });
 
         atkText = new JTextField("Atk >");
         atkText.setEnabled(false);
@@ -106,7 +126,7 @@ public class GUICharacterByPlayerPage extends JPanel {
         userButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = userText.getText();
+                String username = (String) userText.getSelectedItem();
                 int minATK = Integer.parseInt(atkText.getText());
 
 //                weapons = dbHandler.giveOwnedWeaponWithMinATK(minATK, username);

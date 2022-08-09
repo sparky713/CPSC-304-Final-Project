@@ -45,8 +45,8 @@ public class Main {
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
-//        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
-        frame.setSize(GUIMainPage.W, GUIMainPage.H);
+        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+//        frame.setSize(GUIMainPage.W, GUIMainPage.H);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         guiMainPage = new GUIMainPage();
@@ -66,7 +66,7 @@ public class Main {
 
         guiMainPage.setVisible(false);
         guiCreateAccountPage.setVisible(false);
-        guiCharacterByPlayerPage.setVisible(true);
+        guiCharacterByPlayerPage.setVisible(false);
         guiFoodPage.setVisible(false);
         guiNestedAggregationPage.setVisible(false);
 
@@ -74,7 +74,7 @@ public class Main {
         guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
         guiAbilitiesPage.setVisible(false);
-        guiEditProfilePage.setVisible(false);
+        guiEditProfilePage.setVisible(true);
 
         frame.setVisible(true);
 
