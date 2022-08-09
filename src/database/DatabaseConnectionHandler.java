@@ -467,13 +467,14 @@ public class DatabaseConnectionHandler {
 
     }
 
-    public ArrayList<Map<String, Integer>> getPlayerFoodInfo(Player player) {
-        ArrayList<Map<String, Integer>> result = new ArrayList<Map<String, Integer>>();
+    public ArrayList<Object> getPlayerFoodInfo(String table, String attribute, String condition, Player player) {
+        ArrayList<Object> result = new ArrayList<Object>();
 
         try {
             String playerName = player.getUsername();
 
-            String query = " SELECT fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
+            String query = " SELECT " + attribute + " FROM " + table + " WHERE " + condition + "";
+            //fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             System.out.println("line 384");
             //ResultSet rs = ps.getResultSet();
@@ -483,9 +484,9 @@ public class DatabaseConnectionHandler {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Map<String, Integer> oneFood = new HashMap<String, Integer>();
-                oneFood.put(rs.getString(1), rs.getInt(2));
-                result.add(oneFood);
+                Object obj = new Object();
+                obj = (rs.getString(1));
+                result.add(obj);
             }
 
             rs.close();
@@ -496,6 +497,37 @@ public class DatabaseConnectionHandler {
 
         return result;
     }
+
+
+//    public ArrayList<Map<String, Integer>> getPlayerFoodInfo(Player player) {
+//        ArrayList<Map<String, Integer>> result = new ArrayList<Map<String, Integer>>();
+//
+//        try {
+//            String playerName = player.getUsername();
+//
+//            String query = " SELECT fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+//            System.out.println("line 384");
+//            //ResultSet rs = ps.getResultSet();
+//
+//            // changing this back to "executeQuery() got rid of cursor error, but gave and error for
+//            // "INSERT INTO Food VALUES" for "Mushroom Pizza 2"
+//            ResultSet rs = ps.executeQuery();
+//
+//            while (rs.next()) {
+//                Map<String, Integer> oneFood = new HashMap<String, Integer>();
+//                oneFood.put(rs.getString(1), rs.getInt(2));
+//                result.add(oneFood);
+//            }
+//
+//            rs.close();
+//            ps.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//        }
+//
+//        return result;
+//    }
 
     public String[] getPlayersWithAllFood() {
         ArrayList<String> result = new ArrayList<String>();
