@@ -65,7 +65,7 @@ public class Main {
         guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
         guiMainPage.setVisible(false);
-        guiCreateAccountPage.setVisible(false);
+        guiCreateAccountPage.setVisible(true);
         guiCharacterByPlayerPage.setVisible(false);
         guiFoodPage.setVisible(false);
         guiNestedAggregationPage.setVisible(false);
@@ -74,7 +74,7 @@ public class Main {
         guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
         guiAbilitiesPage.setVisible(false);
-        guiEditProfilePage.setVisible(true);
+        guiEditProfilePage.setVisible(false);
 
         frame.setVisible(true);
 

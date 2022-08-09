@@ -177,7 +177,8 @@ public class DatabaseConnectionHandler {
     //----------------------------------------------------------------------
     // Party
     // ---------------------------------------------------------------------
-//   --numPartiesPerCharacter
+
+    //group by
     public void numPartiesPerCharacter(Player player) {
         try {
             String query = "SELECT cname, count(*) FROM COMPRISEDOF WHERE username = ? GROUP BY cname ORDER BY count(*) DESC";
@@ -292,6 +293,7 @@ public class DatabaseConnectionHandler {
         }
     }
 
+    // projection
     public void showAbilitiesProperties(boolean showOwner, boolean showLevel, boolean showCD, boolean showDMG) {
         Vector<String> projection = new Vector<String>();
 
