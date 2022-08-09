@@ -18,6 +18,7 @@ import java.util.TimerTask;
 import java.util.Vector;
 
 import static java.awt.Font.BOLD;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * The ui for the sign-up window
@@ -197,13 +198,17 @@ public class GUICreateAccountPage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player newPlayer = new Player(tfUsername.getText(), tfEmail.getText(),
                         tfPassword.getText(), tfDisplayName.getText());
-                dbHandler.insertPlayer(newPlayer);
+
+                if (!dbHandler.insertPlayer(newPlayer)) {
+                    return;
+                }
+
                 Main.guiEditProfilePage.addPlayer(newPlayer);
                 // open main page
                 Main.guiMainPage.lblDisplayName.setText(tfDisplayName.getText());
                 Main.changeScreen(2);
                 // lblShow message indicating successful login
-                loginSuccessMessageWindow.showMessageDialog(null, "Welcome " +
+                showMessageDialog(null, "Welcome " +
                         tfDisplayName.getText() + "!", "Account Created Successfully", JOptionPane.INFORMATION_MESSAGE);
                 Main.currPlayer = newPlayer;
 
