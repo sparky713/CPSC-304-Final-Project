@@ -124,6 +124,7 @@ public class GUIFoodPage extends JPanel {
                     }
                 }
 
+
                 characterTable.revalidate();
                 characterTable.updateUI();
 

@@ -474,6 +474,7 @@ public class DatabaseConnectionHandler {
                 result.add(obj);
             }
 
+
             rs.close();
             ps.close();
         } catch (SQLException e) {
