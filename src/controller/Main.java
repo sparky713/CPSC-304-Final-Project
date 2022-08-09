@@ -1,17 +1,11 @@
 package controller;
 
 import database.DatabaseConnectionHandler;
-import model.Character;
-import model.ElementModel;
-import model.Food;
 import model.Player;
 import ui.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.*;
 
 //TEST
 public class Main {
@@ -24,20 +18,27 @@ public class Main {
     public static GUIWeaponsPage guiWeaponsPage;
     public static GUIAbilitiesPage guiAbilitiesPage;
     public static GUIEditProfilePage guiEditProfilePage;
+
+    public static GUIFriendsPage guiFriendsPage;
+
+    public static GUINestedAggregationPage guiNestedAggregationPage;
+
+    public static Player currPlayer;
     public static void main(String[] args) {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
 
-        //---------------------------------------------------------------------
+        //----------------------------------------------------------------------
         // Database Setup
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_SCW2018", "a13454772");
+        dbHandler.login("ORA_spark73", "a41475948");
 
         //---------------------------------------------------------------------
         // GUI Setup
         //---------------------------------------------------------------------
+        currPlayer = null;
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
@@ -50,20 +51,24 @@ public class Main {
         guiCreateAccountPage.setDbHandler(dbHandler);
         guiCharactersPage = new GUICharactersPage();
         guiPartiesPage = new GUIPartiesPage();
+        guiPartiesPage.setDbHandler(dbHandler);
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
+        guiFriendsPage = new GUIFriendsPage(dbHandler);
+        guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
         guiMainPage.setVisible(false);
         guiCreateAccountPage.setVisible(true);
-//        guiCreateAccountPage.setVisible(false);
+        guiFriendsPage.setVisible(false);
+        guiNestedAggregationPage.setVisible(false);
 
-//        guiCharactersPage.setVisible(false);
-//        guiPartiesPage.setVisible(false);
+        guiCharactersPage.setVisible(false);
+        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(false);
-        guiAbilitiesPage.setVisible(true);
+//        guiAbilitiesPage.setVisible(true);
         guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
         guiEditProfilePage.setVisible(false);
@@ -87,18 +92,18 @@ public class Main {
             frame.setSize(GUIMainPage.W, GUIMainPage.H);
             guiMainPage.setVisible(true);
         }
-//        else if (screenNum == 3) { // characters page
-//            if (guiMainPage.isVisible()) {
-//                guiMainPage.setVisible(false);
-//            }
-//            guiCharactersPage.setVisible(true);
-//        }
-//        else if (screenNum == 4) { // parties page
-//            if (guiMainPage.isVisible()) {
-//                guiMainPage.setVisible(false);
-//            }
-//            guiPartiesPage.setVisible(true);
-//        }
+        else if (screenNum == 3) { // characters page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiCharactersPage.setVisible(true);
+        }
+        else if (screenNum == 4) { // parties page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiPartiesPage.setVisible(true);
+        }
         else if (screenNum == 5) { // weapons page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
@@ -112,12 +117,21 @@ public class Main {
             guiAbilitiesPage.setVisible(true);
         }
         else if (screenNum == 7) { // edit profile page
-           if (guiEditProfilePage.isVisible()) {
-                guiEditProfilePage.setVisible(false);
+           if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
             }
             guiEditProfilePage.setVisible(true);
-        }
-        else {
+        } else if (screenNum == 8) { //friends page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiFriendsPage.setVisible(true);
+        } else if (screenNum == 9) {
+            if(guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiNestedAggregationPage.setVisible(true);
+        } else {
 //            ERROR MESSAGE!!!!!!
             System.out.println("Game::changeScreen(" + screenNum + "): Error. Page Not Found");
         }

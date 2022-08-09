@@ -1,14 +1,15 @@
 package test;
 
 import database.DatabaseConnectionHandler;
+import model.*;
 import model.Character;
-import model.ElementModel;
 import model.Food;
 import model.Player;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
+
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +20,7 @@ public class DatabaseTest {
     @BeforeAll
     static void runBefore() {
         dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_scw2018", "a13454772");
+        dbHandler.login("ORA_spark73", "a41475948");
     }
 
     @AfterAll
@@ -36,14 +37,28 @@ public class DatabaseTest {
         Food mushroomPizza = new Food("Mushroom Pizza", 450);
         player1.consumes(mushroomPizza, 2);
 
-        dbHandler.insertPlayer(player1);
-
         dbHandler.insertFood(mushroomPizza);
         dbHandler.insertConsumes(1, player1, mushroomPizza, 2);
 
         dbHandler.getPlayerFoodInfo(player1);
 
         dbHandler.getPlayersWithAllFood();
+
+        // uncomment this to test deleteConsumes method AFTER testing
+        // insertFood method first VVVVVVV
+
+        // dbHandler.deleteConsumes("player1", "Mushroom Pizza");
+
+    }
+
+    @Test
+    void testParty() {
+
+        Player player1 = new Player("player1", "password123", "player1@gmail.com", "Tiger123");
+//        dbHandler.countArtifacts();
+//        dbHandler.strongestCharacterLevelInParty(player1, 20);
+
+        dbHandler.numPartiesPerCharacter(player1);
 
         // uncomment this to test deleteConsumes method AFTER testing
         // insertFood method first VVVVVVV
@@ -82,6 +97,28 @@ public class DatabaseTest {
         assertEquals(actual.getEmail(), expected.getEmail());
         assertEquals(actual.getPassword(), expected.getPassword());
         dbHandler.deletePlayer("player6");
+    }
+
+    @Test
+    void testWeapon() {
+        ArrayList<Weapon> weapons = dbHandler.giveOwnedWeaponWithMinATK(64, "player2");
+        assertEquals("jade cutter", weapons.get(0).getName().toLowerCase());
+        assertEquals("alley hunter",weapons.get(1).getName().toLowerCase());
+
+    }
+    @Test
+    void testMinChar() {
+        ArrayList<Character> characters = dbHandler.giveCharacterWithMinATK(1, "player1");
+        System.out.println(characters.size());
+
+    }
+
+    @Test
+    void testNested(){
+        ArrayList<Character> characterArrayList = dbHandler.nestedAggregation();
+        System.out.println(characterArrayList.get(0).getName());
+        System.out.println(characterArrayList.get(1).getName());
+
     }
 
 }

@@ -22,11 +22,17 @@ public class GUIMainPage extends JPanel {
     public static final String WEAPONS_BTN_IMAGE_FILENAME = "images/weapons_btn.png";
     public static final String ABILITIES_BTN_IMAGE_FILENAME = "images/abilities_btn.png";
     public static final String EDIT_PROFILE_BTN_IMAGE_FILENAME = "images/edit_profile_btn.png";
+    public static final String BACK_BTN_IMAGE_FILENAME = "images/back_btn_white.png";
 
     public static final int W = 850;
     public static final int H = 550;
 
     public static final int LEFT_FRAME_W = 248;
+
+    public static final int BTN_BACK_X = 34;
+    public static final int BTN_BACK_Y = 32;
+    public static final int BTN_BACK_W = 30;
+    public static final int BTN_BACK_H = 30;
 
     public static final int BTN_CHARACTERS_X = LEFT_FRAME_W + 87;
     public static final int BTN_CHARACTERS_Y = 90;
@@ -197,7 +203,7 @@ public class GUIMainPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // go to characters page
-                Main.changeScreen(3);
+                Main.changeScreen(8);
             }
         });
         this.add(btnCharacters);
