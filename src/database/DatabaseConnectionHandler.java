@@ -107,7 +107,7 @@ public class DatabaseConnectionHandler {
         return true;
     }
 
-    //changes attributes in the Player table
+    // updates player table in the database given a player
     public void updatePlayer(Player player) {
         try {
             String query = "UPDATE PLAYER SET PASSWORD = ?, EMAIL = ?, DISPLAYNAME = ? WHERE USERNAME = ?";
@@ -128,7 +128,7 @@ public class DatabaseConnectionHandler {
 
     }
 
-    // finds a player given a username
+    // finds a player in the database given a username
     public Player selectPlayer(String username) {
         try {
             String query = "SELECT * FROM PLAYER WHERE USERNAME = ?";
@@ -159,6 +159,7 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
+    // deletes a player from the database given a username
     public void deletePlayer(String username) {
         try {
             String q = "DELETE FROM PLAYER WHERE USERNAME = ?";
@@ -451,13 +452,14 @@ public class DatabaseConnectionHandler {
 
     }
 
-    public ArrayList<Map<String, Integer>> getPlayerFoodInfo(Player player) {
-        ArrayList<Map<String, Integer>> result = new ArrayList<Map<String, Integer>>();
+    public ArrayList<Object> getPlayerFoodInfo(String table, String attribute, String condition, Player player) {
+        ArrayList<Object> result = new ArrayList<Object>();
 
         try {
             String playerName = player.getUsername();
 
-            String query = " SELECT fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
+            String query = " SELECT " + attribute + " FROM " + table + " WHERE " + condition + "";
+            //fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             System.out.println("line 384");
             //ResultSet rs = ps.getResultSet();
@@ -467,10 +469,11 @@ public class DatabaseConnectionHandler {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                Map<String, Integer> oneFood = new HashMap<String, Integer>();
-                oneFood.put(rs.getString(1), rs.getInt(2));
-                result.add(oneFood);
+                Object obj = new Object();
+                obj = (rs.getString(1));
+                result.add(obj);
             }
+
 
             rs.close();
             ps.close();
@@ -480,6 +483,37 @@ public class DatabaseConnectionHandler {
 
         return result;
     }
+
+
+//    public ArrayList<Map<String, Integer>> getPlayerFoodInfo(Player player) {
+//        ArrayList<Map<String, Integer>> result = new ArrayList<Map<String, Integer>>();
+//
+//        try {
+//            String playerName = player.getUsername();
+//
+//            String query = " SELECT fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+//            System.out.println("line 384");
+//            //ResultSet rs = ps.getResultSet();
+//
+//            // changing this back to "executeQuery() got rid of cursor error, but gave and error for
+//            // "INSERT INTO Food VALUES" for "Mushroom Pizza 2"
+//            ResultSet rs = ps.executeQuery();
+//
+//            while (rs.next()) {
+//                Map<String, Integer> oneFood = new HashMap<String, Integer>();
+//                oneFood.put(rs.getString(1), rs.getInt(2));
+//                result.add(oneFood);
+//            }
+//
+//            rs.close();
+//            ps.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//        }
+//
+//        return result;
+//    }
 
     public String[] getPlayersWithAllFood() {
         ArrayList<String> result = new ArrayList<String>();
@@ -554,7 +588,8 @@ public class DatabaseConnectionHandler {
     // Character
     // ---------------------------------------------------------------------
 
-    // returns a list of weapons with ATK greater than minATK
+    // returns a list of owned weapons with ATK greater than minATK
+    // UNUSED
     public ArrayList<Weapon> giveOwnedWeaponWithMinATK(int minATK, String username) {
         try {
             String query = "SELECT * FROM Weapon INNER JOIN OWNSWEAPON ON OWNSWEAPON.WNAME = WEAPON.NAME WHERE OWNSWEAPON.USERNAME = ? AND WEAPON.BASEATK > ?";
@@ -583,7 +618,7 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
-    // returns a list of character with ATK greater than minATK
+    // returns a list of owned characters with ATK greater than minATK
     public ArrayList<Character> giveCharacterWithMinATK(int minATK, String username) {
         try {
 
@@ -618,7 +653,8 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
-    //returns a list of characters that have a baseATK greater than the averages over the characters owned by players
+    // returns a list of characters that have a baseATK greater than
+    // each average base atk of characters owned by a certain players
     public ArrayList<Character> nestedAggregation() {
         try {
             String query = "SELECT * FROM CHARACTER WHERE CHARACTER.BASEATK > ALL (SELECT AVG(C.BASEATK) FROM CHARACTER C, PLAYS P WHERE P.CNAME = C.NAME GROUP BY USERNAME)";

@@ -71,7 +71,9 @@ public class GUINestedAggregationPage extends JPanel {
         table.setBackground(Color.white);
         table.setGridColor(Color.black);
         table.setBounds(100, 100, 500, 500);
-        this.add(table);
+        table.getTableHeader().setBounds(100, 80, 500, 20);
+        this.add(table.getTableHeader());
+        this.add(table, BorderLayout.CENTER);
     }
 
 }
