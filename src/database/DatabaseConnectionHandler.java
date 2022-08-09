@@ -453,7 +453,7 @@ public class DatabaseConnectionHandler {
             String q = "INSERT INTO consumes VALUES (?, ?, ?, ?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
             ps.setInt(1, id);
-            ps.setString(2, "player2");
+            ps.setString(2, player.getUsername());
             ps.setString(3, food.getFoodName());
             ps.setInt(4, amount);
 
