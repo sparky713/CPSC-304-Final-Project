@@ -67,7 +67,7 @@ public class GUIMainPage extends JPanel {
     public static final int BTN_EDIT_PROFILE_H = 40;
 
     public static final int BTN_DEMO_PLAYER_X = 67;
-    public static final int BTN_DEMO_PLAYER_Y = 100;
+    public static final int BTN_DEMO_PLAYER_Y = 80;
     public static final int BTN_DEMO_PLAYER_W = 121;
     public static final int BTN_DEMO_PLAYER_H = 50;
 

@@ -535,7 +535,23 @@ VALUES ('player1', 'Xiao');
 
 INSERT
 INTO Plays (USERNAME, CNAME)
+VALUES ('player2', 'Klee');
+
+INSERT
+INTO Plays (USERNAME, CNAME)
 VALUES ('player2', 'Qiqi');
+
+INSERT
+INTO Plays (USERNAME, CNAME)
+VALUES ('player2', 'Xinyan');
+
+INSERT
+INTO Plays (USERNAME, CNAME)
+VALUES ('player2', 'Xiao');
+
+INSERT
+INTO Plays (USERNAME, CNAME)
+VALUES ('player2', 'Mona');
 
 INSERT
 INTO Plays(USERNAME, CNAME)

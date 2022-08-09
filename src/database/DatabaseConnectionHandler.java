@@ -98,8 +98,9 @@ public class DatabaseConnectionHandler {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
             JOptionPane duplicateUsernameMessage = new JOptionPane();
             duplicateUsernameMessage.setBounds(Main.guiCreateAccountPage.POPUP_MENU_X, Main.guiCreateAccountPage.POPUP_MENU_Y, Main.guiCreateAccountPage.POPUP_MENU_W, Main.guiCreateAccountPage.POPUP_MENU_H);
-            duplicateUsernameMessage.showMessageDialog(null, Main.guiCreateAccountPage.tfUsername.getText() +
-                    " is already taken.", "Useranme Taken", JOptionPane.INFORMATION_MESSAGE);
+            duplicateUsernameMessage.showMessageDialog(null, Main.guiCreateAccountPage.tfUsername.getText()
+                    + " or " + Main.guiCreateAccountPage.tfEmail.getText() + " is already taken.", "Username or Email Taken",
+                    JOptionPane.INFORMATION_MESSAGE);
             rollbackConnection();
             return false;
         }
@@ -181,12 +182,10 @@ public class DatabaseConnectionHandler {
             String query = "SELECT cname, count(*) FROM COMPRISEDOF WHERE username = ? GROUP BY cname ORDER BY count(*) DESC";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ps.setString(1, player.getUsername());
-//            ps.setString(1, "player2"); // TODO change to player.getUsername()
             ResultSet rs = ps.executeQuery();
 
             int i = 0;
             while (rs.next()) {
-//                // TODO: Display the count (GUI) when display artifacts button is clicked
 //            //set list text
                 Main.guiPartiesPage.characterLabels[i].setText(ps.getResultSet().getString(1));
                 Main.guiPartiesPage.numPartyLabels[i].setText(ps.getResultSet().getString(2));
@@ -232,7 +231,6 @@ public class DatabaseConnectionHandler {
             }
 
             while (rs.next()) {
-//                // TODO: Display the count (GUI) when display artifacts button is clicked
 //            //set list text
                 Main.guiPartiesPage.partyLabels[i].setText(ps.getResultSet().getString(1));
                 Main.guiPartiesPage.maxLevelLabels[i].setText(ps.getResultSet().getString(2));
@@ -296,26 +294,21 @@ public class DatabaseConnectionHandler {
     public void showAbilitiesProperties(boolean showOwner, boolean showLevel, boolean showCD, boolean showDMG) {
         Vector<String> projection = new Vector<String>();
 
-//        if (showOwner) {
-//            projection.add("cname");
-//        }
-//
-//        if (showLevel) {
-//            projection.add("ability_level");
-//        }
-//
-//        if (showCD) {
-//            projection.add("cd");
-//        }
-//
-//        if (showDMG) {
-//            projection.add("dmg");
-//        }
+        if (showOwner) {
+            projection.add("cname");
+        }
 
-        projection.add("cname");
-        projection.add("ability_level");
-        projection.add("cd");
-        projection.add("dmg");
+        if (showLevel) {
+            projection.add("ability_level");
+        }
+
+        if (showCD) {
+            projection.add("cd");
+        }
+
+        if (showDMG) {
+            projection.add("dmg");
+        }
 
         String selectedColumns = String.join(",", projection);
 //        System.out.println("DCH::showAbilitiesProperties: " + selectedColumns);
@@ -324,43 +317,32 @@ public class DatabaseConnectionHandler {
             String query = "SELECT " + selectedColumns + " FROM ABILITY";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 
-////            ps.getResultSet().setFetchDirection(ResultSet.TYPE_SCROLL_SENSITIVE,
-////                    ResultSet.CONCUR_UPDATABLE);
-//            ResultSet rsAbilities = ps.getResultSet();
             ResultSet rsAbilities = ps.executeQuery(query);
-//            rsAbilities.setFetchDirection(ResultSet.FETCH_REVERSE);
-////            rsAbilities.setFetchDirection(ResultSet.TYPE_SCROLL_INSENSITIVE);
-////            rsAbilities.setFetchDirection(ResultSet.CONCUR_UPDATABLE);
-//            System.out.println("fetch dir: " + ps.getFetchDirection());
-//            rsAbilities.last();
-//            int numAbilities = rsAbilities.getRow();
-//            int num = ps.getMaxRows();
 
-//            rsAbilities.beforeFirst();
             for (int i = 0; i < 5; i++) {
                 rsAbilities.next();
                 //set list text
                 if (showOwner) { // cname
-                    Main.guiAbilitiesPage.deafultListModels[i].set(1, ps.getResultSet().getString(1));
+                    Main.guiAbilitiesPage.deafultListModels[i].set(1, ps.getResultSet().getString("cname"));
                 } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showLevel) { // ability_level
-                    Main.guiAbilitiesPage.deafultListModels[i].set(3, Integer.toString(ps.getResultSet().getInt(2)));
+                    Main.guiAbilitiesPage.deafultListModels[i].set(3, Integer.toString(ps.getResultSet().getInt("ability_level")));
 
                 } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(3, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showCD) { // cd
-                    Main.guiAbilitiesPage.deafultListModels[i].set(5, Float.toString(ps.getResultSet().getFloat(3)));
+                    Main.guiAbilitiesPage.deafultListModels[i].set(5, Float.toString(ps.getResultSet().getFloat("cd")));
                 } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(5, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showDMG) { // dmg
-                    Main.guiAbilitiesPage.deafultListModels[i].set(7, Integer.toString(ps.getResultSet().getInt(4)));
+                    Main.guiAbilitiesPage.deafultListModels[i].set(7, Integer.toString(ps.getResultSet().getInt("dmg")));
                 } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(7, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
