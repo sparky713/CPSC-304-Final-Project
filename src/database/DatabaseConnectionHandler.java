@@ -549,21 +549,21 @@ public class DatabaseConnectionHandler {
         }
     }
 
-    // inserts elements
-    public void insertElement(ElementModel elementModel) {
-        try {
-            String q = "INSERT INTO Element VALUES (?)";
-            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
-            ps.setString(1, elementModel.getName());
-            ps.executeUpdate();
-            connection.commit();
-            ps.close();
-        } catch (SQLException e) {
-            rollbackConnection();
-            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
-        }
-
-    }
+//    // inserts elements
+//    public void insertElement(ElementModel elementModel) {
+//        try {
+//            String q = "INSERT INTO Element VALUES (?)";
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
+//            ps.setString(1, elementModel.getName());
+//            ps.executeUpdate();
+//            connection.commit();
+//            ps.close();
+//        } catch (SQLException e) {
+//            rollbackConnection();
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//        }
+//
+//    }
 
 
     //----------------------------------------------------------------------
