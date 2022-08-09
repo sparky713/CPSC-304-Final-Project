@@ -200,4 +200,8 @@ public class GUIEditProfilePage extends JPanel {
     public void addPlayer(Player player){
         this.player = player;
     }
+
+    public Player getCurrentPlayer(){
+        return player;
+    }
 }

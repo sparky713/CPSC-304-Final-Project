@@ -2,6 +2,7 @@ package ui;
 
 import controller.Main;
 import database.DatabaseConnectionHandler;
+import model.Food;
 import model.Player;
 
 import javax.imageio.ImageIO;
@@ -204,6 +205,16 @@ public class GUICreateAccountPage extends JPanel {
                 loginSuccessMessageWindow.showMessageDialog(null, "Welcome " +
                         tfDisplayName.getText() + "!", "Account Created Successfully", JOptionPane.INFORMATION_MESSAGE);
                 Main.currPlayer = newPlayer;
+
+                //Jasmine added:
+                // Automatically giving user a mushroom pizza
+                System.out.println("line 211");
+                Food octopusPizza = new Food("Octopus Pizza", 450);
+                System.out.println("line 213");
+                dbHandler.insertFood(octopusPizza);
+                System.out.println("line 215");
+                dbHandler.insertConsumes(56, newPlayer, octopusPizza, 2);
+                System.out.println("line 217");
             }
         });
         this.add(btnSignUp);

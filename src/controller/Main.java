@@ -1,6 +1,7 @@
 package controller;
 
 import database.DatabaseConnectionHandler;
+import model.Food;
 import model.Player;
 import ui.*;
 
@@ -20,6 +21,7 @@ public class Main {
     public static GUIEditProfilePage guiEditProfilePage;
 
     public static GUIFriendsPage guiFriendsPage;
+    public static GUIFoodPage guiFoodPage;
 
     public static GUINestedAggregationPage guiNestedAggregationPage;
 
@@ -33,7 +35,7 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_spark73", "a41475948");
+        dbHandler.login("ORA_JMANN507", "a61798278");
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -57,11 +59,14 @@ public class Main {
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
         guiFriendsPage = new GUIFriendsPage(dbHandler);
+        guiFoodPage = new GUIFoodPage(dbHandler);
+
         guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
         guiMainPage.setVisible(false);
         guiCreateAccountPage.setVisible(true);
         guiFriendsPage.setVisible(false);
+        guiFoodPage.setVisible(false);
         guiNestedAggregationPage.setVisible(false);
 
         guiCharactersPage.setVisible(false);
@@ -125,7 +130,8 @@ public class Main {
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
-            guiFriendsPage.setVisible(true);
+            guiFoodPage.setVisible(true);
+            //guiFriendsPage.setVisible(true);
         } else if (screenNum == 9) {
             if(guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);

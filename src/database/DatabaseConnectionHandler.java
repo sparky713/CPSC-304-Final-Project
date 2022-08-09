@@ -450,10 +450,10 @@ public class DatabaseConnectionHandler {
     // inserts consumes
     public void insertConsumes(int id, Player player, Food food, int amount) {
         try {
-            String q = "INSERT INTO Consumes VALUES (?, ?, ?)";
+            String q = "INSERT INTO consumes VALUES (?, ?, ?, ?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
             ps.setInt(1, id);
-            ps.setString(2, player.getUsername());
+            ps.setString(2, "player2");
             ps.setString(3, food.getFoodName());
             ps.setInt(4, amount);
 
@@ -484,7 +484,7 @@ public class DatabaseConnectionHandler {
 
             while (rs.next()) {
                 Map<String, Integer> oneFood = new HashMap<String, Integer>();
-                oneFood.put(rs.getString(3), rs.getInt(4));
+                oneFood.put(rs.getString(1), rs.getInt(2));
                 result.add(oneFood);
             }
 
