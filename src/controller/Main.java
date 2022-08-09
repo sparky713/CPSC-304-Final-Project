@@ -1,6 +1,8 @@
 package controller;
 
 import database.DatabaseConnectionHandler;
+import model.Food;
+import model.Player;
 import ui.*;
 
 import javax.swing.*;
@@ -19,8 +21,11 @@ public class Main {
     public static GUIEditProfilePage guiEditProfilePage;
 
     public static GUICharacterByPlayerPage guiCharacterByPlayerPage;
+    public static GUIFoodPage guiFoodPage;
 
     public static GUINestedAggregationPage guiNestedAggregationPage;
+
+    public static Player currPlayer;
 
     public static void main(String[] args) {
 
@@ -36,11 +41,12 @@ public class Main {
         //---------------------------------------------------------------------
         // GUI Setup
         //---------------------------------------------------------------------
+        currPlayer = null;
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
-//        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
-        frame.setSize(GUIMainPage.W, GUIMainPage.H);
+        frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+//        frame.setSize(GUIMainPage.W, GUIMainPage.H);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         guiMainPage = new GUIMainPage();
@@ -48,24 +54,27 @@ public class Main {
         guiCreateAccountPage.setDbHandler(dbHandler);
         guiCharactersPage = new GUICharactersPage();
         guiPartiesPage = new GUIPartiesPage();
+        guiPartiesPage.setDbHandler(dbHandler);
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
         guiCharacterByPlayerPage = new GUICharacterByPlayerPage(dbHandler);
+        guiFoodPage = new GUIFoodPage(dbHandler);
+
         guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
         guiMainPage.setVisible(true);
         guiCreateAccountPage.setVisible(false);
         guiCharacterByPlayerPage.setVisible(false);
+        guiFoodPage.setVisible(false);
         guiNestedAggregationPage.setVisible(false);
-//        guiCreateAccountPage.setVisible(false);
 
         guiCharactersPage.setVisible(false);
         guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(false);
-        guiAbilitiesPage.setVisible(false);
+//        guiAbilitiesPage.setVisible(true);
         guiAbilitiesPage.setVisible(false);
 //        guiAbilitiesPage.setVisible(true);
         guiEditProfilePage.setVisible(false);
@@ -87,20 +96,17 @@ public class Main {
             }
             frame.setSize(GUIMainPage.W, GUIMainPage.H);
             guiMainPage.setVisible(true);
-        }
-        else if (screenNum == 3) { // characters page
+        } else if (screenNum == 3) { // characters page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiCharactersPage.setVisible(true);
-        }
-        else if (screenNum == 4) { // parties page
+        } else if (screenNum == 4) { // parties page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiPartiesPage.setVisible(true);
-        }
-        else if (screenNum == 5) { // weapons page
+        } else if (screenNum == 5) { // weapons page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
@@ -120,11 +126,18 @@ public class Main {
                 guiMainPage.setVisible(false);
             }
             guiCharacterByPlayerPage.setVisible(true);
+//            guiFoodPage.setVisible(true);
         } else if (screenNum == 9) {
-            if(guiMainPage.isVisible()) {
+            if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiNestedAggregationPage.setVisible(true);
+        }
+        else if (screenNum == 10) {
+            if(guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiFoodPage.setVisible(true);
         } else {
 //            ERROR MESSAGE!!!!!!
             System.out.println("Game::changeScreen(" + screenNum + "): Error. Page Not Found");

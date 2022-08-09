@@ -2,6 +2,7 @@ package ui;
 
 import controller.Main;
 import database.DatabaseConnectionHandler;
+import model.Food;
 import model.Player;
 
 import javax.imageio.ImageIO;
@@ -11,11 +12,13 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 
 import static java.awt.Font.BOLD;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  * The ui for the sign-up window
@@ -195,14 +198,35 @@ public class GUICreateAccountPage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Player newPlayer = new Player(tfUsername.getText(), tfEmail.getText(),
                         tfPassword.getText(), tfDisplayName.getText());
-                dbHandler.insertPlayer(newPlayer);
+
+                if (!dbHandler.insertPlayer(newPlayer)) {
+                    return;
+                }
+
                 Main.guiEditProfilePage.addPlayer(newPlayer);
                 // open main page
                 Main.guiMainPage.lblDisplayName.setText(tfDisplayName.getText());
                 Main.changeScreen(2);
-                // show message indicating successful login
-                loginSuccessMessageWindow.showMessageDialog(null, "Welcome " +
+                // lblShow message indicating successful login
+                showMessageDialog(null, "Welcome " +
                         tfDisplayName.getText() + "!", "Account Created Successfully", JOptionPane.INFORMATION_MESSAGE);
+                Main.currPlayer = newPlayer;
+
+                //Jasmine added:
+                // Automatically giving user a mushroom pizza
+                System.out.println("line 211");
+                Food octopusPizza = new Food("Octopus Pizza", 450);
+                System.out.println("line 213");
+                dbHandler.insertFood(octopusPizza);
+                System.out.println("line 215");
+
+                // random number generator for unique id:
+                Random rand = new Random(); //instance of random class
+                int upperbound = 1000000;
+                int int_random = rand.nextInt(upperbound);
+
+                dbHandler.insertConsumes(int_random, newPlayer, octopusPizza, 2);
+                System.out.println("line 217");
             }
         });
         this.add(btnSignUp);

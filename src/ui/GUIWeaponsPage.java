@@ -112,13 +112,6 @@ public class GUIWeaponsPage extends JPanel {
         });
         this.add(btnBack);
 
-        // TODO: add abilities and attach labels
-//        lblWeapons = new JLabel("bow 1");
-//        lblWeapons.setBounds(LBL_WEAPONS_X, LBL_WEAPONS_Y, LBL_W, LBL_H);
-//        lblWeapons.setFont(new Font("Arial", BOLD, 20));
-//        lblWeapons.setForeground(Color.white);
-//        this.add(lblWeapons);
-
         repaint();
 
 //        //---------------------------------------------------------------------
