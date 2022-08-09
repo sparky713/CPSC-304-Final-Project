@@ -149,7 +149,7 @@ public class GUIFoodPage extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.changeScreen(2);
-                Main.guiFriendsPage.setVisible(false);
+                Main.guiCharacterByPlayerPage.setVisible(false);
             }
         });
         this.add(returnButton);

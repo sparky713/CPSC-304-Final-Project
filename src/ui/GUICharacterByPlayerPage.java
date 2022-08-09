@@ -87,6 +87,8 @@ public class GUICharacterByPlayerPage extends JPanel {
         characterTable.setBackground(Color.white);
         characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 100, 500, 500);
 
+        characterTable.getTableHeader().setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 80, 500, 20);
+
         userButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,6 +155,7 @@ public class GUICharacterByPlayerPage extends JPanel {
         this.add(atkText);
         this.add(userText);
         this.add(userButton);
+        this.add(characterTable.getTableHeader());
         this.add(characterTable);
 
     }
