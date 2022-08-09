@@ -232,9 +232,9 @@ public class DatabaseConnectionHandler {
             while (rs.next()) {
 //                // TODO: Display the count (GUI) when display artifacts button is clicked
 //            //set list text
-                    Main.guiPartiesPage.partyLabels[i].setText(ps.getResultSet().getString(1));
-                    Main.guiPartiesPage.maxLevelLabels[i].setText(ps.getResultSet().getString(2));
-                    i++;
+                Main.guiPartiesPage.partyLabels[i].setText(ps.getResultSet().getString(1));
+                Main.guiPartiesPage.maxLevelLabels[i].setText(ps.getResultSet().getString(2));
+                i++;
             }
 
             ps.executeUpdate();
@@ -339,31 +339,27 @@ public class DatabaseConnectionHandler {
                 rsAbilities.next();
                 //set list text
                 if (showOwner) { // cname
-                    Main.guiAbilitiesPage.deafultListModels[i].set(1,ps.getResultSet().getString(1));
-                }
-                else {
+                    Main.guiAbilitiesPage.deafultListModels[i].set(1, ps.getResultSet().getString(1));
+                } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showLevel) { // ability_level
                     Main.guiAbilitiesPage.deafultListModels[i].set(3, Integer.toString(ps.getResultSet().getInt(2)));
 
-                }
-                else {
+                } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(3, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showCD) { // cd
                     Main.guiAbilitiesPage.deafultListModels[i].set(5, Float.toString(ps.getResultSet().getFloat(3)));
-                }
-                else {
+                } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(5, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showDMG) { // dmg
                     Main.guiAbilitiesPage.deafultListModels[i].set(7, Integer.toString(ps.getResultSet().getInt(4)));
-                }
-                else {
+                } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(7, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
             }
@@ -398,6 +394,33 @@ public class DatabaseConnectionHandler {
 
     }
 
+    public Food selectFood(String foodName) {
+        try {
+            String query = "SELECT * FROM food WHERE name = ?";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.setString(1, foodName);
+            ResultSet rs = ps.executeQuery();
+
+
+            int healAmount = 0;
+
+            while (rs.next()) {
+                healAmount = rs.getInt("healAmount");
+            }
+
+            Food f = new Food(foodName, healAmount);
+
+            ps.close();
+            rs.close();
+
+            return f;
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+        return null;
+    }
+
 
     public void deleteConsumes(String playerUsername, String foodName) {
         try {
@@ -407,7 +430,7 @@ public class DatabaseConnectionHandler {
             String query = "DELETE FROM Consumes WHERE USERNAME = ? and FNAME = ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ps.setString(1, playerUsername);
-            ps.setString(1, foodName);
+            ps.setString(2, foodName);
 
             int rowCount = ps.executeUpdate();
             if (rowCount == 0) {
@@ -444,26 +467,24 @@ public class DatabaseConnectionHandler {
 
     }
 
-    public ArrayList<Map<String,Integer>> getPlayerFoodInfo(Player player) {
-        ArrayList<Map<String,Integer>> result = new ArrayList<Map<String,Integer>>();
-
+    public ArrayList<Map<String, Integer>> getPlayerFoodInfo(Player player) {
+        ArrayList<Map<String, Integer>> result = new ArrayList<Map<String, Integer>>();
 
         try {
-            //FIXXXXXXXX*************************************:
-            // 1) GROUP BY is used incorrectly
-            // 2) consumes.username is not valid
-            // 3) playerName must be an actual string of form '...', can't just use a variable that is a string
             String playerName = player.getUsername();
-            String query = "SELECT * FROM consumes WHERE consumes.username = playerName GROUP BY fname";
+
+            String query = " SELECT fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            System.out.println("line 384");
+            //ResultSet rs = ps.getResultSet();
+
+            // changing this back to "executeQuery() got rid of cursor error, but gave and error for
+            // "INSERT INTO Food VALUES" for "Mushroom Pizza 2"
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()) {
-                Map<String,Integer> oneFood = new HashMap<String,Integer>();
-                Food foodModel =  new Food(rs.getString("name"),
-                        rs.getInt("healAmount"));
-                int foodModelQuantity = rs.getInt("amount");
-                oneFood.put(foodModel.getFoodName(), foodModelQuantity);
+            while (rs.next()) {
+                Map<String, Integer> oneFood = new HashMap<String, Integer>();
+                oneFood.put(rs.getString(3), rs.getInt(4));
                 result.add(oneFood);
             }
 
@@ -475,6 +496,75 @@ public class DatabaseConnectionHandler {
 
         return result;
     }
+
+    public String[] getPlayersWithAllFood() {
+        ArrayList<String> result = new ArrayList<String>();
+
+        try {
+            String query = "SELECT * FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
+
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String playerName = rs.getString("username");
+                result.add(playerName);
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+        }
+        //System.out.println(result.toArray(new String[result.size()]));
+
+        return result.toArray(new String[result.size()]);
+    }
+
+
+//            String query = " SELECT p.username FROM player as p WHERE NOT EXISTS " +
+//                    "((SELECT f.name FROM food as f) EXCEPT " +
+//                    "(SELECT c.fname FROM consumes c WHERE c.username = p.username)) ";
+
+
+//                BranchModel model = new BranchModel(rs.getString("branch_addr"),
+//                        rs.getString("branch_city"),
+//                        rs.getInt("branch_id"),
+//                        rs.getString("branch_name"),
+//                        rs.getInt("branch_phone"));
+//                result.add(model);
+
+    // creates the Element table
+    private void setupElement() {
+        try {
+            String query = "CREATE TABLE Element\n" +
+                    "(\n" +
+                    "    name char(80) PRIMARY KEY\n" +
+                    ")";
+            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+
+        }
+    }
+
+//    // inserts elements
+//    public void insertElement(ElementModel elementModel) {
+//        try {
+//            String q = "INSERT INTO Element VALUES (?)";
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
+//            ps.setString(1, elementModel.getName());
+//            ps.executeUpdate();
+//            connection.commit();
+//            ps.close();
+//        } catch (SQLException e) {
+//            rollbackConnection();
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//        }
+//
+//    }
+
 
     //----------------------------------------------------------------------
     // Character
@@ -574,5 +664,6 @@ public class DatabaseConnectionHandler {
 
         return null;
     }
+
 
 }
