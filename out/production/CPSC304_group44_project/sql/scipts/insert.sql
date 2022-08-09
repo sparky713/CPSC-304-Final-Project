@@ -626,6 +626,10 @@ VALUES ('player2', 'Alley Hunter', 6);
 
 INSERT
 INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)
+VALUES ('player2', 'Stringless', 2);
+
+INSERT
+INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)
 VALUES ('player3', 'Alley Hunter', 3);
 
 INSERT

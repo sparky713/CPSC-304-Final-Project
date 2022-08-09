@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 import static java.awt.Font.BOLD;
@@ -106,21 +108,16 @@ public class GUICharactersPage extends JPanel {
 
         repaint();
 
-//        //---------------------------------------------------------------------
-//        // timer(thread) - to call update() and paint()
-//        //---------------------------------------------------------------------
-//        java.util.Timer t = new Timer(true);
-//        t.schedule(new TimerTask() {
-//            public void run() {
-////                update();
-//                repaint();
-//            }
-//        },0, 10);
+        //---------------------------------------------------------------------
+        // timer(thread) - to call paint()
+        //---------------------------------------------------------------------
+        java.util.Timer t = new Timer(true);
+        t.schedule(new TimerTask() {
+            public void run() {
+                repaint();
+            }
+        }, 0, 10);
     }
-
-//    public void update() {
-//        updateSignUpButton();
-//    }
 
     public void paint(Graphics g) {
         g.drawImage(bgImage, 0, 0, null);
