@@ -40,7 +40,7 @@ public class DatabaseTest {
         dbHandler.insertFood(mushroomPizza);
         dbHandler.insertConsumes(1, player1, mushroomPizza, 2);
 
-        dbHandler.getPlayerFoodInfo(player1);
+        //dbHandler.getPlayerFoodInfo(player1);
 
         dbHandler.getPlayersWithAllFood();
 
