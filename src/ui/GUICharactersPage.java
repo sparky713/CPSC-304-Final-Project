@@ -16,6 +16,7 @@ import java.util.Vector;
 
 import static java.awt.Font.BOLD;
 
+// UNUSED
 public class GUICharactersPage extends JPanel {
     Graphics g = null;
     private DatabaseConnectionHandler dbHandler = null;

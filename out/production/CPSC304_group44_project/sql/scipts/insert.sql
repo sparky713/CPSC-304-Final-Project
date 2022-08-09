@@ -129,6 +129,9 @@ VALUES (17, 22, 31);
 INSERT INTO CHARACTERATK (CHARACTER_LEVEL, BASEATK, CURRATK)
 VALUES (20, 30, 40);
 
+INSERT INTO CHARACTERATK (CHARACTER_LEVEL, BASEATK, CURRATK)
+VALUES (20, 50, 100)
+
 /* Tuples in CHARACTER table */
 INSERT
 INTO CHARACTER (name, CHARACTER_LEVEL, baseHP, baseATK, ename)
@@ -153,6 +156,13 @@ VALUES ('Mona', 17, 810, 22, 'Hydro');
 INSERT
 INTO CHARACTER (NAME, CHARACTER_LEVEL, BASEHP, BASEATK, ENAME)
 VALUES ('Kaeya', 20, 800, 30, 'Cryo');
+
+INSERT INTO CHARACTER(NAME, CHARACTER_LEVEL, BASEHP, BASEATK, ENAME)
+VALUES ('Ayato', 20, 800, 50, 'Hydro');
+
+INSERT INTO CHARACTER(NAME, CHARACTER_LEVEL, BASEHP, BASEATK, ENAME)
+VALUES ('Yelan', 20, 800, 30, 'Hydro');
+
 
 /* Tuples in AbilityDMG table */
 INSERT
@@ -202,7 +212,13 @@ VALUES ('Fate', 'Mona', 17, 12.0, 133);
 
 INSERT
 INTO ABILITY
-VALUES ('Glacial Waltz', 'Kaeya', 1,15.0, 20);
+VALUES ('Glacial Waltz', 'Kaeya', 1, 15.0, 20);
+
+INSERT INTO ABILITY (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
+VALUES ('Suiyuu', 'Ayato', 1, 15, 20);
+
+INSERT INTO ABILITY (ANAME, CNAME, ABILITY_LEVEL, CD, DMG)
+VALUES ('Dice', 'Yelan', 1, 15, 20);
 
 
 /* Tuples in Artifact table */
@@ -517,10 +533,13 @@ INSERT
 INTO Plays(USERNAME, CNAME)
 VALUES ('player4', 'Xinyan');
 
--- INSERT
--- INTO Plays(USERNAME, CNAME)
--- VALUES ('player5', 'Xiao');
+INSERT
+INTO Plays(USERNAME, CNAME)
+VALUES ('player5', 'Xiao');
 
+INSERT
+INTO Plays (USERNAME, CNAME)
+VALUES ('player4', 'Yelan')
 
 /* Tuples in FightsWith table */
 INSERT
@@ -542,6 +561,15 @@ VALUES ('Xiao', 'Stringless');
 INSERT
 INTO FightsWith(cname, wname)
 VALUES ('Mona', 'Alley Hunter');
+
+INSERT INTO FIGHTSWITH (cname, wname)
+VALUES ('Kaeya', 'Dull Blade');
+
+INSERT INTO FIGHTSWITH(cname, wname)
+VALUES ('Ayato', 'Jade Cutter');
+
+INSERT INTO FIGHTSWITH(cname, wname)
+VALUES ('Yelan', 'Skyward Harp');
 
 /* Tuples in OwnsWeapon table */
 INSERT

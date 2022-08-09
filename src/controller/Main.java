@@ -18,7 +18,7 @@ public class Main {
     public static GUIAbilitiesPage guiAbilitiesPage;
     public static GUIEditProfilePage guiEditProfilePage;
 
-    public static GUIFriendsPage guiFriendsPage;
+    public static GUICharacterByPlayerPage guiCharacterByPlayerPage;
 
     public static GUINestedAggregationPage guiNestedAggregationPage;
 
@@ -52,12 +52,12 @@ public class Main {
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
-        guiFriendsPage = new GUIFriendsPage(dbHandler);
+        guiCharacterByPlayerPage = new GUICharacterByPlayerPage(dbHandler);
         guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
         guiMainPage.setVisible(true);
         guiCreateAccountPage.setVisible(false);
-        guiFriendsPage.setVisible(false);
+        guiCharacterByPlayerPage.setVisible(false);
         guiNestedAggregationPage.setVisible(false);
 //        guiCreateAccountPage.setVisible(false);
 
@@ -119,7 +119,7 @@ public class Main {
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
-            guiFriendsPage.setVisible(true);
+            guiCharacterByPlayerPage.setVisible(true);
         } else if (screenNum == 9) {
             if(guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);

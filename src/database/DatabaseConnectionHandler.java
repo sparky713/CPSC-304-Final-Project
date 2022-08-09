@@ -99,7 +99,7 @@ public class DatabaseConnectionHandler {
         }
     }
 
-    //changes attributes in the Player table
+    // updates player table in the database given a player
     public void updatePlayer(Player player) {
         try {
             String query = "UPDATE PLAYER SET PASSWORD = ?, EMAIL = ?, DISPLAYNAME = ? WHERE USERNAME = ?";
@@ -120,7 +120,7 @@ public class DatabaseConnectionHandler {
 
     }
 
-    // finds a player given a username
+    // finds a player in the database given a username
     public Player selectPlayer(String username) {
         try {
             String query = "SELECT * FROM PLAYER WHERE USERNAME = ?";
@@ -151,6 +151,7 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
+    // deletes a player from the database given a username
     public void deletePlayer(String username) {
         try {
             String q = "DELETE FROM PLAYER WHERE USERNAME = ?";
@@ -475,7 +476,8 @@ public class DatabaseConnectionHandler {
     // Character
     // ---------------------------------------------------------------------
 
-    // returns a list of weapons with ATK greater than minATK
+    // returns a list of owned weapons with ATK greater than minATK
+    // UNUSED
     public ArrayList<Weapon> giveOwnedWeaponWithMinATK(int minATK, String username) {
         try {
             String query = "SELECT * FROM Weapon INNER JOIN OWNSWEAPON ON OWNSWEAPON.WNAME = WEAPON.NAME WHERE OWNSWEAPON.USERNAME = ? AND WEAPON.BASEATK > ?";
@@ -504,7 +506,7 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
-    // returns a list of character with ATK greater than minATK
+    // returns a list of owned characters with ATK greater than minATK
     public ArrayList<Character> giveCharacterWithMinATK(int minATK, String username) {
         try {
 
@@ -539,7 +541,8 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
-    //returns a list of characters that have a baseATK greater than the averages over the characters owned by players
+    // returns a list of characters that have a baseATK greater than
+    // each average base atk of characters owned by a certain players
     public ArrayList<Character> nestedAggregation() {
         try {
             String query = "SELECT * FROM CHARACTER WHERE CHARACTER.BASEATK > ALL (SELECT AVG(C.BASEATK) FROM CHARACTER C, PLAYS P WHERE P.CNAME = C.NAME GROUP BY USERNAME)";
