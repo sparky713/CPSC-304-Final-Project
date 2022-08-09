@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -213,7 +214,13 @@ public class GUICreateAccountPage extends JPanel {
                 System.out.println("line 213");
                 dbHandler.insertFood(octopusPizza);
                 System.out.println("line 215");
-                dbHandler.insertConsumes(56, newPlayer, octopusPizza, 2);
+
+                // random number generator for unique id:
+                Random rand = new Random(); //instance of random class
+                int upperbound = 1000000;
+                int int_random = rand.nextInt(upperbound);
+
+                dbHandler.insertConsumes(int_random, newPlayer, octopusPizza, 2);
                 System.out.println("line 217");
             }
         });
