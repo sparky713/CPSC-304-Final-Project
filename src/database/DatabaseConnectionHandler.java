@@ -452,8 +452,10 @@ public class DatabaseConnectionHandler {
         try {
             String q = "INSERT INTO Consumes VALUES (?, ?, ?)";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(q), q, false);
+
             ps.setInt(1, id);
-            ps.setString(2, player.getUsername());
+//            ps.setString(2, player.getUsername());
+            ps.setString(2, "player2");
             ps.setString(3, food.getFoodName());
             ps.setInt(4, amount);
 
@@ -464,7 +466,6 @@ public class DatabaseConnectionHandler {
             rollbackConnection();
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
-
     }
 
     public ArrayList<Map<String, Integer>> getPlayerFoodInfo(Player player) {

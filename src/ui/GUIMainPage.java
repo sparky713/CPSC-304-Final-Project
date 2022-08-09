@@ -96,6 +96,8 @@ public class GUIMainPage extends JPanel {
     public JButton btnAbilities;
     public JButton btnEditProfile;
 
+//    public JButton switchToDemoPlayer;
+
     public static final int DROP_DOWN_MENU_X = 615;
     public static final int DROP_DOWN_MENU_Y = 135;
     public static final int DROP_DOWN_MENU_W = 115;
