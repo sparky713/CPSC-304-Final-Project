@@ -20,12 +20,13 @@ public class Main {
     public static GUIAbilitiesPage guiAbilitiesPage;
     public static GUIEditProfilePage guiEditProfilePage;
 
-    public static GUIFriendsPage guiFriendsPage;
+    public static GUICharacterByPlayerPage guiCharacterByPlayerPage;
     public static GUIFoodPage guiFoodPage;
 
     public static GUINestedAggregationPage guiNestedAggregationPage;
 
     public static Player currPlayer;
+
     public static void main(String[] args) {
 
         // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
@@ -35,7 +36,7 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_JMANN507", "a61798278");
+        dbHandler.login("ORA_scw2018", "a13454772");
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -58,14 +59,14 @@ public class Main {
         guiAbilitiesPage = new GUIAbilitiesPage();
         guiAbilitiesPage.setDbHandler(dbHandler);
         guiEditProfilePage = new GUIEditProfilePage(dbHandler);
-        guiFriendsPage = new GUIFriendsPage(dbHandler);
+        guiCharacterByPlayerPage = new GUICharacterByPlayerPage(dbHandler);
         guiFoodPage = new GUIFoodPage(dbHandler);
 
         guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
-        guiMainPage.setVisible(false);
-        guiCreateAccountPage.setVisible(true);
-        guiFriendsPage.setVisible(false);
+        guiMainPage.setVisible(true);
+        guiCreateAccountPage.setVisible(false);
+        guiCharacterByPlayerPage.setVisible(false);
         guiFoodPage.setVisible(false);
         guiNestedAggregationPage.setVisible(false);
 
@@ -89,40 +90,34 @@ public class Main {
             }
             frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
             guiCreateAccountPage.setVisible(true);
-        }
-        else if (screenNum == 2) { // main page
+        } else if (screenNum == 2) { // main page
             if (guiCreateAccountPage.isVisible()) {
                 guiCreateAccountPage.setVisible(false);
             }
             frame.setSize(GUIMainPage.W, GUIMainPage.H);
             guiMainPage.setVisible(true);
-        }
-        else if (screenNum == 3) { // characters page
+        } else if (screenNum == 3) { // characters page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiCharactersPage.setVisible(true);
-        }
-        else if (screenNum == 4) { // parties page
+        } else if (screenNum == 4) { // parties page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiPartiesPage.setVisible(true);
-        }
-        else if (screenNum == 5) { // weapons page
+        } else if (screenNum == 5) { // weapons page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiWeaponsPage.setVisible(true);
-        }
-        else if (screenNum == 6) { // abilities page
+        } else if (screenNum == 6) { // abilities page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiAbilitiesPage.setVisible(true);
-        }
-        else if (screenNum == 7) { // edit profile page
-           if (guiMainPage.isVisible()) {
+        } else if (screenNum == 7) { // edit profile page
+            if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiEditProfilePage.setVisible(true);
@@ -130,10 +125,10 @@ public class Main {
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
-            guiFoodPage.setVisible(true);
-            //guiFriendsPage.setVisible(true);
+            guiCharacterByPlayerPage.setVisible(true);
+//            guiFoodPage.setVisible(true);
         } else if (screenNum == 9) {
-            if(guiMainPage.isVisible()) {
+            if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiNestedAggregationPage.setVisible(true);

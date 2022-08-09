@@ -13,9 +13,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Vector;
 
-public class GUIFriendsPage extends JPanel {
+public class GUICharacterByPlayerPage extends JPanel {
     public BufferedImage backBtnImage;
     public static final int W = 500;
     public static final int H = 700;
@@ -35,17 +34,16 @@ public class GUIFriendsPage extends JPanel {
 
     private JTextField userText;
     private JTextField atkText;
-
     private JButton userButton;
     private JTable characterTable;
-
     private JButton returnButton;
+    private JButton nestedButton;
     private ArrayList<Character> characters = null;
     private ArrayList<Weapon> weapons = null;
 
     DatabaseConnectionHandler dbHandler;
 
-    public GUIFriendsPage(DatabaseConnectionHandler dbHandler) {
+    public GUICharacterByPlayerPage(DatabaseConnectionHandler dbHandler) {
         this.dbHandler = dbHandler;
 
         setLayout(null);
@@ -131,16 +129,27 @@ public class GUIFriendsPage extends JPanel {
         });
 
         returnButton = new JButton("Return");
-        returnButton.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W + 50, GUIMainPage.BTN_BACK_H);
+        returnButton.setBounds(GUIMainPage.BTN_BACK_X - 10, TEXT_FIELD_MARGIN_TOP, GUIMainPage.BTN_BACK_W + 50, GUIMainPage.BTN_BACK_H);
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Main.changeScreen(2);
-                Main.guiFriendsPage.setVisible(false);
+                Main.guiCharacterByPlayerPage.setVisible(false);
             }
         });
-        this.add(returnButton);
 
+        nestedButton = new JButton("Strongest Characters");
+        nestedButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10, GUIMainPage.BTN_BACK_W + 200, GUIMainPage.BTN_BACK_H);
+        nestedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Main.changeScreen(9);
+                Main.guiCharacterByPlayerPage.setVisible(false);
+            }
+        });
+
+        this.add(nestedButton);
+        this.add(returnButton);
         this.add(atkText);
         this.add(userText);
         this.add(userButton);

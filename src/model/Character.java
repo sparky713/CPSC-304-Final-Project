@@ -3,19 +3,17 @@ package model;
 // Stores information for a single character
 public class Character {
     private String name;
-    private int level = 0;
+    private int level;
     private int baseHP;
     private int baseATK;
     private String element;
 
-    public Character(String name, int level, int baseHP, int baseATK, String element){
+    public Character(String name, int level, int baseHP, int baseATK, String element) {
         this.name = name;
         this.level = level;
-        this.level = level;
         this.baseATK = baseATK;
-        this.baseHP =baseHP;
+        this.baseHP = baseHP;
         this.element = element;
-        level = 0;
     }
 
     public String getName() {

@@ -5,6 +5,7 @@ import model.*;
 import model.Character;
 import util.PrintablePreparedStatement;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -79,7 +80,7 @@ public class DatabaseConnectionHandler {
     //----------------------------------------------------------------------
     // Player
     // ---------------------------------------------------------------------
-    public void insertPlayer(Player player) {
+    public boolean insertPlayer(Player player) {
         try {
             String playerQuery = "INSERT INTO PLAYER (username, password, email, displayName) VALUES (?,?,?,?)";
             PrintablePreparedStatement psPlayer = new PrintablePreparedStatement(connection.prepareStatement(playerQuery), playerQuery, false);
@@ -95,11 +96,18 @@ public class DatabaseConnectionHandler {
 
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+            JOptionPane duplicateUsernameMessage = new JOptionPane();
+            duplicateUsernameMessage.setBounds(Main.guiCreateAccountPage.POPUP_MENU_X, Main.guiCreateAccountPage.POPUP_MENU_Y, Main.guiCreateAccountPage.POPUP_MENU_W, Main.guiCreateAccountPage.POPUP_MENU_H);
+            duplicateUsernameMessage.showMessageDialog(null, Main.guiCreateAccountPage.tfUsername.getText()
+                    + " or " + Main.guiCreateAccountPage.tfEmail.getText() + " is already taken.", "Username or Email Taken",
+                    JOptionPane.INFORMATION_MESSAGE);
             rollbackConnection();
+            return false;
         }
+        return true;
     }
 
-    //changes attributes in the Player table
+    // updates player table in the database given a player
     public void updatePlayer(Player player) {
         try {
             String query = "UPDATE PLAYER SET PASSWORD = ?, EMAIL = ?, DISPLAYNAME = ? WHERE USERNAME = ?";
@@ -120,7 +128,7 @@ public class DatabaseConnectionHandler {
 
     }
 
-    // finds a player given a username
+    // finds a player in the database given a username
     public Player selectPlayer(String username) {
         try {
             String query = "SELECT * FROM PLAYER WHERE USERNAME = ?";
@@ -151,6 +159,7 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
+    // deletes a player from the database given a username
     public void deletePlayer(String username) {
         try {
             String q = "DELETE FROM PLAYER WHERE USERNAME = ?";
@@ -168,20 +177,16 @@ public class DatabaseConnectionHandler {
     //----------------------------------------------------------------------
     // Party
     // ---------------------------------------------------------------------
+//   --numPartiesPerCharacter
     public void numPartiesPerCharacter(Player player) {
         try {
-//            String query = "SELECT cname, count(*) FROM Wears GROUP BY cname";
-            // OR
             String query = "SELECT cname, count(*) FROM COMPRISEDOF WHERE username = ? GROUP BY cname ORDER BY count(*) DESC";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-//            ps.setString(1, Main.currPlayer.getUsername());
-//            ps.setString(1, player.getUsername());
-            ps.setString(1, "player2"); // TODO change to player.getUsername()
+            ps.setString(1, player.getUsername());
             ResultSet rs = ps.executeQuery();
 
             int i = 0;
             while (rs.next()) {
-//                // TODO: Display the count (GUI) when display artifacts button is clicked
 //            //set list text
                 Main.guiPartiesPage.characterLabels[i].setText(ps.getResultSet().getString(1));
                 Main.guiPartiesPage.numPartyLabels[i].setText(ps.getResultSet().getString(2));
@@ -198,11 +203,9 @@ public class DatabaseConnectionHandler {
         }
     }
 
-
+    //aggregation with having
     public void strongestCharacterLevelInParty(Player player, int level) { // party with highest level character
-//
-//        String selectedColumns = String.join(",", projection);
-        String selectedColumns = " ";
+
         try {
             // 1) group by pname where username = current player's username (player2)
             // 2) join CHARACTER and COMPRISEDOF tables
@@ -215,8 +218,7 @@ public class DatabaseConnectionHandler {
                     "ORDER BY max(c.character_level) DESC";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 
-//            ps.setString(1, Main.currPlayer.getUsername());
-            ps.setString(1, "player2");
+            ps.setString(1, player.getUsername());
             ps.setInt(2, level);
 
             ResultSet rs = ps.executeQuery();
@@ -230,7 +232,6 @@ public class DatabaseConnectionHandler {
             }
 
             while (rs.next()) {
-//                // TODO: Display the count (GUI) when display artifacts button is clicked
 //            //set list text
                 Main.guiPartiesPage.partyLabels[i].setText(ps.getResultSet().getString(1));
                 Main.guiPartiesPage.maxLevelLabels[i].setText(ps.getResultSet().getString(2));
@@ -294,26 +295,21 @@ public class DatabaseConnectionHandler {
     public void showAbilitiesProperties(boolean showOwner, boolean showLevel, boolean showCD, boolean showDMG) {
         Vector<String> projection = new Vector<String>();
 
-//        if (showOwner) {
-//            projection.add("cname");
-//        }
-//
-//        if (showLevel) {
-//            projection.add("ability_level");
-//        }
-//
-//        if (showCD) {
-//            projection.add("cd");
-//        }
-//
-//        if (showDMG) {
-//            projection.add("dmg");
-//        }
+        if (showOwner) {
+            projection.add("cname");
+        }
 
-        projection.add("cname");
-        projection.add("ability_level");
-        projection.add("cd");
-        projection.add("dmg");
+        if (showLevel) {
+            projection.add("ability_level");
+        }
+
+        if (showCD) {
+            projection.add("cd");
+        }
+
+        if (showDMG) {
+            projection.add("dmg");
+        }
 
         String selectedColumns = String.join(",", projection);
 //        System.out.println("DCH::showAbilitiesProperties: " + selectedColumns);
@@ -322,43 +318,32 @@ public class DatabaseConnectionHandler {
             String query = "SELECT " + selectedColumns + " FROM ABILITY";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
 
-////            ps.getResultSet().setFetchDirection(ResultSet.TYPE_SCROLL_SENSITIVE,
-////                    ResultSet.CONCUR_UPDATABLE);
-//            ResultSet rsAbilities = ps.getResultSet();
             ResultSet rsAbilities = ps.executeQuery(query);
-//            rsAbilities.setFetchDirection(ResultSet.FETCH_REVERSE);
-////            rsAbilities.setFetchDirection(ResultSet.TYPE_SCROLL_INSENSITIVE);
-////            rsAbilities.setFetchDirection(ResultSet.CONCUR_UPDATABLE);
-//            System.out.println("fetch dir: " + ps.getFetchDirection());
-//            rsAbilities.last();
-//            int numAbilities = rsAbilities.getRow();
-//            int num = ps.getMaxRows();
 
-//            rsAbilities.beforeFirst();
             for (int i = 0; i < 5; i++) {
                 rsAbilities.next();
                 //set list text
                 if (showOwner) { // cname
-                    Main.guiAbilitiesPage.deafultListModels[i].set(1, ps.getResultSet().getString(1));
+                    Main.guiAbilitiesPage.deafultListModels[i].set(1, ps.getResultSet().getString("cname"));
                 } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(1, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showLevel) { // ability_level
-                    Main.guiAbilitiesPage.deafultListModels[i].set(3, Integer.toString(ps.getResultSet().getInt(2)));
+                    Main.guiAbilitiesPage.deafultListModels[i].set(3, Integer.toString(ps.getResultSet().getInt("ability_level")));
 
                 } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(3, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showCD) { // cd
-                    Main.guiAbilitiesPage.deafultListModels[i].set(5, Float.toString(ps.getResultSet().getFloat(3)));
+                    Main.guiAbilitiesPage.deafultListModels[i].set(5, Float.toString(ps.getResultSet().getFloat("cd")));
                 } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(5, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
 
                 if (showDMG) { // dmg
-                    Main.guiAbilitiesPage.deafultListModels[i].set(7, Integer.toString(ps.getResultSet().getInt(4)));
+                    Main.guiAbilitiesPage.deafultListModels[i].set(7, Integer.toString(ps.getResultSet().getInt("dmg")));
                 } else {
                     Main.guiAbilitiesPage.deafultListModels[i].set(7, Main.guiAbilitiesPage.DEFAULT_STRING);
                 }
@@ -602,7 +587,8 @@ public class DatabaseConnectionHandler {
     // Character
     // ---------------------------------------------------------------------
 
-    // returns a list of weapons with ATK greater than minATK
+    // returns a list of owned weapons with ATK greater than minATK
+    // UNUSED
     public ArrayList<Weapon> giveOwnedWeaponWithMinATK(int minATK, String username) {
         try {
             String query = "SELECT * FROM Weapon INNER JOIN OWNSWEAPON ON OWNSWEAPON.WNAME = WEAPON.NAME WHERE OWNSWEAPON.USERNAME = ? AND WEAPON.BASEATK > ?";
@@ -631,7 +617,7 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
-    // returns a list of character with ATK greater than minATK
+    // returns a list of owned characters with ATK greater than minATK
     public ArrayList<Character> giveCharacterWithMinATK(int minATK, String username) {
         try {
 
@@ -666,7 +652,8 @@ public class DatabaseConnectionHandler {
         return null;
     }
 
-    //returns a list of characters that have a baseATK greater than the averages over the characters owned by players
+    // returns a list of characters that have a baseATK greater than
+    // each average base atk of characters owned by a certain players
     public ArrayList<Character> nestedAggregation() {
         try {
             String query = "SELECT * FROM CHARACTER WHERE CHARACTER.BASEATK > ALL (SELECT AVG(C.BASEATK) FROM CHARACTER C, PLAYS P WHERE P.CNAME = C.NAME GROUP BY USERNAME)";
