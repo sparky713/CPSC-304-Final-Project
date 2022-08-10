@@ -454,13 +454,14 @@ public class DatabaseConnectionHandler {
 
     }
 
-    public ArrayList<Object> getPlayerFoodInfo(String table, String attribute, String condition, Player player) {
+
+    public ArrayList<Object> getPlayerInfo(String table, String attribute, String condition) {
         ArrayList<Object> result = new ArrayList<Object>();
 
         try {
-            String playerName = player.getUsername();
+            //String playerName = player.getUsername();
 
-            String query = " SELECT " + attribute + " FROM " + table + " WHERE " + condition + "";
+            String query = " SELECT DISTINCT " + attribute + " FROM " + table + " WHERE " + condition + "";
             //fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             System.out.println("line 384");
