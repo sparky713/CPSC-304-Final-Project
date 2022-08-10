@@ -207,6 +207,7 @@ public class GUIFoodPage extends JPanel {
                     }
 
 
+
                     private void goToClickFoodAmount(String table, String attribute) {
                         //conditionDropDown = new JComboBox<>(new String[]{"-------", "heal amount > 100", "heal amount = 450"});
                         //conditionDropDown.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);

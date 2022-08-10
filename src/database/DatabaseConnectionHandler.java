@@ -454,6 +454,7 @@ public class DatabaseConnectionHandler {
 
     }
 
+
     public ArrayList<Object> getPlayerInfo(String table, String attribute, String condition) {
         ArrayList<Object> result = new ArrayList<Object>();
 
