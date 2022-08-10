@@ -411,17 +411,21 @@ public class DatabaseConnectionHandler {
 
     public void deleteConsumes(String playerUsername, String foodName) {
         try {
-            // DO I ADD THE "and foodName = ?" PART TOO?? vvvvvvvv
-            // yes or else you delete all the food that player has (or rather oracle doesn't let u because of pk ic)
-            // - W
-            String query = "DELETE FROM Consumes WHERE USERNAME = ? and FNAME = ?";
+//            String query = "DELETE FROM Consumes WHERE USERNAME = ? and FNAME = ?"; // old query
+            String query = "DELETE FROM Food WHERE NAME = ?";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
-            ps.setString(1, playerUsername);
-            ps.setString(2, foodName);
+//            ps.setString(1, playerUsername);
+//            ps.setString(2, foodName);
+
+            ps.setString(1, foodName);
 
             int rowCount = ps.executeUpdate();
             if (rowCount == 0) {
                 System.out.println(WARNING_TAG + " Food " + foodName + " does not exist!");
+                JOptionPane invalidInput = new JOptionPane();
+                invalidInput.setBounds(Main.guiCreateAccountPage.POPUP_MENU_X, Main.guiCreateAccountPage.POPUP_MENU_Y, Main.guiCreateAccountPage.POPUP_MENU_W, Main.guiCreateAccountPage.POPUP_MENU_H);
+                invalidInput.showMessageDialog(null, (String) Main.guiFoodPage.foodToDeleteText.getSelectedItem() + " does not exist.", "Invalid Food",
+                        JOptionPane.INFORMATION_MESSAGE);
             }
 
             connection.commit();
@@ -518,11 +522,13 @@ public class DatabaseConnectionHandler {
 //        return result;
 //    }
 
-    public String[] getPlayersWithAllFood() {
+    public ArrayList<String> getPlayersWithAllFood() {
         ArrayList<String> result = new ArrayList<String>();
 
         try {
-            String query = "SELECT * FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
+//            String query = "SELECT username FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
+
+            String query = "SELECT username FROM player WHERE NOT EXISTS ((SELECT name FROM food) MINUS (SELECT fname FROM consumes WHERE username = player.username))";
 
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ResultSet rs = ps.executeQuery();
@@ -536,23 +542,29 @@ public class DatabaseConnectionHandler {
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
-        //System.out.println(result.toArray(new String[result.size()]));
-
-        return result.toArray(new String[result.size()]);
+        return result;
     }
 
-
-//            String query = " SELECT p.username FROM player as p WHERE NOT EXISTS " +
-//                    "((SELECT f.name FROM food as f) EXCEPT " +
-//                    "(SELECT c.fname FROM consumes c WHERE c.username = p.username)) ";
-
-
-//                BranchModel model = new BranchModel(rs.getString("branch_addr"),
-//                        rs.getString("branch_city"),
-//                        rs.getInt("branch_id"),
-//                        rs.getString("branch_name"),
-//                        rs.getInt("branch_phone"));
-//                result.add(model);
+//    public String[] getPlayersWithAllFood() {
+//        ArrayList<String> result = new ArrayList<String>();
+//
+//        try {
+//            String query = "SELECT * FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
+//
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+//            ResultSet rs = ps.executeQuery();
+//
+//            while (rs.next()) {
+//                String playerName = rs.getString("username");
+//                result.add(playerName);
+//            }
+//            rs.close();
+//            ps.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//        }
+//        return result.toArray(new String[result.size()]);
+//    }
 
     // creates the Element table
     private void setupElement() {

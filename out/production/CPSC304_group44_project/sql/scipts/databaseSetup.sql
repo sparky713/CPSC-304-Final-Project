@@ -643,9 +643,41 @@ VALUES ('Skyward Harp', 10);
 
 /* Tuples in Consumes table */
 INSERT
-INTO Consumes (id, username, fname, amount)
-VALUES (1, 'player1', 'Mushroom Pizza', 2);
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (2, 'player1', 'Jade Parcels', 5);
 
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (3, 'player1', 'Fullmoon Egg', 1);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (7, 'player1', 'Mushroom Pizza', 2);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (8, 'player1', 'Teyvat Fried Egg', 3);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (9, 'player1', 'Butter Crab', 2);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (10, 'player1', 'Crystal Shrimp', 5);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (11, 'player1', 'Five Pickled Treasures', 1);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (12, 'player1', 'Grilled Tiger Fish', 7);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (13, 'player1', 'Lotus Flower Crisp', 4);
+-- p1
 INSERT
 INTO Consumes (id, USERNAME, FNAME, AMOUNT)
 VALUES (2, 'player2', 'Jade Parcels', 5);
@@ -682,18 +714,83 @@ INSERT
 INTO Consumes (id, USERNAME, FNAME, AMOUNT)
 VALUES (13, 'player2', 'Lotus Flower Crisp', 4);
 
+-- //player 3
 INSERT
 INTO Consumes (id, USERNAME, FNAME, AMOUNT)
-VALUES (4, 'player3', 'Teyvat Fried Egg', 1);
+VALUES (2, 'player3', 'Jade Parcels', 5);
 
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (3, 'player3', 'Fullmoon Egg', 1);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (7, 'player3', 'Mushroom Pizza', 2);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (8, 'player3', 'Teyvat Fried Egg', 3);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (9, 'player3', 'Butter Crab', 2);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (10, 'player3', 'Crystal Shrimp', 5);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (11, 'player3', 'Five Pickled Treasures', 1);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (12, 'player3', 'Grilled Tiger Fish', 7);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (13, 'player3', 'Lotus Flower Crisp', 4);
+-- //player 3
 INSERT
 INTO Consumes (id, USERNAME, FNAME, AMOUNT)
 VALUES (5, 'player4', 'Butter Crab', 3);
+-- p5
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (2, 'player5', 'Jade Parcels', 5);
 
 INSERT
 INTO Consumes (id, USERNAME, FNAME, AMOUNT)
-VALUES (6, 'player5', 'Crystal Shrimp', 7);
+VALUES (3, 'player5', 'Fullmoon Egg', 1);
 
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (7, 'player5', 'Mushroom Pizza', 2);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (8, 'player5', 'Teyvat Fried Egg', 3);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (9, 'player5', 'Butter Crab', 2);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (10, 'player5', 'Crystal Shrimp', 5);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (11, 'player5', 'Five Pickled Treasures', 1);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (12, 'player5', 'Grilled Tiger Fish', 7);
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (13, 'player5', 'Lotus Flower Crisp', 4);
+-- p5
 
 /* Tuples in ComprisedOf table */
 INSERT

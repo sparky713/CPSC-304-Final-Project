@@ -2,7 +2,6 @@ package ui;
 
 import controller.Main;
 import database.DatabaseConnectionHandler;
-import model.Weapon;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -36,7 +35,8 @@ public class GUIFoodPage extends JPanel {
     public static final int TEXT_FIELD_DISPLAY_NAME_Y = TEXT_FIELD_PASSWORD_Y + TEXT_FIELD_MARGIN_TOP;
 
 
-    private JTextField tableText;
+//    private JTextField foodToDeleteText;
+    public JComboBox<String> foodToDeleteText;
     //private JTextField attributeText;
     //private JTextField conditionText;
 
@@ -54,10 +54,13 @@ public class GUIFoodPage extends JPanel {
     public JComboBox<String> conditionDropDownConsumesAmount;
 
     private JButton showInfoButton;
+    private JButton deleteButton;
+    private JButton playersWithAllFoodButton;
     private JTable characterTable;
 
     private JButton returnButton;
     private ArrayList<Object> playerInfo = null;
+    private ArrayList<String> playersWithAllFoodList = null;
 
     DatabaseConnectionHandler dbHandler;
 
@@ -68,6 +71,24 @@ public class GUIFoodPage extends JPanel {
         this.setBackground(new Color(255, 255, 255));
         this.setBounds(0, 0, GUIMainPage.W, GUIMainPage.H);
         Main.frame.add(this, 0);
+
+        foodToDeleteText = new JComboBox<>(new String[]{"-------", "Mushroom Pizza", "Jade Parcels", "Fullmoon Egg", "Teyvat Fried Egg",
+        "Butter Crab", "Crystal Shrimp", "Five Pickled Treasures", "Grilled Tiger Fish", "Lotus Flower Crisp"});
+        foodToDeleteText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
+        this.add(foodToDeleteText);
+
+//        foodToDeleteText = new JTextField("Food to delete");
+//        foodToDeleteText.setEnabled(false);
+//        foodToDeleteText.setDisabledTextColor(Color.gray);
+//        foodToDeleteText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
+//        foodToDeleteText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+//        foodToDeleteText.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                foodToDeleteText.requestFocus();
+//                foodToDeleteText.setEnabled(true);
+//            }
+//        });
 
         //---------------------------------------------------------------------
         // read images
@@ -112,7 +133,7 @@ public class GUIFoodPage extends JPanel {
 //        conditionDropDownConsumesName;
 //        conditionDropDownConsumesAmount;
 
-        tableDropDown = new JComboBox<>(new String[]{"pick a table", "food", "consumes"});
+        tableDropDown = new JComboBox<>(new String[]{"pick a table", "food (all foods)", "consumes (your consumed food)"});
         tableDropDown.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
         tableDropDown.setVisible(true);
 
@@ -149,7 +170,7 @@ public class GUIFoodPage extends JPanel {
                 String table;
 
                 switch (s) {//check for a match
-                    case "food":
+                    case "food (all foods)":
                         table = "food";
                         attributeDropDownFood.setVisible(true);
                         attributeDropDownConsumes.setVisible(false);
@@ -160,7 +181,7 @@ public class GUIFoodPage extends JPanel {
                         goToClickFood(table);
 
                         break;
-                    case "consumes":
+                    case "consumes (your consumed food)":
                         table = "consumes";
                         attributeDropDownFood.setVisible(false);
                         attributeDropDownConsumes.setVisible(true);
@@ -332,7 +353,7 @@ public class GUIFoodPage extends JPanel {
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
                                     case "all your pizzas":
-                                        condition = "fname = 'Mushroom Pizza' OR fname = 'Octopus Pizza' AND username = '" + Main.currPlayer.getUsername() + "'";
+                                        condition = "(fname = 'Mushroom Pizza' OR fname = 'Octopus Pizza') AND username = '" + Main.currPlayer.getUsername() + "'";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
                                     default:
@@ -386,17 +407,33 @@ public class GUIFoodPage extends JPanel {
         };
         tableDropDown.addActionListener(tableDropDownListener);
 
+
+
         this.add(tableDropDown);
 
+
+        //Delete Button:
+        deleteButton = new JButton("Delete");
+        deleteButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_MARGIN_TOP, 200, TEXT_FIELD_H);
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dbHandler.deleteConsumes(Main.currPlayer.getUsername(), (String)foodToDeleteText.getSelectedItem());
+            }
+        });
+
+
+        // Show player info button:
         showInfoButton = new JButton("Show Info");
-        showInfoButton.setBounds(TEXT_FIELD_X + 300, tableDropDown.getY(), 120, TEXT_FIELD_H);
+        showInfoButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H, 200, TEXT_FIELD_H);
 
         Object[][] s = new Object[50][50];
         Object[] c = {"Table", "Attribute"};
         characterTable = new JTable(s,c);
         characterTable.setVisible(true);
         characterTable.setBackground(Color.white);
-        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 200, 500, 310);
+        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 150, 300, 250);
 
         showInfoButton.addActionListener(new ActionListener() {
             @Override
@@ -409,19 +446,43 @@ public class GUIFoodPage extends JPanel {
                     }
                 }
 
+                characterTable.revalidate();
+                characterTable.updateUI();
+                for (int i = 0; i < playerInfo.size(); i++) {
+//                    System.out.println(characters.size());
+                    s[i][0] = String.valueOf(playerInfo.get(i));
+                }
 
                 characterTable.revalidate();
                 characterTable.updateUI();
 
-                        //playerInfo = dbHandler.getPlayerInfo(tableText.getText(), attributeText.getText(), conditionText.getText());
+            }
+        });
 
 
+        //Players with all food button :
+
+        playersWithAllFoodButton = new JButton("Show all players who own all food");
+        playersWithAllFoodButton.setBounds(TEXT_FIELD_X + 300 , TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + TEXT_FIELD_H, 300, TEXT_FIELD_H);
 
 
+        playersWithAllFoodButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playersWithAllFoodList = dbHandler.getPlayersWithAllFood();
 
-                for (int i = 0; i < playerInfo.size(); i++) {
+                //clears the table in a super scuffed way
+                for (int i = 0; i < 50; i++) {
+                    for (int j = 0; j < 50; j++) {
+                        s[i][j] = "";
+                    }
+                }
+                characterTable.revalidate();
+                characterTable.updateUI();
+                for (int i = 0; i < playersWithAllFoodList.size(); i++) {
 //                    System.out.println(characters.size());
-                    s[i][0] = String.valueOf(playerInfo.get(i));
+                    s[i][0] = playersWithAllFoodList.get(i);
+                    //s[i][0] = String.valueOf(playerInfo.get(i));
                 }
 
                 characterTable.revalidate();
@@ -453,9 +514,11 @@ public class GUIFoodPage extends JPanel {
         this.add(conditionDropDownConsumesName);
         this.add(conditionDropDownConsumesAmount);
 
-//        this.add(tableText);
-        //this.add(conditionText);
+
+        this.add(foodToDeleteText);
+        this.add(deleteButton);
         this.add(showInfoButton);
+        this.add(playersWithAllFoodButton);
         this.add(characterTable);
 
         repaint();
@@ -468,78 +531,3 @@ public class GUIFoodPage extends JPanel {
         paintComponents(g);
     }
 }
-
-
-
-
-
-
-
-//Old:
-
-//        attributeText = new JTextField("Attribute");
-//        attributeText.setEnabled(false);
-//        attributeText.setDisabledTextColor(Color.gray);
-//        attributeText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
-//        attributeText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-//        attributeText.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                attributeText.requestFocus();
-//                attributeText.setEnabled(true);
-//            }
-//        });
-
-//        conditionText = new JTextField("Condition");
-//        conditionText.setEnabled(false);
-//        conditionText.setDisabledTextColor(Color.gray);
-//        conditionText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
-//        conditionText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-//        conditionText.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                conditionText.requestFocus();
-//                conditionText.setEnabled(true);
-//            }
-//        });
-
-
-
-//After adding table drop down (from sally's):
-//        tfMinMaxLevel = new JTextField();
-//        tfMinMaxLevel.setEnabled(false);
-//        tfMinMaxLevel.setBounds(TF_MIN_MAX_LEVEL_BY_X, TF_MIN_MAX_LEVEL_BY_Y, TF_MIN_MAX_LEVEL_BY_W, TF_MIN_MAX_LEVEL_BY_H);
-//        tfMinMaxLevel.addMouseListener(new MouseAdapter() {
-//            @Override
-//            public void mouseClicked(MouseEvent e) {
-//                if (tableDropDown.getSelectedItem() == "max character lvl") {
-//                    tfMinMaxLevel.requestFocus();
-//                    tfMinMaxLevel.setEnabled(true);
-//                }
-//            }
-//        });
-//        KeyListener tfKeyListener = new KeyListener() {
-//            @Override
-//            public void keyTyped(KeyEvent e) {
-//
-//            }
-//
-//            public void keyPressed(KeyEvent e) {
-//                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-//                    try {
-//                        Integer.parseInt(tfMinMaxLevel.getText());
-//                    } catch(NumberFormatException exc){
-//                        System.out.println("GUIPartiesPage::line 292: Invalid input. Please enter a number.");
-//                        return;
-//                    }
-//                    dbHandler.strongestCharacterLevelInParty(Main.currPlayer, Integer.parseInt(tfMinMaxLevel.getText()));
-//                }
-//            }
-//
-//            @Override
-//            public void keyReleased(KeyEvent e) {
-//
-//            }
-//        };
-//        tfMinMaxLevel.addKeyListener(tfKeyListener);
-//        this.add(tfMinMaxLevel);
