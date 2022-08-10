@@ -290,10 +290,14 @@ public class GUIPartiesPage extends JPanel {
             }
 
             public void keyPressed(KeyEvent e) {
-                if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if(e.getKeyCode() == KeyEvent.VK_ENTER && ((String)(partyOptions.getSelectedItem())) == "max character lvl") {
                     try {
                         Integer.parseInt(tfMinMaxLevel.getText());
                     } catch(NumberFormatException exc){
+                        JOptionPane invalidInput = new JOptionPane();
+                        invalidInput.setBounds(Main.guiCreateAccountPage.POPUP_MENU_X, Main.guiCreateAccountPage.POPUP_MENU_Y, Main.guiCreateAccountPage.POPUP_MENU_W, Main.guiCreateAccountPage.POPUP_MENU_H);
+                        invalidInput.showMessageDialog(null, "Please enter a valid integer.", "Invalid Number Format",
+                                JOptionPane.INFORMATION_MESSAGE);
                         System.out.println("GUIPartiesPage::line 292: Invalid input. Please enter a number.");
                         return;
                     }
@@ -318,22 +322,15 @@ public class GUIPartiesPage extends JPanel {
                 if (cbShowNumParties.isSelected()) {
                     dbHandler.numPartiesPerCharacter(Main.currPlayer);
                 }
+                else {
+                    for (int i = 0; i < numPartyLabels.length; i++) {
+                        numPartyLabels[i].setText(" ");
+                    }
+                }
             }
         };
         cbShowNumParties.addActionListener(cbActionListener);
         this.add(cbShowNumParties);
-
-//        btnPartyPage = new JButton(new ImageIcon(backBtnImage));
-//        btnPartyPage.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
-//        btnPartyPage.setBorder(BorderFactory.createEmptyBorder());
-//        btnPartyPage.addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                partiesPanel.setVisible(true);
-//                charactersPanel.setVisible(false);
-//            }
-//        });
-//        this.add(btnPartyPage);
 
         btnBack = new JButton(new ImageIcon(backBtnImage));
         btnBack.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
@@ -343,41 +340,15 @@ public class GUIPartiesPage extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 Main.changeScreen(2);
                 Main.guiPartiesPage.setVisible(false);
-//                partiesPanel.setVisible(false);
-//                charactersPanel.setVisible(true);
             }
         });
         this.add(btnBack);
 
         repaint();
-
-//        //---------------------------------------------------------------------
-//        // timer(thread) - to call update() and paint()
-//        //---------------------------------------------------------------------
-//        java.util.Timer t = new Timer(true);
-//        t.schedule(new TimerTask() {
-//            public void run() {
-////                update();
-//                repaint();
-//            }
-//        },0, 10);
     }
 
-//    public void update() {
-//        updateSignUpButton();
-//    }
-
     public void paint(Graphics g) {
-//        super.paint(g);
-//        System.out.println("paint");
         g.drawImage(bgImage, 0, 0, null);
-//        g.drawImage(abilitiesPanelImage, ABILITIES_PANEL_IMAGE_X, ABILITIES_PANEL_IMAGE_Y, null);
-//        if (partiesPanel.isVisible()) {
-//            g.drawImage(partiesPanelImage, PARTIES_PANEL_X, PARTIES_PANEL_Y, null);
-//        }
-//        else if (charactersPanel.isVisible()) {
-//            g.drawImage(charactersPanelImage, CHARACTERS_PANEL_X, CHARACTERS_PANEL_Y, null);
-//        }
 
         paintComponents(g);
     }

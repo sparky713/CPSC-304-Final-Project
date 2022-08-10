@@ -324,10 +324,6 @@ public class GUIAbilitiesPage extends JPanel {
         repaint();
     }
 
-//    public void update() {
-//        updateSignUpButton();
-//    }
-
     public void paint(Graphics g) {
         g.drawImage(bgImage, 0, 0, null);
         g.drawImage(abilitiesPanelImage, ABILITIES_PANEL_IMAGE_X, ABILITIES_PANEL_IMAGE_Y, null);

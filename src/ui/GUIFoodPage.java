@@ -4,13 +4,20 @@ import controller.Main;
 import database.DatabaseConnectionHandler;
 import model.Weapon;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import static ui.GUIWeaponsPage.BACKGROUND_IMAGE_FILENAME;
+
 public class GUIFoodPage extends JPanel {
+    Graphics g = null;
+    public BufferedImage bgImage;
     public BufferedImage backBtnImage;
     public static final int W = 500;
     public static final int H = 700;
@@ -54,11 +61,6 @@ public class GUIFoodPage extends JPanel {
 
     DatabaseConnectionHandler dbHandler;
 
-
-
-
-
-
     public GUIFoodPage(DatabaseConnectionHandler dbHandler) {
         this.dbHandler = dbHandler;
 
@@ -67,18 +69,38 @@ public class GUIFoodPage extends JPanel {
         this.setBounds(0, 0, GUIMainPage.W, GUIMainPage.H);
         Main.frame.add(this, 0);
 
-        tableText = new JTextField("Table Name");
-        tableText.setEnabled(false);
-        tableText.setDisabledTextColor(Color.gray);
-        tableText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
-        tableText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-        tableText.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                tableText.requestFocus();
-                tableText.setEnabled(true);
-            }
-        });
+        //---------------------------------------------------------------------
+        // read images
+        //---------------------------------------------------------------------
+        try { // background image
+            bgImage = ImageIO.read(new File(BACKGROUND_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIFoodPage::GUIFoodPage(): error: file not found: " + BACKGROUND_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
+        try { // back button image
+            backBtnImage = ImageIO.read(new File(GUIMainPage.BACK_BTN_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIAbilitiesPage::GUIAbilitiesPage(): error: file not found: " + GUIMainPage.BACK_BTN_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
+        //---------------------------------------------------------------------
+        // init JComponents
+        //---------------------------------------------------------------------
+//        tableText = new JTextField("Table Name");
+//        tableText.setEnabled(false);
+//        tableText.setDisabledTextColor(Color.gray);
+//        tableText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
+//        tableText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+//        tableText.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                tableText.requestFocus();
+//                tableText.setEnabled(true);
+//            }
+//        });
 
 //        //Tables:
 
@@ -364,34 +386,21 @@ public class GUIFoodPage extends JPanel {
         };
         tableDropDown.addActionListener(tableDropDownListener);
 
-
-
         this.add(tableDropDown);
 
-
-
         showInfoButton = new JButton("Show Info");
-        showInfoButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_MARGIN_TOP, 80, TEXT_FIELD_H);
+        showInfoButton.setBounds(TEXT_FIELD_X + 300, tableDropDown.getY(), 120, TEXT_FIELD_H);
 
         Object[][] s = new Object[50][50];
         Object[] c = {"Table", "Attribute"};
         characterTable = new JTable(s,c);
         characterTable.setVisible(true);
         characterTable.setBackground(Color.white);
-        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 200, 500, 500);
+        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 200, 500, 310);
 
         showInfoButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //String username = userText.getText();
-                //int minATK = Integer.parseInt(atkText.getText());
-
-//                weapons = dbHandler.giveOwnedWeaponWithMinATK(minATK, username);
-//
-//                for (int i = 0; i < weapons.size() - 1; i++) {
-//                    s[i][0] = weapons.get(i).getName();
-//                    s[i][1] = String.valueOf(weapons.get(i).getBaseATK());
-//                }
 
                 //clears the table in a super scuffed way
                 for (int i = 0; i < 50; i++) {
@@ -421,8 +430,9 @@ public class GUIFoodPage extends JPanel {
             }
         });
 
-        returnButton = new JButton("Return");
-        returnButton.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W + 50, GUIMainPage.BTN_BACK_H);
+        returnButton = new JButton(new ImageIcon(backBtnImage));
+        returnButton.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
+        returnButton.setBorder(BorderFactory.createEmptyBorder());
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -443,14 +453,19 @@ public class GUIFoodPage extends JPanel {
         this.add(conditionDropDownConsumesName);
         this.add(conditionDropDownConsumesAmount);
 
-
-
-
-        this.add(tableText);
+//        this.add(tableText);
         //this.add(conditionText);
         this.add(showInfoButton);
         this.add(characterTable);
 
+        repaint();
+
+    }
+
+    public void paint(Graphics g) {
+        g.drawImage(bgImage, 0, 0, null);
+
+        paintComponents(g);
     }
 }
 
