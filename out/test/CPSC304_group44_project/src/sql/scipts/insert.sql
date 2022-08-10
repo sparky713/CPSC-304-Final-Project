@@ -453,6 +453,12 @@ INSERT
 INTO Consumes (id, USERNAME, FNAME, AMOUNT)
 VALUES (13, 'player2', 'Lotus Flower Crisp', 4);
 
+
+INSERT
+INTO Consumes (id, USERNAME, FNAME, AMOUNT)
+VALUES (654, 'player2', 'Octopus Pizza', 6);
+
+
 INSERT
 INTO Consumes (id, USERNAME, FNAME, AMOUNT)
 VALUES (4, 'player3', 'Teyvat Fried Egg', 1);

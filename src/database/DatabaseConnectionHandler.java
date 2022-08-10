@@ -518,11 +518,13 @@ public class DatabaseConnectionHandler {
 //        return result;
 //    }
 
-    public String[] getPlayersWithAllFood() {
+    public ArrayList<String> getPlayersWithAllFood() {
         ArrayList<String> result = new ArrayList<String>();
 
         try {
-            String query = "SELECT * FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
+//            String query = "SELECT username FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
+
+            String query = "SELECT username FROM player WHERE NOT EXISTS ((SELECT name FROM food) MINUS (SELECT fname FROM consumes WHERE username = player.username))";
 
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             ResultSet rs = ps.executeQuery();
@@ -536,23 +538,29 @@ public class DatabaseConnectionHandler {
         } catch (SQLException e) {
             System.out.println(EXCEPTION_TAG + " " + e.getMessage());
         }
-        //System.out.println(result.toArray(new String[result.size()]));
-
-        return result.toArray(new String[result.size()]);
+        return result;
     }
 
-
-//            String query = " SELECT p.username FROM player as p WHERE NOT EXISTS " +
-//                    "((SELECT f.name FROM food as f) EXCEPT " +
-//                    "(SELECT c.fname FROM consumes c WHERE c.username = p.username)) ";
-
-
-//                BranchModel model = new BranchModel(rs.getString("branch_addr"),
-//                        rs.getString("branch_city"),
-//                        rs.getInt("branch_id"),
-//                        rs.getString("branch_name"),
-//                        rs.getInt("branch_phone"));
-//                result.add(model);
+//    public String[] getPlayersWithAllFood() {
+//        ArrayList<String> result = new ArrayList<String>();
+//
+//        try {
+//            String query = "SELECT * FROM consumes WHERE NOT EXISTS (SELECT name FROM food MINUS (SELECT fname FROM consumes))";
+//
+//            PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
+//            ResultSet rs = ps.executeQuery();
+//
+//            while (rs.next()) {
+//                String playerName = rs.getString("username");
+//                result.add(playerName);
+//            }
+//            rs.close();
+//            ps.close();
+//        } catch (SQLException e) {
+//            System.out.println(EXCEPTION_TAG + " " + e.getMessage());
+//        }
+//        return result.toArray(new String[result.size()]);
+//    }
 
     // creates the Element table
     private void setupElement() {

@@ -47,10 +47,12 @@ public class GUIFoodPage extends JPanel {
 
     private JButton showInfoButton;
     private JButton deleteButton;
+    private JButton playersWithAllFoodButton;
     private JTable characterTable;
 
     private JButton returnButton;
     private ArrayList<Object> playerInfo = null;
+    private ArrayList<String> playersWithAllFoodList = null;
 
     DatabaseConnectionHandler dbHandler;
 
@@ -93,7 +95,7 @@ public class GUIFoodPage extends JPanel {
 //        conditionDropDownConsumesName;
 //        conditionDropDownConsumesAmount;
 
-        tableDropDown = new JComboBox<>(new String[]{"pick a table", "food", "consumes"});
+        tableDropDown = new JComboBox<>(new String[]{"pick a table", "food (all foods)", "consumes (your consumed food)"});
         tableDropDown.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
         tableDropDown.setVisible(true);
 
@@ -130,7 +132,7 @@ public class GUIFoodPage extends JPanel {
                 String table;
 
                 switch (s) {//check for a match
-                    case "food":
+                    case "food (all foods)":
                         table = "food";
                         attributeDropDownFood.setVisible(true);
                         attributeDropDownConsumes.setVisible(false);
@@ -141,7 +143,7 @@ public class GUIFoodPage extends JPanel {
                         goToClickFood(table);
 
                         break;
-                    case "consumes":
+                    case "consumes (your consumed food)":
                         table = "consumes";
                         attributeDropDownFood.setVisible(false);
                         attributeDropDownConsumes.setVisible(true);
@@ -385,6 +387,8 @@ public class GUIFoodPage extends JPanel {
             }
         });
 
+
+        // Show player info button:
         showInfoButton = new JButton("Show Info");
         showInfoButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H, 200, TEXT_FIELD_H);
 
@@ -415,16 +419,8 @@ public class GUIFoodPage extends JPanel {
                     }
                 }
 
-
                 characterTable.revalidate();
                 characterTable.updateUI();
-
-                        //playerInfo = dbHandler.getPlayerInfo(tableText.getText(), attributeText.getText(), conditionText.getText());
-
-
-
-
-
                 for (int i = 0; i < playerInfo.size(); i++) {
 //                    System.out.println(characters.size());
                     s[i][0] = String.valueOf(playerInfo.get(i));
@@ -435,6 +431,41 @@ public class GUIFoodPage extends JPanel {
 
             }
         });
+
+
+        //Players with all food button :
+
+        playersWithAllFoodButton = new JButton("Show all players who own all food");
+        playersWithAllFoodButton.setBounds(TEXT_FIELD_X + 300 , TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + TEXT_FIELD_H, 300, TEXT_FIELD_H);
+
+
+        playersWithAllFoodButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                playersWithAllFoodList = dbHandler.getPlayersWithAllFood();
+
+                //clears the table in a super scuffed way
+                for (int i = 0; i < 50; i++) {
+                    for (int j = 0; j < 50; j++) {
+                        s[i][j] = "";
+                    }
+                }
+                characterTable.revalidate();
+                characterTable.updateUI();
+                for (int i = 0; i < playersWithAllFoodList.size(); i++) {
+//                    System.out.println(characters.size());
+                    s[i][0] = playersWithAllFoodList.get(i);
+                    //s[i][0] = String.valueOf(playerInfo.get(i));
+                }
+
+                characterTable.revalidate();
+                characterTable.updateUI();
+
+            }
+        });
+
+
+
 
         returnButton = new JButton("Return");
         returnButton.setBounds(GUIMainPage.BTN_BACK_X, GUIMainPage.BTN_BACK_Y, GUIMainPage.BTN_BACK_W + 50, GUIMainPage.BTN_BACK_H);
@@ -464,6 +495,7 @@ public class GUIFoodPage extends JPanel {
         this.add(foodToDeleteText);
         this.add(deleteButton);
         this.add(showInfoButton);
+        this.add(playersWithAllFoodButton);
         this.add(characterTable);
 
     }
