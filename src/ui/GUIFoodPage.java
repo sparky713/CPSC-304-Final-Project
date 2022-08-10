@@ -2,7 +2,6 @@ package ui;
 
 import controller.Main;
 import database.DatabaseConnectionHandler;
-import model.Weapon;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +28,7 @@ public class GUIFoodPage extends JPanel {
     public static final int TEXT_FIELD_DISPLAY_NAME_Y = TEXT_FIELD_PASSWORD_Y + TEXT_FIELD_MARGIN_TOP;
 
 
-    private JTextField tableText;
+    private JTextField foodToDeleteText;
     //private JTextField attributeText;
     //private JTextField conditionText;
 
@@ -47,6 +46,7 @@ public class GUIFoodPage extends JPanel {
     public JComboBox<String> conditionDropDownConsumesAmount;
 
     private JButton showInfoButton;
+    private JButton deleteButton;
     private JTable characterTable;
 
     private JButton returnButton;
@@ -67,18 +67,21 @@ public class GUIFoodPage extends JPanel {
         this.setBounds(0, 0, GUIMainPage.W, GUIMainPage.H);
         Main.frame.add(this, 0);
 
-        tableText = new JTextField("Table Name");
-        tableText.setEnabled(false);
-        tableText.setDisabledTextColor(Color.gray);
-        tableText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
-        tableText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-        tableText.addMouseListener(new MouseAdapter() {
+        foodToDeleteText = new JTextField("Food to delete");
+        foodToDeleteText.setEnabled(false);
+        foodToDeleteText.setDisabledTextColor(Color.gray);
+        foodToDeleteText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
+        foodToDeleteText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+        foodToDeleteText.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                tableText.requestFocus();
-                tableText.setEnabled(true);
+                foodToDeleteText.requestFocus();
+                foodToDeleteText.setEnabled(true);
             }
         });
+
+
+
 
 //        //Tables:
 
@@ -310,7 +313,7 @@ public class GUIFoodPage extends JPanel {
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
                                     case "all your pizzas":
-                                        condition = "fname = 'Mushroom Pizza' OR fname = 'Octopus Pizza' AND username = '" + Main.currPlayer.getUsername() + "'";
+                                        condition = "(fname = 'Mushroom Pizza' OR fname = 'Octopus Pizza') AND username = '" + Main.currPlayer.getUsername() + "'";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
                                     default:
@@ -369,9 +372,21 @@ public class GUIFoodPage extends JPanel {
         this.add(tableDropDown);
 
 
+        //Delete Button:
+
+        deleteButton = new JButton("Delete");
+        deleteButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_MARGIN_TOP, 200, TEXT_FIELD_H);
+
+
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dbHandler.deleteConsumes(Main.currPlayer.getUsername(), foodToDeleteText.getText());
+            }
+        });
 
         showInfoButton = new JButton("Show Info");
-        showInfoButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_MARGIN_TOP, 80, TEXT_FIELD_H);
+        showInfoButton.setBounds(TEXT_FIELD_X + 300, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H, 200, TEXT_FIELD_H);
 
         Object[][] s = new Object[50][50];
         Object[] c = {"Table", "Attribute"};
@@ -446,8 +461,8 @@ public class GUIFoodPage extends JPanel {
 
 
 
-        this.add(tableText);
-        //this.add(conditionText);
+        this.add(foodToDeleteText);
+        this.add(deleteButton);
         this.add(showInfoButton);
         this.add(characterTable);
 
