@@ -5,6 +5,7 @@ import database.DatabaseConnectionHandler;
 import model.Character;
 import model.Weapon;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,9 +13,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GUICharacterByPlayerPage extends JPanel {
+    Graphics g = null;
+    public static final String BACKGROUND_IMAGE_FILENAME = "images/weapons_page_bg.png";
+
+    public BufferedImage bgImage;
     public BufferedImage backBtnImage;
     public static final int W = 500;
     public static final int H = 700;
@@ -32,7 +39,8 @@ public class GUICharacterByPlayerPage extends JPanel {
     public static final int TEXT_FIELD_PASSWORD_Y = TEXT_FIELD_EMAIL_Y + TEXT_FIELD_MARGIN_TOP;
     public static final int TEXT_FIELD_DISPLAY_NAME_Y = TEXT_FIELD_PASSWORD_Y + TEXT_FIELD_MARGIN_TOP;
 
-    private JTextField userText;
+//    private JTextField userText;
+    private JComboBox<String> userText;
     private JTextField atkText;
     private JButton userButton;
     private JTable characterTable;
@@ -51,18 +59,44 @@ public class GUICharacterByPlayerPage extends JPanel {
         this.setBounds(0, 0, GUIMainPage.W, GUIMainPage.H);
         Main.frame.add(this, 0);
 
-        userText = new JTextField("Username");
-        userText.setEnabled(false);
-        userText.setDisabledTextColor(Color.gray);
+        try { // background image
+            bgImage = ImageIO.read(new File(BACKGROUND_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIWeaponsPage::GUIWeaponsPage(): error: file not found: " + BACKGROUND_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
+        String[] usernames = new String[6];
+        usernames[0] = "select a user";
+        usernames[1] = "player1";
+        usernames[2] = "player2";
+        usernames[3] = "player3";
+        usernames[4] = "player4";
+        usernames[5] = "player5";
+
+        userText = new JComboBox<>(usernames);
         userText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
-        userText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
-        userText.addMouseListener(new MouseAdapter() {
+        ActionListener partyActionListener = new ActionListener() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                userText.requestFocus();
-                userText.setEnabled(true);
+            public void actionPerformed(ActionEvent e) {
+
             }
-        });
+        };
+        userText.addActionListener(partyActionListener);
+        this.add(userText);
+
+//        userText = new JTextField("Username");
+//        userText.setEnabled(false);
+//        userText.setDisabledTextColor(Color.gray);
+//        userText.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP, TEXT_FIELD_W, TEXT_FIELD_H);
+//        userText.setBorder(BorderFactory.createLineBorder(Color.lightGray, 2, true));
+//        userText.addMouseListener(new MouseAdapter() {
+//            @Override
+//            public void mouseClicked(MouseEvent e) {
+//                userText.requestFocus();
+//                userText.setEnabled(true);
+//            }
+//        });
 
         atkText = new JTextField("Atk >");
         atkText.setEnabled(false);
@@ -84,13 +118,15 @@ public class GUICharacterByPlayerPage extends JPanel {
         Object[] c = {"Name", "Level", "BaseATK", "BaseHP", "Element"};
         characterTable = new JTable(s,c);
         characterTable.setVisible(true);
-        characterTable.setBackground(Color.white);
-        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 100, 500, 500);
+        characterTable.setBackground(Color.gray);
+        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 100, 500, 310);
+
+        characterTable.getTableHeader().setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 80, 500, 20);
 
         userButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = userText.getText();
+                String username = (String) userText.getSelectedItem();
                 int minATK = Integer.parseInt(atkText.getText());
 
 //                weapons = dbHandler.giveOwnedWeaponWithMinATK(minATK, username);
@@ -128,8 +164,16 @@ public class GUICharacterByPlayerPage extends JPanel {
             }
         });
 
-        returnButton = new JButton("Return");
-        returnButton.setBounds(GUIMainPage.BTN_BACK_X - 10, TEXT_FIELD_MARGIN_TOP, GUIMainPage.BTN_BACK_W + 50, GUIMainPage.BTN_BACK_H);
+        try { // return button image
+            backBtnImage = ImageIO.read(new File(GUIMainPage.BACK_BTN_IMAGE_FILENAME));
+        } catch (IOException e) {
+            System.out.println("GUIMainPage::GUIMainPage(): error: file not found: " + GUIMainPage.BACK_BTN_IMAGE_FILENAME);
+            System.exit(1);
+        }
+
+        returnButton = new JButton(new ImageIcon(backBtnImage));
+        returnButton.setBounds(GUIMainPage.BTN_BACK_X - 10, TEXT_FIELD_MARGIN_TOP, GUIMainPage.BTN_BACK_W, GUIMainPage.BTN_BACK_H);
+        returnButton.setBorder(BorderFactory.createEmptyBorder());
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,7 +197,14 @@ public class GUICharacterByPlayerPage extends JPanel {
         this.add(atkText);
         this.add(userText);
         this.add(userButton);
+        this.add(characterTable.getTableHeader());
         this.add(characterTable);
 
+        repaint();
+    }
+
+    public void paint(Graphics g) {
+        g.drawImage(bgImage, 0, 0, null);
+        paintComponents(g);
     }
 }

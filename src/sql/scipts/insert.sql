@@ -130,7 +130,7 @@ INSERT INTO CHARACTERATK (CHARACTER_LEVEL, BASEATK, CURRATK)
 VALUES (20, 30, 40);
 
 INSERT INTO CHARACTERATK (CHARACTER_LEVEL, BASEATK, CURRATK)
-VALUES (20, 50, 100)
+VALUES (20, 50, 100);
 
 /* Tuples in CHARACTER table */
 INSERT
@@ -583,7 +583,7 @@ VALUES ('player5', 'Xiao');
 
 INSERT
 INTO Plays (USERNAME, CNAME)
-VALUES ('player4', 'Yelan')
+VALUES ('player4', 'Yelan');
 
 /* Tuples in FightsWith table */
 INSERT
@@ -623,6 +623,10 @@ VALUES ('player2', 'Dull Blade', 2);
 INSERT
 INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)
 VALUES ('player2', 'Alley Hunter', 6);
+
+INSERT
+INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)
+VALUES ('player2', 'Stringless', 2);
 
 INSERT
 INTO OwnsWeapon(USERNAME, WNAME, AMOUNT)

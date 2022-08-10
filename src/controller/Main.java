@@ -36,7 +36,7 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_scw2018", "a13454772");
+        dbHandler.login("ORA_spark73", "a41475948");
 
         //---------------------------------------------------------------------
         // GUI Setup
@@ -64,8 +64,8 @@ public class Main {
 
         guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
-        guiMainPage.setVisible(true);
-        guiCreateAccountPage.setVisible(false);
+        guiMainPage.setVisible(false);
+        guiCreateAccountPage.setVisible(true);
         guiCharacterByPlayerPage.setVisible(false);
         guiFoodPage.setVisible(false);
         guiNestedAggregationPage.setVisible(false);
@@ -73,10 +73,7 @@ public class Main {
         guiCharactersPage.setVisible(false);
         guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
-//        guiAbilitiesPage.setVisible(false);
-//        guiAbilitiesPage.setVisible(true);
         guiAbilitiesPage.setVisible(false);
-//        guiAbilitiesPage.setVisible(true);
         guiEditProfilePage.setVisible(false);
 
         frame.setVisible(true);
@@ -96,12 +93,14 @@ public class Main {
             }
             frame.setSize(GUIMainPage.W, GUIMainPage.H);
             guiMainPage.setVisible(true);
-        } else if (screenNum == 3) { // characters page
-            if (guiMainPage.isVisible()) {
-                guiMainPage.setVisible(false);
-            }
-            guiCharactersPage.setVisible(true);
-        } else if (screenNum == 4) { // parties page
+        }
+//        else if (screenNum == 3) { // characters page
+//            if (guiMainPage.isVisible()) {
+//                guiMainPage.setVisible(false);
+//            }
+//            guiCharactersPage.setVisible(true);
+//        }
+        else if (screenNum == 4) { // parties page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
@@ -126,7 +125,6 @@ public class Main {
                 guiMainPage.setVisible(false);
             }
             guiCharacterByPlayerPage.setVisible(true);
-//            guiFoodPage.setVisible(true);
         } else if (screenNum == 9) {
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
