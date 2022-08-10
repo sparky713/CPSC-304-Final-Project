@@ -36,7 +36,7 @@ public class Main {
         // ---------------------------------------------------------------------
 
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_spark73", "a41475948");
+        dbHandler.login("ORA_JMANN507", "a61798278");
 
         //---------------------------------------------------------------------
         // GUI Setup

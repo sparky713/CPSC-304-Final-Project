@@ -215,15 +215,15 @@ public class GUICreateAccountPage extends JPanel {
                 //Jasmine added:
                 // Automatically giving user a mushroom pizza
 
-//                Food octopusPizza = new Food("Octopus Pizza", 450);
-//                dbHandler.insertFood(octopusPizza);
-//
-//                // random number generator for unique id:
-//                Random rand = new Random(); //instance of random class
-//                int upperbound = 1000000;
-//                int int_random = rand.nextInt(upperbound);
-//
-//                dbHandler.insertConsumes(int_random, newPlayer, octopusPizza, 2);
+                Food mushroomPizza = new Food("Mushroom Pizza", 450);
+                //dbHandler.insertFood(octopusPizza);
+
+                // random number generator for unique id:
+                Random rand = new Random(); //instance of random class
+                int upperbound = 1000000;
+                int int_random = rand.nextInt(upperbound);
+
+                dbHandler.insertConsumes(int_random, newPlayer, mushroomPizza, 2);
             }
         });
         this.add(btnSignUp);
