@@ -461,7 +461,7 @@ public class DatabaseConnectionHandler {
         try {
             //String playerName = player.getUsername();
 
-            String query = " SELECT " + attribute + " FROM " + table + " WHERE " + condition + "";
+            String query = " SELECT DISTINCT " + attribute + " FROM " + table + " WHERE " + condition + "";
             //fname, SUM(amount) FROM consumes WHERE username = '" + playerName + "' GROUP BY fname ";
             PrintablePreparedStatement ps = new PrintablePreparedStatement(connection.prepareStatement(query), query, false);
             System.out.println("line 384");

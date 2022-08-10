@@ -90,31 +90,31 @@ public class GUIFoodPage extends JPanel {
 //        conditionDropDownConsumesName;
 //        conditionDropDownConsumesAmount;
 
-        tableDropDown = new JComboBox<>(new String[]{"-------", "food", "consumes"});
+        tableDropDown = new JComboBox<>(new String[]{"pick a table", "food", "consumes"});
         tableDropDown.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
         tableDropDown.setVisible(true);
 
-        attributeDropDownFood = new JComboBox<>(new String[]{"-------", "food name", "food heal amount"});
+        attributeDropDownFood = new JComboBox<>(new String[]{"pick an attribute to apply condition for food", "food name", "food heal amount"});
         attributeDropDownFood.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
         attributeDropDownFood.setVisible(false);
 
-        attributeDropDownConsumes = new JComboBox<>(new String[]{"-------", "food name", "food amount"});
+        attributeDropDownConsumes = new JComboBox<>(new String[]{"pick an attribute to apply condition for consumes", "consumes food name", "consumes food amount"});
         attributeDropDownConsumes.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10 , TEXT_FIELD_W, TEXT_FIELD_H);
         attributeDropDownConsumes.setVisible(false);
 
-        conditionDropDownFoodName = new JComboBox<>(new String[]{"-------", "size of name > 5", "size of name > 25"});
+        conditionDropDownFoodName = new JComboBox<>(new String[]{"pick a condition for food name", "all types of pizzas", "all types of eggs"});
         conditionDropDownFoodName.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
         conditionDropDownFoodName.setVisible(false);
 
-        conditionDropDownFoodHealAmount = new JComboBox<>(new String[]{"-------", "heal amount > 100", "heal amount = 450"});
+        conditionDropDownFoodHealAmount = new JComboBox<>(new String[]{"pick a condition for food heal amount", "foods with heal amount > 100", "foods with heal amount = 450"});
         conditionDropDownFoodHealAmount.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
         conditionDropDownFoodHealAmount.setVisible(false);
 
-        conditionDropDownConsumesName = new JComboBox<>(new String[]{"-------", "only your food names", "all pizza names"});
+        conditionDropDownConsumesName = new JComboBox<>(new String[]{"pick a condition for consumes name", "only your food names", "all your pizzas"});
         conditionDropDownConsumesName.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10  + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
         conditionDropDownConsumesName.setVisible(false);
 
-        conditionDropDownConsumesAmount = new JComboBox<>(new String[]{"-------", "food amount > 0", "food amount > 5"});
+        conditionDropDownConsumesAmount = new JComboBox<>(new String[]{"pick a condition for consumes amount", "all your food with amount > 2", "all your food with amount > 5"});
         conditionDropDownConsumesAmount.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10 + TEXT_FIELD_H + 10, TEXT_FIELD_W, TEXT_FIELD_H);
         conditionDropDownConsumesAmount.setVisible(false);
 
@@ -130,12 +130,22 @@ public class GUIFoodPage extends JPanel {
                     case "food":
                         table = "food";
                         attributeDropDownFood.setVisible(true);
+                        attributeDropDownConsumes.setVisible(false);
+                        conditionDropDownFoodName.setVisible(false);
+                        conditionDropDownFoodHealAmount.setVisible(false);
+                        conditionDropDownConsumesName.setVisible(false);
+                        conditionDropDownConsumesAmount.setVisible(false);
                         goToClickFood(table);
 
                         break;
                     case "consumes":
                         table = "consumes";
+                        attributeDropDownFood.setVisible(false);
                         attributeDropDownConsumes.setVisible(true);
+                        conditionDropDownFoodName.setVisible(false);
+                        conditionDropDownFoodHealAmount.setVisible(false);
+                        conditionDropDownConsumesName.setVisible(false);
+                        conditionDropDownConsumesAmount.setVisible(false);
                         goToClickConsumes(table);
                         break;
                     default:
@@ -161,11 +171,17 @@ public class GUIFoodPage extends JPanel {
                             case "food name":
                                 attribute = "name";
                                 conditionDropDownFoodName.setVisible(true);
+                                conditionDropDownFoodHealAmount.setVisible(false);
+                                conditionDropDownConsumesName.setVisible(false);
+                                conditionDropDownConsumesAmount.setVisible(false);
                                 goToClickFoodName(table, attribute);
                                 break;
                             case "food heal amount":
-                                attribute = "healAmount";
+                                attribute = "name";
+                                conditionDropDownFoodName.setVisible(false);
                                 conditionDropDownFoodHealAmount.setVisible(true);
+                                conditionDropDownConsumesName.setVisible(false);
+                                conditionDropDownConsumesAmount.setVisible(false);
                                 goToClickFoodAmount(table, attribute);
                                 break;
                             default:
@@ -187,12 +203,12 @@ public class GUIFoodPage extends JPanel {
                                 String condition;
 
                                 switch (s) {//check for a match
-                                    case "size of name > 5":
-                                        condition = "name = 'Mushroom Pizza'";
+                                    case "all types of pizzas":
+                                        condition = "name = 'Mushroom Pizza' OR name = 'Octopus Pizza'";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
-                                    case "size of name > 25":
-                                        condition = "name.length() > 25";
+                                    case "all types of eggs":
+                                        condition = "name = 'Fullmoon Egg' OR name = 'Teyvat Fried Egg'";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
                                     default:
@@ -219,11 +235,11 @@ public class GUIFoodPage extends JPanel {
                                 String condition;
 
                                 switch (s) {//check for a match
-                                    case "heal amount > 100":
+                                    case "foods with heal amount > 100":
                                         condition = "healAmount > 100";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
-                                    case "heal amount = 450":
+                                    case "foods with heal amount = 450":
                                         condition = "healAmount = 450";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
@@ -253,13 +269,19 @@ public class GUIFoodPage extends JPanel {
                         String s = (String) attributeDropDownConsumes.getSelectedItem();//get the selected item
                         String attribute;
                         switch (s) {//check for a match
-                            case "food name":
+                            case "consumes food name":
                                 attribute = "fname";
+                                conditionDropDownFoodName.setVisible(false);
+                                conditionDropDownFoodHealAmount.setVisible(false);
                                 conditionDropDownConsumesName.setVisible(true);
+                                conditionDropDownConsumesAmount.setVisible(false);
                                 goToClickConsumesName(table, attribute);
                                 break;
-                            case "food amount":
-                                attribute = "amount";
+                            case "consumes food amount":
+                                attribute = "fname";
+                                conditionDropDownFoodName.setVisible(false);
+                                conditionDropDownFoodHealAmount.setVisible(false);
+                                conditionDropDownConsumesName.setVisible(false);
                                 conditionDropDownConsumesAmount.setVisible(true);
                                 goToClickConsumesAmount(table, attribute);
                                 break;
@@ -284,11 +306,11 @@ public class GUIFoodPage extends JPanel {
                                 switch (s) {//check for a match
                                     //case "size of name > 5":
                                     case "only your food names":
-                                        condition = "username = 'player2'";
+                                        condition = "username = '" + Main.currPlayer.getUsername() + "'";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
-                                    case "all pizza names":
-                                        condition = "fname = 'Mushroom Pizza' AND fname = 'Octopus Pizza'";
+                                    case "all your pizzas":
+                                        condition = "fname = 'Mushroom Pizza' OR fname = 'Octopus Pizza' AND username = '" + Main.currPlayer.getUsername() + "'";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
                                     default:
@@ -313,12 +335,12 @@ public class GUIFoodPage extends JPanel {
                                 String condition;
 
                                 switch (s) {//check for a match
-                                    case "food amount > 0":
-                                        condition = "amount > 0";
+                                    case "all your food with amount > 2":
+                                        condition = "amount > 2 AND username = '" + Main.currPlayer.getUsername() + "'";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
-                                    case "food amount > 5":
-                                        condition = "amount > 5";
+                                    case "all your food with amount > 5":
+                                        condition = "amount > 5 AND username = '" + Main.currPlayer.getUsername() + "'";
                                         playerInfo = dbHandler.getPlayerInfo(table, attribute, condition);
                                         break;
                                     default:
@@ -356,7 +378,7 @@ public class GUIFoodPage extends JPanel {
         characterTable = new JTable(s,c);
         characterTable.setVisible(true);
         characterTable.setBackground(Color.white);
-        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 100, 500, 500);
+        characterTable.setBounds(TEXT_FIELD_X, TEXT_FIELD_MARGIN_TOP + TEXT_FIELD_H + 200, 500, 500);
 
         showInfoButton.addActionListener(new ActionListener() {
             @Override
