@@ -1,20 +1,16 @@
 package controller;
 
 import database.DatabaseConnectionHandler;
-import model.Character;
-import model.ElementModel;
 import model.Food;
 import model.Player;
 import ui.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.*;
 
+//TEST
 public class Main {
-    //    public static DatabaseConnectionHandler dbHandler = null;
+    public static DatabaseConnectionHandler dbHandler = null;
     public static JFrame frame;
     public static GUIMainPage guiMainPage;
     public static GUICreateAccountPage guiCreateAccountPage;
@@ -22,61 +18,65 @@ public class Main {
     public static GUIPartiesPage guiPartiesPage;
     public static GUIWeaponsPage guiWeaponsPage;
     public static GUIAbilitiesPage guiAbilitiesPage;
+    public static GUIEditProfilePage guiEditProfilePage;
+
+    public static GUICharacterByPlayerPage guiCharacterByPlayerPage;
+    public static GUIFoodPage guiFoodPage;
+
+    public static GUINestedAggregationPage guiNestedAggregationPage;
+
+    public static Player currPlayer;
+
     public static void main(String[] args) {
 
+        // the testing code has moved to test.DatabaseTest to keep main from getting cluttered
+
+        //----------------------------------------------------------------------
+        // Database Setup
+        // ---------------------------------------------------------------------
+
         DatabaseConnectionHandler dbHandler = new DatabaseConnectionHandler();
-        dbHandler.login("ORA_spark73", "a41475948");
+        dbHandler.login("ORA_", "a");
 
-        //creating test player
-        Player player1 = new Player("player1", "password123", "player1@gmail.com", "Tiger123");
-
-        //adding food
-        Food mushroomPizza = new Food("Mushroom Pizza", 450);
-
+        //---------------------------------------------------------------------
+        // GUI Setup
+        //---------------------------------------------------------------------
+        currPlayer = null;
         frame = new JFrame("CPSC 304 Group 44 Project");
         frame.setLayout(null);
         frame.setBackground(Color.white);
         frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
+//        frame.setSize(GUIMainPage.W, GUIMainPage.H);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         guiMainPage = new GUIMainPage();
         guiCreateAccountPage = new GUICreateAccountPage();
+        guiCreateAccountPage.setDbHandler(dbHandler);
         guiCharactersPage = new GUICharactersPage();
         guiPartiesPage = new GUIPartiesPage();
+        guiPartiesPage.setDbHandler(dbHandler);
         guiWeaponsPage = new GUIWeaponsPage();
         guiAbilitiesPage = new GUIAbilitiesPage();
+        guiAbilitiesPage.setDbHandler(dbHandler);
+        guiEditProfilePage = new GUIEditProfilePage(dbHandler);
+        guiCharacterByPlayerPage = new GUICharacterByPlayerPage(dbHandler);
+        guiFoodPage = new GUIFoodPage(dbHandler);
+
+        guiNestedAggregationPage = new GUINestedAggregationPage(dbHandler);
 
         guiMainPage.setVisible(false);
         guiCreateAccountPage.setVisible(true);
-//        guiCharactersPage.setVisible(false);
-//        guiPartiesPage.setVisible(false);
+        guiCharacterByPlayerPage.setVisible(false);
+        guiFoodPage.setVisible(false);
+        guiNestedAggregationPage.setVisible(false);
+
+        guiCharactersPage.setVisible(false);
+        guiPartiesPage.setVisible(false);
         guiWeaponsPage.setVisible(false);
         guiAbilitiesPage.setVisible(false);
+        guiEditProfilePage.setVisible(false);
 
         frame.setVisible(true);
-
-        ElementModel cryo = new ElementModel("Cryo");
-        Character qiqi = new Character("Qiqi", cryo);
-        qiqi.setBaseATK(42);
-        qiqi.setBaseHP(100);
-        qiqi.setLevel(0);
-
-        player1.consumes(mushroomPizza, 2);
-
-        dbHandler.databaseSetup();
-        dbHandler.insertElement(cryo);
-        dbHandler.insertCharacter(qiqi);
-
-        dbHandler.insertFood(mushroomPizza);
-        dbHandler.insertConsumes(player1, mushroomPizza, 2);
-
-        // uncomment this to test deleteConsumes method AFTER testing
-        // insertFood method first VVVVVVV
-
-        // dbHandler.deleteConsumes("player1", "Mushroom Pizza");
-
-
-        dbHandler.levelCharacter("Qiqi", 5);
 
     }
 
@@ -87,39 +87,56 @@ public class Main {
             }
             frame.setSize(GUICreateAccountPage.W, GUICreateAccountPage.H);
             guiCreateAccountPage.setVisible(true);
-        }
-        else if (screenNum == 2) {
+        } else if (screenNum == 2) { // main page
             if (guiCreateAccountPage.isVisible()) {
                 guiCreateAccountPage.setVisible(false);
             }
             frame.setSize(GUIMainPage.W, GUIMainPage.H);
             guiMainPage.setVisible(true);
         }
-//        else if (screenNum == 3) {
+//        else if (screenNum == 3) { // characters page
 //            if (guiMainPage.isVisible()) {
 //                guiMainPage.setVisible(false);
 //            }
 //            guiCharactersPage.setVisible(true);
 //        }
-//        else if (screenNum == 4) {
-//            if (guiMainPage.isVisible()) {
-//                guiMainPage.setVisible(false);
-//            }
-//            guiPartiesPage.setVisible(true);
-//        }
-        else if (screenNum == 5) {
+        else if (screenNum == 4) { // parties page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiPartiesPage.setVisible(true);
+        } else if (screenNum == 5) { // weapons page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiWeaponsPage.setVisible(true);
-        }
-        else if (screenNum == 6) {
+        } else if (screenNum == 6) { // abilities page
             if (guiMainPage.isVisible()) {
                 guiMainPage.setVisible(false);
             }
             guiAbilitiesPage.setVisible(true);
+        } else if (screenNum == 7) { // edit profile page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiEditProfilePage.setVisible(true);
+        } else if (screenNum == 8) { //friends page
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiCharacterByPlayerPage.setVisible(true);
+        } else if (screenNum == 9) {
+            if (guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiNestedAggregationPage.setVisible(true);
         }
-        else {
+        else if (screenNum == 10) {
+            if(guiMainPage.isVisible()) {
+                guiMainPage.setVisible(false);
+            }
+            guiFoodPage.setVisible(true);
+        } else {
 //            ERROR MESSAGE!!!!!!
             System.out.println("Game::changeScreen(" + screenNum + "): Error. Page Not Found");
         }

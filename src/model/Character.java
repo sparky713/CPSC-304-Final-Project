@@ -6,12 +6,14 @@ public class Character {
     private int level;
     private int baseHP;
     private int baseATK;
-    private ElementModel element;
+    private String element;
 
-    public Character(String name, ElementModel element){
+    public Character(String name, int level, int baseHP, int baseATK, String element) {
         this.name = name;
+        this.level = level;
+        this.baseATK = baseATK;
+        this.baseHP = baseHP;
         this.element = element;
-        level = 0;
     }
 
     public String getName() {
@@ -30,7 +32,7 @@ public class Character {
         return baseATK;
     }
 
-    public ElementModel getElement() {
+    public String getElement() {
         return element;
     }
 
