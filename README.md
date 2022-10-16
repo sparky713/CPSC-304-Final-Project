@@ -16,8 +16,8 @@ view what specific abilities each character has and select the character that be
 needs.
 
 Features:
-● Create a new player account and profile with a valid username, password, screen name and email. 
-      - username is a primary key, therefore ensuring that a username can only be assigned to one user. 
+● Create a new player account and profile with a valid username, password, screen name and email. <br/>
+      - username is a primary key, therefore ensuring that a username can only be assigned to one user. <br/>
 ● An Edit Profile page which allows users to update the player’s account information. 
 ● Players can view their abilities and filter the attributes they wish to view. 
 ● Filter and view characters based on their base attack values. 
