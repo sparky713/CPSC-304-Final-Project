@@ -4,7 +4,7 @@ A Database Application Project inspired by the game 'Genshin Impact'.  <br/>
   <br/>
 <b>Developers: Sally Park, Chenwen Shen, Jasmin Mann.</b>  <br/>
   <br/>
-**Project Description:**  <br/>
+<b>Project Description:</b> <br/>
   <br/>
 Our project models the data involved in a fictional role-playing game. Specifically, the
 domain of playable characters, and how players can customize and use aspects of their
@@ -15,7 +15,7 @@ their inventory and view their profiles, as well as the specific character profi
 view what specific abilities each character has and select the character that best suits their
 needs.<br/>
 <br/>
-**Features:**<br/>
+<b>Features:</b><br/>
 ● Create a new player account and profile with a valid username, password, screen name and email. <br/>
       - username is a primary key, therefore ensuring that a username can only be assigned to one user. <br/>
 ● An Edit Profile page which allows users to update the player’s account information. <br/>
