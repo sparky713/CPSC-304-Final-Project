@@ -27,6 +27,11 @@ value chosen by the user. <br/>
 ● shows the characters that have a base attack value greater than the average base attack values of characters owned by each player. <br/>
 <br/>
 Task Assignment:  <br/>
+  
 Sally: Insert, Projection, Aggregation with Having, Aggregation with group by, Overall GUI management (consistency, aesthetics). <br/>
 Wendy: Update, Join, Nested Aggregation. <br/>
 Jasmine: Delete, selection, division. <br/>
+
+Language: Java
+Tools, Database, IDE: IntelliJ, Oracle, JDBC
+Tests: JUnit
