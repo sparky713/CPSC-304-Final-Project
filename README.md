@@ -2,7 +2,7 @@
   <br/>
 A Database Application Project inspired by the game 'Genshin Impact'.  <br/>
   <br/>
-<em>Developers: Sally Park, Chenwen Shen, Jasmin Mann.</em>  <br/>
+<b>Developers: Sally Park, Chenwen Shen, Jasmin Mann.</b>  <br/>
   <br/>
 **Project Description:**  <br/>
   <br/>
@@ -26,12 +26,12 @@ needs.<br/>
 value chosen by the user. <br/>
 ● shows the characters that have a base attack value greater than the average base attack values of characters owned by each player. <br/>
 <br/>
-**Task Assignment:**  <br/>
+<b>Task Assignment:</b>  <br/>
   <br/>
 Sally: Insert, Projection, Aggregation with Having, Aggregation with group by, Overall GUI management (consistency, aesthetics). <br/>
 Wendy: Update, Join, Nested Aggregation. <br/>
 Jasmine: Delete, selection, division. <br/>
 <br/>
-**Language:** Java <br/>
-**Tools, Database, IDE:** IntelliJ, Oracle, JDBC <br/>
-**Tests:** JUnit <br/>
+<b>Language:</b> Java <br/>
+<b>Tools, Database, IDE:</b> IntelliJ, Oracle, JDBC <br/>
+<b>Tests:</b> JUnit <br/>
