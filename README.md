@@ -2,9 +2,9 @@
   <br/>
 A Database Application Project inspired by the game 'Genshin Impact'.  <br/>
   <br/>
-Developers: Sally Park, Chenwen Shen, Jasmin Mann.  <br/>
+**Developers: Sally Park, Chenwen Shen, Jasmin Mann.**  <br/>
   <br/>
-Project Description:  <br/>
+**Project Description:**  <br/>
   <br/>
 Our project models the data involved in a fictional role-playing game. Specifically, the
 domain of playable characters, and how players can customize and use aspects of their
@@ -15,7 +15,7 @@ their inventory and view their profiles, as well as the specific character profi
 view what specific abilities each character has and select the character that best suits their
 needs.<br/>
 <br/>
-Features:<br/>
+**Features:**<br/>
 ● Create a new player account and profile with a valid username, password, screen name and email. <br/>
       - username is a primary key, therefore ensuring that a username can only be assigned to one user. <br/>
 ● An Edit Profile page which allows users to update the player’s account information. <br/>
@@ -26,12 +26,12 @@ Features:<br/>
 value chosen by the user. <br/>
 ● shows the characters that have a base attack value greater than the average base attack values of characters owned by each player. <br/>
 <br/>
-Task Assignment:  <br/>
-  
+**Task Assignment:**  <br/>
+  <br/>
 Sally: Insert, Projection, Aggregation with Having, Aggregation with group by, Overall GUI management (consistency, aesthetics). <br/>
 Wendy: Update, Join, Nested Aggregation. <br/>
 Jasmine: Delete, selection, division. <br/>
-
-Language: Java
-Tools, Database, IDE: IntelliJ, Oracle, JDBC
-Tests: JUnit
+<br/>
+**Language:** Java <br/>
+**Tools, Database, IDE:** IntelliJ, Oracle, JDBC <br/>
+**Tests:** JUnit <br/>
