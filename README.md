@@ -2,7 +2,7 @@
   <br/>
 A Database Application Project inspired by the game 'Genshin Impact'.  <br/>
   <br/>
-**Developers: Sally Park, Chenwen Shen, Jasmin Mann.**  <br/>
+<em>Developers: Sally Park, Chenwen Shen, Jasmin Mann.</em>  <br/>
   <br/>
 **Project Description:**  <br/>
   <br/>
