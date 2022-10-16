@@ -32,6 +32,6 @@ Sally: Insert, Projection, Aggregation with Having, Aggregation with group by, O
 Wendy: Update, Join, Nested Aggregation. <br/>
 Jasmine: Delete, selection, division. <br/>
 <br/>
-<b>Language:</b> Java <br/>
+<b>Language:</b> Java, SQL <br/>
 <b>Tools, Database, IDE:</b> IntelliJ, Oracle, JDBC <br/>
 <b>Tests:</b> JUnit <br/>
