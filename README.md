@@ -17,16 +17,21 @@ needs.<br/>
 <br/>
 
 #### Main Page:
-<img width="280" alt="completed_tasks_page" src="demo/main_page.png">
-
-<b>Features:</b><br/>
-● Create a new player account and profile with a valid username, password, screen name and email. <br/>
-      - username is a primary key, therefore ensuring that a username can only be assigned to one user. <br/>
+<img width="600" alt="completed_tasks_page" src="demo/main_page.png">
 
 #### Sign Up Page:
-<img width="280" alt="completed_tasks_page" src="demo/main_page.png">
+<img width="250" alt="completed_tasks_page" src="demo/sign_up.png">
 
-<b>Features:</b><br/>
+#### Abilities Page:
+<img width="580" alt="completed_tasks_page" src="demo/projection/abilities.png">
+
+#### Parties Page:
+<img width="280" alt="completed_tasks_page" src="demo/aggregation with having/filtered_parties.png">
+The image shows the result after filtering the parties according to the min number of members specified and listed in the order specified by the user
+<br/>
+<br/>
+
+#### Features:
 ● Create a new player account and profile with a valid username, password, screen name and email. <br/>
       - username is a primary key, therefore ensuring that a username can only be assigned to one user. <br/>
 ● An Edit Profile page which allows users to update the player’s account information. <br/>
