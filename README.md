@@ -4,8 +4,8 @@ A Database Application Project inspired by the game 'Genshin Impact'.  <br/>
   <br/>
 <b>Developers: Sally Park, Chenwen Shen, Jasmin Mann.</b>  <br/>
   <br/>
-## Project Description
-  <br/>
+  
+#### Project Description
 Our project models the data involved in a fictional role-playing game. Specifically, the
 domain of playable characters, and how players can customize and use aspects of their
 characters, such as weapons, abilities and elements, and which characters they use within their
